@@ -1,6 +1,6 @@
 #Port auslesen über die PowerShell - Windows Betriebsystem
 # Konfiguration
-$comPort = "COM4"           # COM Port über Gerätemanager ermitteln
+$comPort = "COMx"           # COM Port über Gerätemanager ermitteln und x ändern
 $baudRate = 115200          
 $k=0    # variable für while Schleife
 $m=10   # variable für Anzahl der Messsungen

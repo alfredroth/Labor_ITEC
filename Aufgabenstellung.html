@@ -131,27 +131,18 @@ Figure&nbsp;1: Komponenten der Black-Box.
 </figure>
 </div>
 <hr>
-<p>Die Blackbox ist ein Gehäuse in dem ein µ Controller Signale von einem Ultraschall Sensor (US-Sensor) erfasst diese verarbeitet und über die USB Schnittstelle ausgibt. Die gesendeten Daten sind im INT Format und werden mit einer Frequenz von 1Hz ausgegeben Die Spannungsversorgung erfolgt auch über den USB Anschluss (5V/0,500mA).</p>
-<p>(TODO: Beschreibung der Ansteuerung (Win und Linux))</p>
+<p>Die Blackbox ist ein Gehäuse in dem ein µ Controller Signale von einem Ultraschall Sensor (US-Sensor) erfasst diese verarbeitet und über die USB Schnittstelle ausgibt. Die gesendeten Daten sind im INT (Integer) Format und werden mit einer Frequenz von 1Hz ausgegeben Die Spannungsversorgung erfolgt auch über den USB Anschluss (5V/0,500mA).</p>
 <hr>
 </section>
 <section id="auslesen-der-empfangenen-daten-im-windows-betriebs-system" class="level2">
 <h2 class="anchored" data-anchor-id="auslesen-der-empfangenen-daten-im-windows-betriebs-system">Auslesen der empfangenen Daten im Windows Betriebs-System</h2>
-<ol type="1">
-<li><p><strong>Serielle Port Schnittstelle definieren.(USB = Universal Serial Bus.)</strong></p>
-<ul>
-<li>Überprüfe das in der Windows-Geräteverwaltung unter „Anschlüsse (COM &amp; LPT)“.</li>
-<li>Beispiel: <em>“USB Serial Port (COM5)”</em></li>
-</ul></li>
-<li><p><strong>Du benötigst ein C-Compiler-Toolset</strong>, z.B. Visual Studio</p></li>
-</ol>
 <hr>
 </section>
 <section id="schritt-für-schritt-anleitung" class="level2">
 <h2 class="anchored" data-anchor-id="schritt-für-schritt-anleitung">Schritt-für-Schritt-Anleitung</h2>
 <section id="com-port-herausfinden" class="level3">
 <h3 class="anchored" data-anchor-id="com-port-herausfinden">1. COM-Port herausfinden</h3>
-<p>Öffne den Geräte-Manager und suche unter <strong>“Anschlüsse (COM &amp; LPT)”</strong> nach deinem Gerät, z. B. <strong>COM5</strong>.</p>
+<p>Öffne den Windows Geräte-Manager und suche unter <strong>“Anschlüsse (COM &amp; LPT)”</strong> nach der angeschlossenen Black Box, z. B. <em>“Silicon Labs CP210x USB to UART Bridge Port (COM5)”</em>.</p>
 <hr>
 </section>
 <section id="c-code-zum-auslesen-eines-com-ports" class="level3">
