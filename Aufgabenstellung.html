@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.557">
+<meta name="generator" content="quarto-1.4.554">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -80,25 +80,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="laboraufgabe" class="level1">
-<h1>Laboraufgabe</h1>
-<p>Es soll eine Höhenmesser entwicklet werden, der ein Höhenprofil aufnehmen kann. Dazu wird in diesem Labor die Informatik-Komponente entwickelt.</p>
+<section id="laboraufgabe." class="level1">
+<h1>Laboraufgabe.</h1>
+<p>Es soll eine Höhenmesser entwicklet werden, der ein Höhenprofil aufnehmen kann. Dazu wird in diesem Labor die Informatik - Komponente entwickelt.</p>
 <hr>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="Aufgabenstellung_Bilder/b5_Handskitze_klein.jpg" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption>Handskitze</figcaption>
+<figcaption>Handskizze</figcaption>
 </figure>
 </div>
 <hr>
 <p>Für die Entwicklung ist schon eine Hardware-Aufbau vorhanden. Diese bietet verschiedene Grundfunktionen an, die anhand der Aufgaben erweitert werden sollen.</p>
 <section id="beschreibung-hardware-blackbox" class="level2">
 <h2 class="anchored" data-anchor-id="beschreibung-hardware-blackbox">Beschreibung Hardware-Blackbox:</h2>
-<!--
-![KI stellt diverse Herausforderungen an eine Datenstrategie[^fn6]](https://www.ihk-muenchen.de/ihk/Digitalisierung/KI-Webinarreihe-2020/Webinar-5-Datenstrategie.pdf){#fig-ki-herausf fig-align="center" width="80%"}
-
-[^fn6]: [@Dr.HendrikBrakemeier.2020]
--->
 <p>:::{.panel-tabset}</p>
 <div id="fig-zwei-bilder" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
@@ -324,7 +319,7 @@ Figure&nbsp;1: Komponenten der Black-Box.
 <li>Das Programm soll einen Kalibrierungsmodus haben.</li>
 <li>In diesem Modus soll der reale Abstandswert (gemessen mit einem Lineal) auf der Kommandozeile eingegeben werden und mit Enter bestätigt werden. Der reale Abstandswert soll ebenfalls in der csv-Datei gespeichert werden. Die .csv Datei Name Messung_0.csv soll 4 Spalten haben. Name der Datei <strong>“Messung_0.csv”</strong></li>
 </ul>
-<table class="caption-top table">
+<table class="table">
 <colgroup>
 <col style="width: 19%">
 <col style="width: 30%">
@@ -386,7 +381,7 @@ Figure&nbsp;1: Komponenten der Black-Box.
 </table>
 <hr>
 <ul>
-<li>Der Modus kann über die CLI ausgewählt werden (Einzelmessung, Kalibirierung)</li>
+<li>Der Modus kann über die Command Line Interface (CLI) ausgewählt werden (Einzelmessung, Kalibirierung)</li>
 <li>Anhand der händisch erstellten Tabelle und in den Werten aus der Spalte Abweichung eine Look-Up Tabelle programieren, die als Input die aufgenommene csv-Datei hat. So ist es möglich durch den Tausch der csv-Datei einen anderen Wertebereich festzulegen.</li>
 <li>Zwischen den Datenpunkten aus der Look-Up Tabelle soll linear interpoliert werden, um aus dem Sensorwert den korrekten Abstand zu berechnen.</li>
 <li>Die Visualisierung der Soll-Ist-Abweichung soll in Excel durch den Import der csv-Datei erfolgen.</li>
