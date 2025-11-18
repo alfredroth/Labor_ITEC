@@ -1,22 +1,40 @@
-# Laboraufgabe
+# Laboraufgabe.
 
 Es soll eine Höhenmesser entwicklet werden, der ein Höhenprofil aufnehmen kann. Dazu wird in diesem Labor die Informatik-Komponente entwickelt.
 
-Für die Entwicklung ist schon eine Hardware vrohanden. Diese bietet verschiedene Grundfunktionen an, die anhand der Aufgaben erweitert werden sollen.
 
-## Beschreibung Hardware:
+---
+
+![Handskizze](Aufgabenstellung_Bilder/b5_Handskitze_klein.jpg){width="80%" fig-align="center"}
+
+---
+
+Für die Entwicklung ist schon eine Hardware-Aufbau vorhanden. Diese bietet verschiedene Grundfunktionen an, die anhand der Aufgaben erweitert werden sollen.
+
+## Beschreibung Hardware-Blackbox:
 
 <!--
 ![KI stellt diverse Herausforderungen an eine Datenstrategie[^fn6]](https://www.ihk-muenchen.de/ihk/Digitalisierung/KI-Webinarreihe-2020/Webinar-5-Datenstrategie.pdf){#fig-ki-herausf fig-align="center" width="80%"}
 
 [^fn6]: [@Dr.HendrikBrakemeier.2020]
 -->
+
+:::{.panel-tabset}
+
+
+
+::: {#fig-zwei-bilder layout-ncol="3"}
+![Ultraschal Sensor](Aufgabenstellung_Bilder/b1_US_Sensor_a.jpg)
+
+![µController Vorderseite](Aufgabenstellung_Bilder/b3_Controller_Vorderseite.jpg)
+
+
+![µController Rückseite](Aufgabenstellung_Bilder/b2_Controller_R%C3%BCckseite.jpg)
+
+Komponenten der Black-Box.
+:::
+
 ---
-
-![Ultraschal Sensor](Aufgabenstellung_Bilder/b1_US_Sensor_a.jpg){width="50%" fig-align="center"}
-
-
-
 
 
 
@@ -24,11 +42,144 @@ Die Blackbox ist ein Gehäuse in dem ein µ Controller Signale von einem Ultrasc
 Die gesendeten Daten sind im INT Format und werden mit einer Frequenz von 1Hz ausgegeben
 Die Spannungsversorgung erfolgt auch über den USB Anschluss (5V/0,500mA).
 
-TODO: Beschreibung der Ansteuerung (Win und Linux)
+
+(TODO: Beschreibung der Ansteuerung (Win und Linux))
+
+
+---
+
+##  Auslesen der empfangenen Daten im Windows Betriebs-System 
+
+1. **Serielle Port Schnittstelle definieren.(USB = Universal Serial Bus.)**
+
+   * Überprüfe das in der Windows-Geräteverwaltung unter „Anschlüsse (COM & LPT)“.
+   * Beispiel: *"USB Serial Port (COM5)"*
+
+2. **Du benötigst ein C-Compiler-Toolset**,  z.B. Visual Studio 
+
+---
+
+## Schritt-für-Schritt-Anleitung
+
+### 1. COM-Port herausfinden
+
+Öffne den Geräte-Manager und suche unter **"Anschlüsse (COM & LPT)"** nach deinem Gerät, z. B. **COM5**.
+
+---
+
+### 2. C-Code zum Auslesen eines COM-Ports
+
+Speichere folgenden C-Code in eine Datei, z. B. `read_com_port.c`:
+
+```c
+#include <windows.h>
+#include <stdio.h>
+
+int main() {
+    HANDLE hSerial;
+    DCB dcbSerialParams = {0};
+    COMMTIMEOUTS timeouts = {0};
+    char portName[] = "\\\\.\\COMX";  // Ändere X auf die Port Nr.
+    char buffer[1024];
+    DWORD bytesRead;
+
+    // COM-Port öffnen
+    hSerial = CreateFileA(portName, GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL);
+    if (hSerial == INVALID_HANDLE_VALUE) {
+        fprintf(stderr, "Fehler beim Öffnen des Ports %s\n", portName);
+        return 1;
+    }
+
+    // Serielle Einstellungen
+    dcbSerialParams.DCBlength = sizeof(dcbSerialParams);
+    if (!GetCommState(hSerial, &dcbSerialParams)) {
+        fprintf(stderr, "Fehler beim Lesen der Port-Einstellungen\n");
+        CloseHandle(hSerial);
+        return 1;
+    }
+
+    dcbSerialParams.BaudRate = CBR_Y;    // Baudrate ggf. anpassen z.B. Y= 115200
+    dcbSerialParams.ByteSize = 8;
+    dcbSerialParams.StopBits = ONESTOPBIT;
+    dcbSerialParams.Parity   = NOPARITY;
+
+    if (!SetCommState(hSerial, &dcbSerialParams)) {
+        fprintf(stderr, "Fehler beim Setzen der Port-Einstellungen\n");
+        CloseHandle(hSerial);
+        return 1;
+    }
+
+    // Timeout-Einstellungen
+    timeouts.ReadIntervalTimeout = 50;
+    timeouts.ReadTotalTimeoutConstant = 50;
+    timeouts.ReadTotalTimeoutMultiplier = 10;
+
+    if (!SetCommTimeouts(hSerial, &timeouts)) {
+        fprintf(stderr, "Fehler beim Setzen der Timeouts\n");
+        CloseHandle(hSerial);
+        return 1;
+    }
+
+    // Datei zum Speichern öffnen
+    FILE *outFile = fopen("daten.txt", "w");
+    if (!outFile) {
+        fprintf(stderr, "Konnte Ausgabedatei nicht öffnen\n");
+        CloseHandle(hSerial);
+        return 1;
+    }
+
+    printf("Lese vom USB-Gerät...\n");
+
+    while (1) {
+        if (ReadFile(hSerial, buffer, sizeof(buffer) - 1, &bytesRead, NULL)) {
+            if (bytesRead > 0) {
+                buffer[bytesRead] = '\0';  // Null-terminieren
+                printf("%s", buffer);      // Ausgabe auf Konsole
+                fprintf(outFile, "%s", buffer); // Schreiben in Datei
+                fflush(outFile);           // Sicherstellen, dass sofort geschrieben wird
+            }
+        } else {
+            fprintf(stderr, "Fehler beim Lesen vom COM-Port\n");
+            break;
+        }
+    }
+
+    fclose(outFile);
+    CloseHandle(hSerial);
+    return 0;
+}
+```
+
+---
+
+###  3. Kompilieren
+
+Öffne die Eingabeaufforderung und kompiliere mit z. B.:
+
+```bash
+gcc read_com_port.c -o read_com_port.exe
+```
+
+(Erfordert, dass `gcc` installiert und in der PATH-Variable ist.)
+
+---
+
+### 4. Ausführen
+
+```bash
+read_com_port.exe
+```
+
+Wenn dein USB-Gerät Daten sendet, siehst du sie auf der Konsole und sie werden in `daten.txt` gespeichert.
+
+
+)
+
+***************************************************
 
 ```C
  Windows System 
-// cp++ Programmzum auslesen eines USP Port's 
+//Programm zum auslesen eines USB Port's 
 #include <windows.h>
 #include <iostream>
 #include <stdlib.h>
@@ -57,12 +208,12 @@ int main() {
 
 
 
-LinuxSystem 
+##  Auslesen der empfangenen Daten im Linux Betriebs-System 
 
 ```C
 // usb: USB0 Baud; Rate  115200
 
-// mit "cat /dev/ttyUSB0" kan der Port Testweise gelesen werden.
+// mit "cat /dev/ttyUSB0" kann der Port Testweise gelesen werden.
 
 #include <iostream>
 #include <fcntl.h>
@@ -97,33 +248,50 @@ int main() {
 
 Ziel: 
 
-- Ziel ist es ein C Programm zu entwicklen, das den Sensorwert aus der Blackbox auf Tastendruck ausliest und in eine csv-Datei speichert. 
+- Ziel ist es ein C Programm zu entwicklen, das den Sensorwert aus der Blackbox auf Tastendruck (von der PC Tastatur) ausliest und in eine csv-Datei speichert. 
 - Das Programm soll einen Kalibrierungsmodus haben. 
-- In diesem Modus soll der reale Abstandswert auf der Kommandozeile eingegeben werden und mit Enter bestätigt werden. Der reale Abstandswert soll ebenfalls in der csv-Datei gespeiochert werden.
-- Der Modus kann über die CLI ausgewählt werden (Einzelmessung, Kalibirierung)
-- Anhand der händisch erstellten Tabelle eine Look-Up Tabelle programieren, die als Input die aufgenommene csv-Datei hat. So ist es möglich durch den Tausch der csv-Datei einen anderen Wertebereich festzulegen.
+- In diesem Modus soll der reale Abstandswert (gemessen mit einem Lineal) auf der Kommandozeile eingegeben werden und mit Enter bestätigt werden. Der reale Abstandswert soll ebenfalls in der csv-Datei gespeichert werden.
+ Die .csv Datei Name Messung_0.csv  soll 4 Spalten haben. Name der Datei **"Messung_0.csv"**
+
+| Messung Nr.  | ABSTAND              |                      |    Abweichung | 
+|--------------|----------------------|---------------------|---------------| 
+|              | Reeler Wert          | Vom Sensor erfasster Wert         |               | 
+|              | über Tastatureingabe | über USB eingelesen |               | 
+| 1            |                      |                     |               | 
+| 2            |                      |                     |               | 
+| ...          |                      |                     |               | 
+| n-1          |                      |                     |               | 
+| n            |                      |                     |               | 
+
+---
+
+- Der Modus kann über die Command Line Interface (CLI) ausgewählt werden (Einzelmessung, Kalibirierung)
+- Anhand der händisch erstellten Tabelle und in den Werten aus der Spalte Abweichung eine Look-Up Tabelle programieren, die als Input die aufgenommene csv-Datei hat. So ist es möglich durch den Tausch der csv-Datei einen anderen Wertebereich festzulegen.
 - Zwischen den Datenpunkten aus der Look-Up Tabelle soll linear interpoliert werden, um aus dem Sensorwert den korrekten Abstand zu berechnen.
 - Die Visualisierung der Soll-Ist-Abweichung soll in Excel durch den Import der csv-Datei erfolgen.
 
-TODO: überarbeien
-Breakdown Kalibrieren:
+TODO: überarbeiten
+Breakdown (??? Was ist damit gemeint) Kalibrieren:
 
    - US-Sensor in einer festen Position zu einem Objekt abstellen
-   - Mit einem Lineal den Abstand Sensor Objekt messen
-   - Eingelesenen Wert konvertieren und den Wert als Meter anzeigen (Faktor!)
-   - Auf einem Blatt Papier eine Tabelle für 20 Abstands Messungen erstellen.
-   - 20 Messungen Anfang =0m, Schrittweite = 0,002 m  durchführen und Werte in Tabelle eintragen
-   - Plot mit Soll und Ist Wert programieren und graphisch ausgeben.
-   - Anhand der händisch erstellten Tabelle eine Look-Up Tabelle programieren.
+   - 20 Messungen Anfang = 0m, Schrittweite = 0,002 m  durchführen 
+   - Mit einem Lineal den Abstand Sensor zu Objekt messen
+   - Mit der Tastatur den Wert im Meter über das C Programm in der .csv Tabelle  
+     einfügen.
+   - Hierfür die Enter Taste nutzen. Dabei soll beim drücken der Enter Taste auch der zuletzt gelesene Wert vom Sensor in der Tabelle in Spalte 3 eingefügt werden.
+   - Eingelesenen Wert konvertieren und in Meter eintragen
+   - 20 Punkte eintragen. Nach 20 Punkten soll die Eingabe nicht mehr möglich sein und das Progrsamm springt automatisch zum ploten über 
+   - Plot mit Soll und Ist Wert  in Excel programieren und graphisch ausgeben.( Oder auch in C?)
+   - Anhand der erstellten Tabelle eine Look-Up Tabelle programieren.
    - Look Up Tabelle interpolieren (lineare Interpolation , 5 Zwischenpunkte)
    - Durch Messungen die Plausbilität überprüfen (3-5 Messungen)
-   - Die Ergebnisse in einer Excel Tabelle "Messung Nr. 1" speichern
+   - Die Ergebnisse in einer .csv Tabelle **"Messung Nr. 1"** speichern
 
 
 ### 2. Automatisch messen
 
    - für ca. 10 Sekunden eine/n Messung/Bewegungsablauf starten
-   - Zeitstempel der erfassten Werte und die Werte in einer .csv Tabelle "Messung Nr. 2" speichern
+   - Zeitstempel der erfassten Werte und die Werte in einer .csv Tabelle **"Messung Nr. 2"** speichern
    - Visualisieren der Höhenkarte anhand der Zeitstempel
    - Ist die Zeit zwischen zwei Zeitstempeln immer gleich?
    - Wenn nein die max und min sowie auch die durchnits Abtast Zeit berechnen.
@@ -135,21 +303,36 @@ Breakdown Kalibrieren:
 ### 3. Daten Filtern
 
    - Filter Sie die eingelesenen Werte.
-   - Programieren Sie ein Mittelwert Filter über 3 Werte  z.B. u(m)=(SUMME( y(m-1):y(m+1))/3
+   - Programieren Sie ein Mittelwert Filter über 3 Werte  z.B. u(m)=(SUMME( y(m-1):y(m+1))/3)
    - Ploten Sie beide Werte Reihen in einem Diagramm und die dazugehörige Differenz zwichen den beiden Wertereihen
      in einem neuem Diagramm
 
-### 4. Fun: Make it a game
-
-TODO:
+### 4. Fun: Make it a game 
 
 - ASCII Art level durch höhenkarte
 - U-Boot mit W - up, S - down gesteuert
 - von links nach rechts fährt das Uboot automatisch
-- Bei kollisiotn mit der Höhe ...
+- Höhen/Abstands-abhängige Tonausgabe (wie z.B. Parksensor))
 
   - Geben Sie über die Lautsprechen des PC's ein Sound aus abhängig vom gemessenen Abstand
-  - 20 cm = 1kHz  1cm = 50Hz
+  - 20 cm = 1kHz  Schrittweite: 1cm = 50Hz
   - Das C Programm gibt eine Höhenkarte als Bild aus.
   - Das C Programm gibt auf der Kommandozeile interaktive die Höhenkarte aus (ascii-art, ascii-style)
-  - 
+  
+
+### 5. Abgabe Ausarbeitung
+
+ - Laden Sie auf Moodle folgende Dateien hoch
+ - 3x .csv Dateien
+ - C Programm
+ - Screenshot ausgegebene grafik
+
+ Abgabefrist wird im Labor bekannt gegeben
+
+ ### 6. Spielregeln
+
+ - Labortermine sind Pflichttermine.
+ - Ausarbeitung daheim ist erlaubt.
+ - Team Work, max 3 Teildehmer ist erlaubt. Allerdings ist ein  
+   gesamt Kenntnissstand vom jedem Teilnehmer erfragt.
+
