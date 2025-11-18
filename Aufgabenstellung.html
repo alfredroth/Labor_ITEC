@@ -67,6 +67,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="Aufgabenstellung_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="Aufgabenstellung_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="Aufgabenstellung_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="Aufgabenstellung_files/libs/quarto-diagram/mermaid.min.js"></script>
+<script src="Aufgabenstellung_files/libs/quarto-diagram/mermaid-init.js"></script>
+<link href="Aufgabenstellung_files/libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 </head>
@@ -90,7 +93,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>Handskizze</figcaption>
 </figure>
 </div>
-<hr>
 <p>Für die Entwicklung ist schon ein Hardware-Aufbau (Black-Box) vorhanden. Diese bietet verschiedene Grundfunktionen an, die anhand der Aufgaben erweitert werden sollen.</p>
 <section id="beschreibung-hardware-blackbox" class="level2">
 <h2 class="anchored" data-anchor-id="beschreibung-hardware-blackbox">Beschreibung Hardware-Blackbox:</h2>
@@ -281,9 +283,37 @@ Figure&nbsp;1: Komponenten der Black-Box.
 <li>Der Code wie auch die erzeugten Visualisierungen müssen erklärt werden.</li>
 <li>Der Code muss sauber mit Methoden, structs und unterschiedlichen .h und .c Dateien strukturiert sein. (vgl. Vorlesungsprojekt)</li>
 </ul>
-</section>
-<section id="aufgaben" class="level2">
-<h2 class="anchored" data-anchor-id="aufgaben">Aufgaben</h2>
+<hr>
+<div style="zoom:0.7;">
+
+
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">
+---
+title: Programm Struktur
+---
+
+flowchart TD
+
+    Menue --&gt;|Manuell| D[Aufgabe 1  messung0.csv]
+    Menue --&gt;|Manuell| E[Aufgabe 2 messung1.csv]
+    Menue --&gt;|Automatik| F[Aufgabe3 messung3.csv] 
+    F --&gt; |Grafisch| G[Diagramm]
+    
+
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div></section>
+<section id="aufgabe-1" class="level2">
+<h2 class="anchored" data-anchor-id="aufgabe-1">Aufgabe 1</h2>
 <section id="plausibilität-der-eingelesen-werte" class="level3">
 <h3 class="anchored" data-anchor-id="plausibilität-der-eingelesen-werte">1. Plausibilität der eingelesen Werte</h3>
 <p>Ziel: Ziel ist es ein C Programm zu entwickeln, das den Sensorwert aus der Blackbox auf Tastendruck ausliest und in eine csv-Datei speichert.</p>

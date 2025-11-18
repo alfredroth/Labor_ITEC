@@ -7,7 +7,7 @@ Es soll eine Höhenmesser entwicklet werden, der ein Höhenprofil aufnehmen kann
 
 ![Handskizze](Aufgabenstellung_Bilder/b5_Handskitze_klein.jpg){width="80%" fig-align="center"}
 
----
+
 
 Für die Entwicklung ist schon ein Hardware-Aufbau (Black-Box) vorhanden. Diese bietet verschiedene Grundfunktionen an, die anhand der Aufgaben erweitert werden sollen.
 
@@ -199,7 +199,28 @@ int main() {
 - Der Code wie auch die erzeugten Visualisierungen müssen erklärt werden.
 - Der Code muss sauber mit Methoden, structs und unterschiedlichen .h und .c Dateien strukturiert sein. (vgl. Vorlesungsprojekt)
 
-## Aufgaben
+---
+
+<div style="zoom:0.7;">
+```{mermaid}
+
+
+---
+title: Programm Struktur
+---
+
+flowchart TD
+
+    Menue -->|Manuell| D[Aufgabe 1  messung0.csv]
+    Menue -->|Manuell| E[Aufgabe 2 messung1.csv]
+    Menue -->|Automatik| F[Aufgabe3 messung3.csv] 
+    F --> |Grafisch| G[Diagramm]
+    
+
+```
+
+
+## Aufgabe 1
 
 ### 1. Plausibilität der eingelesen Werte
 
