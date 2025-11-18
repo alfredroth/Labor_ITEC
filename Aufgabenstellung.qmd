@@ -9,15 +9,9 @@ Es soll eine Höhenmesser entwicklet werden, der ein Höhenprofil aufnehmen kann
 
 ---
 
-Für die Entwicklung ist schon eine Hardware-Aufbau vorhanden. Diese bietet verschiedene Grundfunktionen an, die anhand der Aufgaben erweitert werden sollen.
+Für die Entwicklung ist schon ein Hardware-Aufbau (Black-Box) vorhanden. Diese bietet verschiedene Grundfunktionen an, die anhand der Aufgaben erweitert werden sollen.
 
 ## Beschreibung Hardware-Blackbox:
-
-<!--
-![KI stellt diverse Herausforderungen an eine Datenstrategie[^fn6]](https://www.ihk-muenchen.de/ihk/Digitalisierung/KI-Webinarreihe-2020/Webinar-5-Datenstrategie.pdf){#fig-ki-herausf fig-align="center" width="80%"}
-
-[^fn6]: [@Dr.HendrikBrakemeier.2020]
--->
 
 
 
@@ -43,11 +37,13 @@ Die Spannungsversorgung erfolgt auch über den USB Anschluss (5V/0,500mA).
 
 ---
 
-##  Auslesen der empfangenen Daten im Windows Betriebs-System 
+Die Daten die von der Black Box über die serielle Schnittstelle (USB) gesendet werden können sowohl unter Windows als auch unter einem Linux System bearbeitet werden. 
 
----
 
-## Schritt-für-Schritt-Anleitung
+##  Daten im **Windows** Betriebs-System empfangen und auslesen/speichern
+
+
+### Schritt-für-Schritt-Anleitung
 
 ### 1. COM-Port herausfinden
 
@@ -60,6 +56,8 @@ Die Spannungsversorgung erfolgt auch über den USB Anschluss (5V/0,500mA).
 Speichere folgenden C-Code in eine Datei, z. B. `read_com_port.c`:
 
 ```c
+
+//Programm zum auslesen eines USB Port's 
 #include <windows.h>
 #include <stdio.h>
 
@@ -161,43 +159,14 @@ read_com_port.exe
 Wenn dein USB-Gerät Daten sendet, siehst du sie auf der Konsole und sie werden in `daten.txt` gespeichert.
 
 
-)
-
-***************************************************
-
-```C
- Windows System 
-//Programm zum auslesen eines USB Port's 
-
-#include <windows.h>
-#include <iostream>
-#include <stdlib.h>
-
-int main() {
-    HANDLE hSerial;
-    LPCSTR portName = "\\\\.\\COMX"; // Ersetze COMX durch deinen Port (z. B. COM1, COM4)
-
-    hSerial = CreateFile(portName,
-        GENERIC_READ,
-        0,
-        NULL,
-        OPEN_EXISTING,
-        0,
-        NULL);
-........
-
-    dcbSerialParams.BaudRate = CBR_115200;   
-    dcbSerialParams.ByteSize = 8;
-    dcbSerialParams.StopBits = ONESTOPBIT;
-    dcbSerialParams.Parity = NOPARITY;
-.........
-}
-```
 
 
 
 
-##  Auslesen der empfangenen Daten im Linux Betriebs-System 
+##  Daten im **Linux** Betriebs-System empfangen und auslesen/speichern
+
+### Schritt-für-Schritt-Anleitung
+
 
 ```C
 // usb: USB0 Baud; Rate  115200

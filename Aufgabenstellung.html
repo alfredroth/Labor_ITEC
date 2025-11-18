@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.554">
+<meta name="generator" content="quarto-1.4.557">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -91,10 +91,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <hr>
-<p>Für die Entwicklung ist schon eine Hardware-Aufbau vorhanden. Diese bietet verschiedene Grundfunktionen an, die anhand der Aufgaben erweitert werden sollen.</p>
+<p>Für die Entwicklung ist schon ein Hardware-Aufbau (Black-Box) vorhanden. Diese bietet verschiedene Grundfunktionen an, die anhand der Aufgaben erweitert werden sollen.</p>
 <section id="beschreibung-hardware-blackbox" class="level2">
 <h2 class="anchored" data-anchor-id="beschreibung-hardware-blackbox">Beschreibung Hardware-Blackbox:</h2>
-<p>:::{.panel-tabset}</p>
 <div id="fig-zwei-bilder" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-zwei-bilder-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -131,15 +130,21 @@ Figure&nbsp;1: Komponenten der Black-Box.
 </figure>
 </div>
 <hr>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Aufgabenstellung_Bilder/b1_US_Sensor_a.jpg" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>Ultraschal Sensor</figcaption>
+</figure>
+</div>
 <p>Die Blackbox ist ein Gehäuse in dem ein µ Controller Signale von einem Ultraschall Sensor (US-Sensor) erfasst diese verarbeitet und über die USB Schnittstelle ausgibt. Die gesendeten Daten sind im INT (Integer) Format und werden mit einer Frequenz von 1Hz ausgegeben Die Spannungsversorgung erfolgt auch über den USB Anschluss (5V/0,500mA).</p>
 <hr>
+<p>Die Daten die von der Black Box über die serielle Schnittstelle (USB) gesendet werden können sowohl unter Windows als auch unter einem Linux System bearbeitet werden.</p>
 </section>
-<section id="auslesen-der-empfangenen-daten-im-windows-betriebs-system" class="level2">
-<h2 class="anchored" data-anchor-id="auslesen-der-empfangenen-daten-im-windows-betriebs-system">Auslesen der empfangenen Daten im Windows Betriebs-System</h2>
-<hr>
+<section id="daten-im-windows-betriebs-system-empfangen-und-auslesenspeichern" class="level2">
+<h2 class="anchored" data-anchor-id="daten-im-windows-betriebs-system-empfangen-und-auslesenspeichern">Daten im <strong>Windows</strong> Betriebs-System empfangen und auslesen/speichern</h2>
+<section id="schritt-für-schritt-anleitung" class="level3">
+<h3 class="anchored" data-anchor-id="schritt-für-schritt-anleitung">Schritt-für-Schritt-Anleitung</h3>
 </section>
-<section id="schritt-für-schritt-anleitung" class="level2">
-<h2 class="anchored" data-anchor-id="schritt-für-schritt-anleitung">Schritt-für-Schritt-Anleitung</h2>
 <section id="com-port-herausfinden" class="level3">
 <h3 class="anchored" data-anchor-id="com-port-herausfinden">1. COM-Port herausfinden</h3>
 <p>Öffne den Windows Geräte-Manager und suche unter <strong>“Anschlüsse (COM &amp; LPT)”</strong> nach der angeschlossenen Black Box, z. B. <em>“Silicon Labs CP210x USB to UART Bridge Port (COM5)”</em>.</p>
@@ -148,82 +153,84 @@ Figure&nbsp;1: Komponenten der Black-Box.
 <section id="c-code-zum-auslesen-eines-com-ports" class="level3">
 <h3 class="anchored" data-anchor-id="c-code-zum-auslesen-eines-com-ports">2. C-Code zum Auslesen eines COM-Ports</h3>
 <p>Speichere folgenden C-Code in eine Datei, z. B. <code>read_com_port.c</code>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;windows.h&gt;</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    HANDLE hSerial<span class="op">;</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    DCB dcbSerialParams <span class="op">=</span> <span class="op">{</span><span class="dv">0</span><span class="op">};</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    COMMTIMEOUTS timeouts <span class="op">=</span> <span class="op">{</span><span class="dv">0</span><span class="op">};</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">char</span> portName<span class="op">[]</span> <span class="op">=</span> <span class="st">"</span><span class="sc">\\\\</span><span class="st">.</span><span class="sc">\\</span><span class="st">COMX"</span><span class="op">;</span>  <span class="co">// Ändere X auf die Port Nr.</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">char</span> buffer<span class="op">[</span><span class="dv">1024</span><span class="op">];</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    DWORD bytesRead<span class="op">;</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// COM-Port öffnen</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    hSerial <span class="op">=</span> CreateFileA<span class="op">(</span>portName<span class="op">,</span> GENERIC_READ<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> NULL<span class="op">,</span> OPEN_EXISTING<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> NULL<span class="op">);</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>hSerial <span class="op">==</span> INVALID_HANDLE_VALUE<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">"Fehler beim Öffnen des Ports </span><span class="sc">%s\n</span><span class="st">"</span><span class="op">,</span> portName<span class="op">);</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Serielle Einstellungen</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    dcbSerialParams<span class="op">.</span>DCBlength <span class="op">=</span> <span class="kw">sizeof</span><span class="op">(</span>dcbSerialParams<span class="op">);</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(!</span>GetCommState<span class="op">(</span>hSerial<span class="op">,</span> <span class="op">&amp;</span>dcbSerialParams<span class="op">))</span> <span class="op">{</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">"Fehler beim Lesen der Port-Einstellungen</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        CloseHandle<span class="op">(</span>hSerial<span class="op">);</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    dcbSerialParams<span class="op">.</span>BaudRate <span class="op">=</span> CBR_Y<span class="op">;</span>    <span class="co">// Baudrate ggf. anpassen z.B. Y= 115200</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    dcbSerialParams<span class="op">.</span>ByteSize <span class="op">=</span> <span class="dv">8</span><span class="op">;</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    dcbSerialParams<span class="op">.</span>StopBits <span class="op">=</span> ONESTOPBIT<span class="op">;</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    dcbSerialParams<span class="op">.</span>Parity   <span class="op">=</span> NOPARITY<span class="op">;</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(!</span>SetCommState<span class="op">(</span>hSerial<span class="op">,</span> <span class="op">&amp;</span>dcbSerialParams<span class="op">))</span> <span class="op">{</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>        fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">"Fehler beim Setzen der Port-Einstellungen</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>        CloseHandle<span class="op">(</span>hSerial<span class="op">);</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Timeout-Einstellungen</span></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    timeouts<span class="op">.</span>ReadIntervalTimeout <span class="op">=</span> <span class="dv">50</span><span class="op">;</span></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    timeouts<span class="op">.</span>ReadTotalTimeoutConstant <span class="op">=</span> <span class="dv">50</span><span class="op">;</span></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    timeouts<span class="op">.</span>ReadTotalTimeoutMultiplier <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(!</span>SetCommTimeouts<span class="op">(</span>hSerial<span class="op">,</span> <span class="op">&amp;</span>timeouts<span class="op">))</span> <span class="op">{</span></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>        fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">"Fehler beim Setzen der Timeouts</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>        CloseHandle<span class="op">(</span>hSerial<span class="op">);</span></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Datei zum Speichern öffnen</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    <span class="dt">FILE</span> <span class="op">*</span>outFile <span class="op">=</span> fopen<span class="op">(</span><span class="st">"daten.txt"</span><span class="op">,</span> <span class="st">"w"</span><span class="op">);</span></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(!</span>outFile<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>        fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">"Konnte Ausgabedatei nicht öffnen</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>        CloseHandle<span class="op">(</span>hSerial<span class="op">);</span></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">"Lese vom USB-Gerät...</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">//Programm zum auslesen eines USB Port's </span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;windows.h&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    HANDLE hSerial<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    DCB dcbSerialParams <span class="op">=</span> <span class="op">{</span><span class="dv">0</span><span class="op">};</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    COMMTIMEOUTS timeouts <span class="op">=</span> <span class="op">{</span><span class="dv">0</span><span class="op">};</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">char</span> portName<span class="op">[]</span> <span class="op">=</span> <span class="st">"</span><span class="sc">\\\\</span><span class="st">.</span><span class="sc">\\</span><span class="st">COMX"</span><span class="op">;</span>  <span class="co">// Ändere X auf die Port Nr.</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">char</span> buffer<span class="op">[</span><span class="dv">1024</span><span class="op">];</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    DWORD bytesRead<span class="op">;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">// COM-Port öffnen</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    hSerial <span class="op">=</span> CreateFileA<span class="op">(</span>portName<span class="op">,</span> GENERIC_READ<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> NULL<span class="op">,</span> OPEN_EXISTING<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> NULL<span class="op">);</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>hSerial <span class="op">==</span> INVALID_HANDLE_VALUE<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">"Fehler beim Öffnen des Ports </span><span class="sc">%s\n</span><span class="st">"</span><span class="op">,</span> portName<span class="op">);</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Serielle Einstellungen</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    dcbSerialParams<span class="op">.</span>DCBlength <span class="op">=</span> <span class="kw">sizeof</span><span class="op">(</span>dcbSerialParams<span class="op">);</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(!</span>GetCommState<span class="op">(</span>hSerial<span class="op">,</span> <span class="op">&amp;</span>dcbSerialParams<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">"Fehler beim Lesen der Port-Einstellungen</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>        CloseHandle<span class="op">(</span>hSerial<span class="op">);</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    dcbSerialParams<span class="op">.</span>BaudRate <span class="op">=</span> CBR_Y<span class="op">;</span>    <span class="co">// Baudrate ggf. anpassen z.B. Y= 115200</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    dcbSerialParams<span class="op">.</span>ByteSize <span class="op">=</span> <span class="dv">8</span><span class="op">;</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    dcbSerialParams<span class="op">.</span>StopBits <span class="op">=</span> ONESTOPBIT<span class="op">;</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    dcbSerialParams<span class="op">.</span>Parity   <span class="op">=</span> NOPARITY<span class="op">;</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(!</span>SetCommState<span class="op">(</span>hSerial<span class="op">,</span> <span class="op">&amp;</span>dcbSerialParams<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>        fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">"Fehler beim Setzen der Port-Einstellungen</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>        CloseHandle<span class="op">(</span>hSerial<span class="op">);</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Timeout-Einstellungen</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    timeouts<span class="op">.</span>ReadIntervalTimeout <span class="op">=</span> <span class="dv">50</span><span class="op">;</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    timeouts<span class="op">.</span>ReadTotalTimeoutConstant <span class="op">=</span> <span class="dv">50</span><span class="op">;</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    timeouts<span class="op">.</span>ReadTotalTimeoutMultiplier <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(!</span>SetCommTimeouts<span class="op">(</span>hSerial<span class="op">,</span> <span class="op">&amp;</span>timeouts<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>        fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">"Fehler beim Setzen der Timeouts</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>        CloseHandle<span class="op">(</span>hSerial<span class="op">);</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Datei zum Speichern öffnen</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    <span class="dt">FILE</span> <span class="op">*</span>outFile <span class="op">=</span> fopen<span class="op">(</span><span class="st">"daten.txt"</span><span class="op">,</span> <span class="st">"w"</span><span class="op">);</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(!</span>outFile<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>        fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">"Konnte Ausgabedatei nicht öffnen</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>        CloseHandle<span class="op">(</span>hSerial<span class="op">);</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
 <span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>ReadFile<span class="op">(</span>hSerial<span class="op">,</span> buffer<span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>buffer<span class="op">)</span> <span class="op">-</span> <span class="dv">1</span><span class="op">,</span> <span class="op">&amp;</span>bytesRead<span class="op">,</span> NULL<span class="op">))</span> <span class="op">{</span></span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>bytesRead <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>                buffer<span class="op">[</span>bytesRead<span class="op">]</span> <span class="op">=</span> <span class="ch">'</span><span class="sc">\0</span><span class="ch">'</span><span class="op">;</span>  <span class="co">// Null-terminieren</span></span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>                printf<span class="op">(</span><span class="st">"</span><span class="sc">%s</span><span class="st">"</span><span class="op">,</span> buffer<span class="op">);</span>      <span class="co">// Ausgabe auf Konsole</span></span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>                fprintf<span class="op">(</span>outFile<span class="op">,</span> <span class="st">"</span><span class="sc">%s</span><span class="st">"</span><span class="op">,</span> buffer<span class="op">);</span> <span class="co">// Schreiben in Datei</span></span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>                fflush<span class="op">(</span>outFile<span class="op">);</span>           <span class="co">// Sicherstellen, dass sofort geschrieben wird</span></span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>            fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">"Fehler beim Lesen vom COM-Port</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>    fclose<span class="op">(</span>outFile<span class="op">);</span></span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>    CloseHandle<span class="op">(</span>hSerial<span class="op">);</span></span>
-<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">"Lese vom USB-Gerät...</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>ReadFile<span class="op">(</span>hSerial<span class="op">,</span> buffer<span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>buffer<span class="op">)</span> <span class="op">-</span> <span class="dv">1</span><span class="op">,</span> <span class="op">&amp;</span>bytesRead<span class="op">,</span> NULL<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>bytesRead <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>                buffer<span class="op">[</span>bytesRead<span class="op">]</span> <span class="op">=</span> <span class="ch">'</span><span class="sc">\0</span><span class="ch">'</span><span class="op">;</span>  <span class="co">// Null-terminieren</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>                printf<span class="op">(</span><span class="st">"</span><span class="sc">%s</span><span class="st">"</span><span class="op">,</span> buffer<span class="op">);</span>      <span class="co">// Ausgabe auf Konsole</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>                fprintf<span class="op">(</span>outFile<span class="op">,</span> <span class="st">"</span><span class="sc">%s</span><span class="st">"</span><span class="op">,</span> buffer<span class="op">);</span> <span class="co">// Schreiben in Datei</span></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>                fflush<span class="op">(</span>outFile<span class="op">);</span>           <span class="co">// Sicherstellen, dass sofort geschrieben wird</span></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>            fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">"Fehler beim Lesen vom COM-Port</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>    fclose<span class="op">(</span>outFile<span class="op">);</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>    CloseHandle<span class="op">(</span>hSerial<span class="op">);</span></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="kompilieren" class="level3">
@@ -237,54 +244,29 @@ Figure&nbsp;1: Komponenten der Black-Box.
 <h3 class="anchored" data-anchor-id="ausführen">4. Ausführen</h3>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">read_com_port.exe</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Wenn dein USB-Gerät Daten sendet, siehst du sie auf der Konsole und sie werden in <code>daten.txt</code> gespeichert.</p>
-<p>)</p>
-<hr>
-<div class="sourceCode" id="cb4"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a> Windows System </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">//Programm zum auslesen eines USB Port's </span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;windows.h&gt;</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    HANDLE hSerial<span class="op">;</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    LPCSTR portName <span class="op">=</span> <span class="st">"</span><span class="sc">\\\\</span><span class="st">.</span><span class="sc">\\</span><span class="st">COMX"</span><span class="op">;</span> <span class="co">// Ersetze COMX durch deinen Port (z. B. COM1, COM4)</span></span>
+</section>
+</section>
+<section id="daten-im-linux-betriebs-system-empfangen-und-auslesenspeichern" class="level2">
+<h2 class="anchored" data-anchor-id="daten-im-linux-betriebs-system-empfangen-und-auslesenspeichern">Daten im <strong>Linux</strong> Betriebs-System empfangen und auslesen/speichern</h2>
+<section id="schritt-für-schritt-anleitung-1" class="level3">
+<h3 class="anchored" data-anchor-id="schritt-für-schritt-anleitung-1">Schritt-für-Schritt-Anleitung</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// usb: USB0 Baud; Rate  115200</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">// mit "cat /dev/ttyUSB0" kann der Port Testweise gelesen werden.</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;fcntl.h&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;termios.h&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;unistd.h&gt;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cstring&gt;</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    hSerial <span class="op">=</span> CreateFile<span class="op">(</span>portName<span class="op">,</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        GENERIC_READ<span class="op">,</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        <span class="dv">0</span><span class="op">,</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        NULL<span class="op">,</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        OPEN_EXISTING<span class="op">,</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        <span class="dv">0</span><span class="op">,</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        NULL<span class="op">);</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="op">........</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    dcbSerialParams<span class="op">.</span>BaudRate <span class="op">=</span> CBR_115200<span class="op">;</span>   </span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    dcbSerialParams<span class="op">.</span>ByteSize <span class="op">=</span> <span class="dv">8</span><span class="op">;</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    dcbSerialParams<span class="op">.</span>StopBits <span class="op">=</span> ONESTOPBIT<span class="op">;</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    dcbSerialParams<span class="op">.</span>Parity <span class="op">=</span> NOPARITY<span class="op">;</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="op">.........</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">const</span> <span class="dt">char</span><span class="op">*</span> port <span class="op">=</span> <span class="st">"/dev/ttyUSB0"</span><span class="op">;</span>  <span class="co">// Port Nr.</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> serial_port <span class="op">=</span> open<span class="op">(</span>port<span class="op">,</span> O_RDWR<span class="op">);</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>   <span class="op">.........</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-</section>
-<section id="auslesen-der-empfangenen-daten-im-linux-betriebs-system" class="level2">
-<h2 class="anchored" data-anchor-id="auslesen-der-empfangenen-daten-im-linux-betriebs-system">Auslesen der empfangenen Daten im Linux Betriebs-System</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// usb: USB0 Baud; Rate  115200</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">// mit "cat /dev/ttyUSB0" kann der Port Testweise gelesen werden.</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;fcntl.h&gt;</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;termios.h&gt;</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;unistd.h&gt;</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cstring&gt;</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">const</span> <span class="dt">char</span><span class="op">*</span> port <span class="op">=</span> <span class="st">"/dev/ttyUSB0"</span><span class="op">;</span>  <span class="co">// Port Nr.</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> serial_port <span class="op">=</span> open<span class="op">(</span>port<span class="op">,</span> O_RDWR<span class="op">);</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>   <span class="op">.........</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="rahmenbedinung" class="level2">
 <h2 class="anchored" data-anchor-id="rahmenbedinung">Rahmenbedinung</h2>
@@ -302,15 +284,18 @@ Figure&nbsp;1: Komponenten der Black-Box.
 </section>
 <section id="aufgaben" class="level2">
 <h2 class="anchored" data-anchor-id="aufgaben">Aufgaben</h2>
-<section id="plausbilität-der-eingelesen-werte" class="level3">
-<h3 class="anchored" data-anchor-id="plausbilität-der-eingelesen-werte">1. Plausbilität der eingelesen Werte</h3>
-<p>Ziel:</p>
+<section id="plausibilität-der-eingelesen-werte" class="level3">
+<h3 class="anchored" data-anchor-id="plausibilität-der-eingelesen-werte">1. Plausibilität der eingelesen Werte</h3>
+<p>Ziel: Ziel ist es ein C Programm zu entwickeln, das den Sensorwert aus der Blackbox auf Tastendruck ausliest und in eine csv-Datei speichert.</p>
+</section>
+<section id="alfred-labortask-beschreibung" class="level3">
+<h3 class="anchored" data-anchor-id="alfred-labortask-beschreibung">Alfred Labortask Beschreibung</h3>
 <ul>
 <li>Ziel ist es ein C Programm zu entwicklen, das den Sensorwert aus der Blackbox auf Tastendruck (von der PC Tastatur) ausliest und in eine csv-Datei speichert.</li>
 <li>Das Programm soll einen Kalibrierungsmodus haben.</li>
 <li>In diesem Modus soll der reale Abstandswert (gemessen mit einem Lineal) auf der Kommandozeile eingegeben werden und mit Enter bestätigt werden. Der reale Abstandswert soll ebenfalls in der csv-Datei gespeichert werden. Die .csv Datei Name Messung_0.csv soll 4 Spalten haben. Name der Datei <strong>“Messung_0.csv”</strong></li>
 </ul>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 19%">
 <col style="width: 30%">
@@ -389,6 +374,60 @@ einfügen.</li>
 <li>20 Punkte eintragen. Nach 20 Punkten soll die Eingabe nicht mehr möglich sein und das Progrsamm springt automatisch zum ploten über</li>
 <li>Plot mit Soll und Ist Wert in Excel programieren und graphisch ausgeben.( Oder auch in C?)</li>
 <li>Anhand der erstellten Tabelle eine Look-Up Tabelle programieren.</li>
+</ul>
+</section>
+<section id="joe-labortask-beschreibung" class="level3">
+<h3 class="anchored" data-anchor-id="joe-labortask-beschreibung">Joe Labortask Beschreibung</h3>
+<p>Das Programm soll folgende Funktionalitäten haben:</p>
+<ul>
+<li>Datenaufnahme zur Kalibrierung des Sensors</li>
+<li>Kalibrierung des Sensors</li>
+<li>Einzelmessung/Automatische Messung des Sensors</li>
+</ul>
+<p>Allgemeine Anforderungen:</p>
+<ul>
+<li>Der Modus kann über die CLI ausgewählt werden (Einzelmessung, Kalibrierung)</li>
+</ul>
+<p>Anforderungen an den Datenaufnahme zur Kalibrierung des Sensors:</p>
+<ul>
+<li>In diesem Modus soll der reale Abstandswert auf der Kommandozeile eingegeben werden und mit “Enter” bestätigt werden.</li>
+<li>Gemessene und reale Abstandswerte sollen in einer csv-Datei gespeichert werden. Diese Messwert-csv soll auch wieder eingelesen werden können.</li>
+<li>Der reale Abstandswert aus der Kommandozeile und der vom Sensor gemessene Abstandswert soll gespeichert werden.</li>
+<li>Die Differenz zwischen gemessenem und realem Abstand soll auf der Kommandozeile ausgegeben werden und zusammen mit den Werten in der csv-Datei gespeichert werden.</li>
+<li>Der gemessene Abstand und der reale Abstand soll auf der Kommandozeile ausgegeben werden.</li>
+<li>Der Modus soll so lange laufen, bis ein spezieller Tastendruck (z.B. “q”) erfolgt.</li>
+<li>Die Visualisierung der Soll-Ist-Abweichung soll in Excel durch den Import der csv-Datei erfolgen.</li>
+</ul>
+<p>Anforderungen an Kalibrierung des Sensors mit einer Look-Up Tabelle:</p>
+<ul>
+<li>Die Kalibrierung soll auf Basis der Messwert-csv erfolgen.</li>
+<li>Der Sensorwert soll in den realen Abstandswert mit einer Look-Up Tabelle umgerechnet werden.</li>
+<li>Durch den Tausch der Messwert-csv-Datei ist es möglich das Programm auf einen anderen Wertebereich festzulegen oder einen andere Blackbox zu verwenden..</li>
+<li>Zwischen den Datenpunkten aus der Look-Up Tabelle soll linear interpoliert werden, um aus dem Sensorwert den korrekten Abstand zu berechnen.</li>
+</ul>
+<p>Funktion der Look-Up Tabelle:</p>
+<ol type="1">
+<li>Der Sensorwert wird eingelesen.</li>
+<li>Die nächsten zwei Sensorwerte aus der Look-Up Tabelle werden gesucht.</li>
+<li>Zwischen diesen beiden Werten wird linear interpoliert, um den realen Abstand zu berechnen.</li>
+<li>Der berechnete reale Abstand wird ausgegeben.</li>
+</ol>
+<p>Siehe folgende Skizze:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Aufgabenstellung_Bilder/lokk-up-table.ex.excalidraw.png" class="img-fluid figure-img" style="width:90.0%"></p>
+<figcaption>Look-Up Tabelle und Interpolation</figcaption>
+</figure>
+</div>
+<p>TODO: Prüfen der Look-Up Tabelle mit manuellen Messungen.</p>
+<p>Erstellen der Look-Up Tabelle und Testen der Plausibilität:</p>
+<ul>
+<li>US-Sensor in einer festen Position zu einem Objekt abstellen.</li>
+<li>Mit einem Lineal den Abstand Sensor Objekt messen.</li>
+<li>Auf einem Blatt Papier eine Tabelle für 20 Abstands Messungen erstellen.</li>
+<li>20 Messungen Anfang =0m, Schrittweite = 0,002 m durchführen und Werte in Tabelle eintragen</li>
+<li>Eingelesenen Wert mit Programm verarbeiten und den berechneten Abstand ausgeben.</li>
+<li>Anhand der händisch erstellten Tabelle eine Look-Up Tabelle programmieren.</li>
 <li>Look Up Tabelle interpolieren (lineare Interpolation , 5 Zwischenpunkte)</li>
 <li>Durch Messungen die Plausbilität überprüfen (3-5 Messungen)</li>
 <li>Die Ergebnisse in einer .csv Tabelle <strong>“Messung Nr. 1”</strong> speichern</li>
