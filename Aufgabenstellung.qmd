@@ -19,8 +19,6 @@ Für die Entwicklung ist schon eine Hardware-Aufbau vorhanden. Diese bietet vers
 [^fn6]: [@Dr.HendrikBrakemeier.2020]
 -->
 
-:::{.panel-tabset}
-
 
 
 ::: {#fig-zwei-bilder layout-ncol="3"}
@@ -36,6 +34,7 @@ Komponenten der Black-Box.
 
 ---
 
+![Ultraschal Sensor](Aufgabenstellung_Bilder/b1_US_Sensor_a.jpg){width="50%" fig-align="center"}
 
 
 Die Blackbox ist ein Gehäuse in dem ein µ Controller Signale von einem Ultraschall Sensor (US-Sensor) erfasst diese verarbeitet und über die USB Schnittstelle ausgibt.
@@ -180,6 +179,7 @@ Wenn dein USB-Gerät Daten sendet, siehst du sie auf der Konsole und sie werden 
 ```C
  Windows System 
 //Programm zum auslesen eines USB Port's 
+
 #include <windows.h>
 #include <iostream>
 #include <stdlib.h>
@@ -228,7 +228,6 @@ int main() {
    .........
 }
 
-
 ```
 
 
@@ -244,10 +243,12 @@ int main() {
 
 ## Aufgaben
 
-### 1. Plausbilität der eingelesen Werte
+### 1. Plausibilität der eingelesen Werte
 
-Ziel: 
+Ziel: Ziel ist es ein C Programm zu entwickeln, das den Sensorwert aus der Blackbox auf Tastendruck ausliest und in eine csv-Datei speichert. 
 
+
+### Alfred Labortask Beschreibung
 - Ziel ist es ein C Programm zu entwicklen, das den Sensorwert aus der Blackbox auf Tastendruck (von der PC Tastatur) ausliest und in eine csv-Datei speichert. 
 - Das Programm soll einen Kalibrierungsmodus haben. 
 - In diesem Modus soll der reale Abstandswert (gemessen mit einem Lineal) auf der Kommandozeile eingegeben werden und mit Enter bestätigt werden. Der reale Abstandswert soll ebenfalls in der csv-Datei gespeichert werden.
@@ -283,6 +284,57 @@ Breakdown (??? Was ist damit gemeint) Kalibrieren:
    - 20 Punkte eintragen. Nach 20 Punkten soll die Eingabe nicht mehr möglich sein und das Progrsamm springt automatisch zum ploten über 
    - Plot mit Soll und Ist Wert  in Excel programieren und graphisch ausgeben.( Oder auch in C?)
    - Anhand der erstellten Tabelle eine Look-Up Tabelle programieren.
+
+### Joe Labortask Beschreibung
+
+Das Programm soll folgende Funktionalitäten haben:
+
+- Datenaufnahme zur Kalibrierung des Sensors
+- Kalibrierung des Sensors
+- Einzelmessung/Automatische Messung des Sensors
+
+Allgemeine Anforderungen:
+
+- Der Modus kann über die CLI ausgewählt werden (Einzelmessung, Kalibrierung)
+
+Anforderungen an den Datenaufnahme zur Kalibrierung des Sensors: 
+
+- In diesem Modus soll der reale Abstandswert auf der Kommandozeile eingegeben werden und mit "Enter" bestätigt werden. 
+- Gemessene und reale Abstandswerte sollen in einer csv-Datei gespeichert werden. Diese Messwert-csv soll auch wieder eingelesen werden können.
+- Der reale Abstandswert aus der Kommandozeile und der vom Sensor gemessene Abstandswert soll gespeichert werden.
+- Die Differenz zwischen gemessenem und realem Abstand soll auf der Kommandozeile ausgegeben werden und zusammen mit den Werten in der csv-Datei gespeichert werden.
+- Der gemessene Abstand und der reale Abstand soll auf der Kommandozeile ausgegeben werden.
+- Der Modus soll so lange laufen, bis ein spezieller Tastendruck (z.B. "q") erfolgt.
+- Die Visualisierung der Soll-Ist-Abweichung soll in Excel durch den Import der csv-Datei erfolgen.
+
+Anforderungen an Kalibrierung des Sensors mit einer Look-Up Tabelle:
+
+- Die Kalibrierung soll auf Basis der Messwert-csv erfolgen.
+- Der Sensorwert soll in den realen Abstandswert mit einer Look-Up Tabelle umgerechnet werden.
+- Durch den Tausch der Messwert-csv-Datei ist es möglich das Programm auf einen anderen Wertebereich festzulegen oder einen andere Blackbox zu verwenden..
+- Zwischen den Datenpunkten aus der Look-Up Tabelle soll linear interpoliert werden, um aus dem Sensorwert den korrekten Abstand zu berechnen.
+
+Funktion der Look-Up Tabelle:
+
+1. Der Sensorwert wird eingelesen.
+2. Die nächsten zwei Sensorwerte aus der Look-Up Tabelle werden gesucht.
+3. Zwischen diesen beiden Werten wird linear interpoliert, um den realen Abstand zu berechnen.
+4. Der berechnete reale Abstand wird ausgegeben.
+
+Siehe folgende Skizze:
+
+![Look-Up Tabelle und Interpolation](Aufgabenstellung_Bilder/lokk-up-table.ex.excalidraw.png){width="90%" fig-align="center"}
+
+TODO: Prüfen der Look-Up Tabelle mit manuellen Messungen.
+
+Erstellen der Look-Up Tabelle und Testen der Plausibilität:
+
+   - US-Sensor in einer festen Position zu einem Objekt abstellen.
+   - Mit einem Lineal den Abstand Sensor Objekt messen.
+   - Auf einem Blatt Papier eine Tabelle für 20 Abstands Messungen erstellen.
+   - 20 Messungen Anfang =0m, Schrittweite = 0,002 m  durchführen und Werte in Tabelle eintragen
+   - Eingelesenen Wert mit Programm verarbeiten und den berechneten Abstand ausgeben.
+   - Anhand der händisch erstellten Tabelle eine Look-Up Tabelle programmieren.
    - Look Up Tabelle interpolieren (lineare Interpolation , 5 Zwischenpunkte)
    - Durch Messungen die Plausbilität überprüfen (3-5 Messungen)
    - Die Ergebnisse in einer .csv Tabelle **"Messung Nr. 1"** speichern
