@@ -299,10 +299,11 @@ title: Programm Struktur
 
 flowchart TD
 
-    Menue --&gt;|Manuell| D[Aufgabe 1  messung0.csv]
-    Menue --&gt;|Manuell| E[Aufgabe 2 messung1.csv]
+    Menue --&gt;|Manuell| D[Aufgabe 1  messung1.csv]
+    Menue --&gt;|Manuell| E[Aufgabe 2 messung2.csv]
     Menue --&gt;|Automatik| F[Aufgabe3 messung3.csv] 
     F --&gt; |Grafisch| G[Diagramm]
+    Menue --&gt;|Automatik| H[Aufgabe4 messung4.csv] 
     
 
 </pre>
@@ -314,17 +315,21 @@ flowchart TD
 </div></section>
 <section id="aufgabe-1" class="level2">
 <h2 class="anchored" data-anchor-id="aufgabe-1">Aufgabe 1</h2>
-<section id="plausibilität-der-eingelesen-werte" class="level3">
-<h3 class="anchored" data-anchor-id="plausibilität-der-eingelesen-werte">1. Plausibilität der eingelesen Werte</h3>
-<p>Ziel: Ziel ist es ein C Programm zu entwickeln, das den Sensorwert aus der Blackbox auf Tastendruck ausliest und in eine csv-Datei speichert.</p>
-</section>
-<section id="alfred-labortask-beschreibung" class="level3">
-<h3 class="anchored" data-anchor-id="alfred-labortask-beschreibung">Alfred Labortask Beschreibung</h3>
-<ul>
-<li>Ziel ist es ein C Programm zu entwicklen, das den Sensorwert aus der Blackbox auf Tastendruck (von der PC Tastatur) ausliest und in eine csv-Datei speichert.</li>
-<li>Das Programm soll einen Kalibrierungsmodus haben.</li>
-<li>In diesem Modus soll der reale Abstandswert (gemessen mit einem Lineal) auf der Kommandozeile eingegeben werden und mit Enter bestätigt werden. Der reale Abstandswert soll ebenfalls in der csv-Datei gespeichert werden. Die .csv Datei Name Messung_0.csv soll 4 Spalten haben. Name der Datei <strong>“Messung_0.csv”</strong></li>
-</ul>
+<p>Plausibilität der eingelesen Werte</p>
+<p>Ziel: Es ist ein C Programm zu entwickeln, mit dem der von Hand gemessene Abbstand und der Blackbox gelieferter Wert auf Tastendruck in einer csv-Datei <strong>messung_x.csv</strong> speichert.</p>
+<section id="labortask-beschreibung" class="level3">
+<h3 class="anchored" data-anchor-id="labortask-beschreibung">Labortask Beschreibung</h3>
+<ol type="1">
+<li>US-Sensor in einer festen Position zu einem Objekt abstellen</li>
+<li>Den Abstand vom Sensor zur Fläche mit einem Lineal messen und über die<br>
+Kommandozeile (in Meter) eingeben und mit Enter bestätigen. Dieser Wert soll als realer Abstandswert in der csv-Datei gespeichert werden. (siehe nachfolgende Tabelle)</li>
+<li>In der nachfolgenden Spalte den vom Sensor gelieferte Wert speichern (auch Wert in Meter)</li>
+<li>In der nachfolgenden Spalte die berechnete Differenz der beiden Werte eintragen</li>
+<li>20 Messungen Anfang = 0m, Schrittweite = 0,002 m durchführen.</li>
+<li>Nach 20 Punkten soll die Eingabe nicht mehr möglich sein und das<br>
+Programm springt automatisch zum Menue über</li>
+<li>Option: Plot mit reeler und den vom Sensor geelieferte Werte in Excel programieren und graphisch ausgeben.</li>
+</ol>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 19%">
@@ -386,135 +391,152 @@ flowchart TD
 </tbody>
 </table>
 <hr>
-<ul>
-<li>Der Modus kann über die Command Line Interface (CLI) ausgewählt werden (Einzelmessung, Kalibirierung)</li>
-<li>Anhand der händisch erstellten Tabelle und in den Werten aus der Spalte Abweichung eine Look-Up Tabelle programieren, die als Input die aufgenommene csv-Datei hat. So ist es möglich durch den Tausch der csv-Datei einen anderen Wertebereich festzulegen.</li>
-<li>Zwischen den Datenpunkten aus der Look-Up Tabelle soll linear interpoliert werden, um aus dem Sensorwert den korrekten Abstand zu berechnen.</li>
-<li>Die Visualisierung der Soll-Ist-Abweichung soll in Excel durch den Import der csv-Datei erfolgen.</li>
-</ul>
-<p>TODO: überarbeiten Breakdown (??? Was ist damit gemeint) Kalibrieren:</p>
-<ul>
-<li>US-Sensor in einer festen Position zu einem Objekt abstellen</li>
-<li>20 Messungen Anfang = 0m, Schrittweite = 0,002 m durchführen</li>
-<li>Mit einem Lineal den Abstand Sensor zu Objekt messen</li>
-<li>Mit der Tastatur den Wert im Meter über das C Programm in der .csv Tabelle<br>
-einfügen.</li>
-<li>Hierfür die Enter Taste nutzen. Dabei soll beim drücken der Enter Taste auch der zuletzt gelesene Wert vom Sensor in der Tabelle in Spalte 3 eingefügt werden.</li>
-<li>Eingelesenen Wert konvertieren und in Meter eintragen</li>
-<li>20 Punkte eintragen. Nach 20 Punkten soll die Eingabe nicht mehr möglich sein und das Progrsamm springt automatisch zum ploten über</li>
-<li>Plot mit Soll und Ist Wert in Excel programieren und graphisch ausgeben.( Oder auch in C?)</li>
-<li>Anhand der erstellten Tabelle eine Look-Up Tabelle programieren.</li>
-</ul>
 </section>
-<section id="joe-labortask-beschreibung" class="level3">
-<h3 class="anchored" data-anchor-id="joe-labortask-beschreibung">Joe Labortask Beschreibung</h3>
-<p>Das Programm soll folgende Funktionalitäten haben:</p>
+</section>
+<section id="aufgabe-2" class="level2">
+<h2 class="anchored" data-anchor-id="aufgabe-2">Aufgabe 2</h2>
+<p>Kalibrierung des Sensors mit einer Look-Up Tabelle:</p>
 <ul>
-<li>Datenaufnahme zur Kalibrierung des Sensors</li>
-<li>Kalibrierung des Sensors</li>
-<li>Einzelmessung/Automatische Messung des Sensors</li>
-</ul>
-<p>Allgemeine Anforderungen:</p>
-<ul>
-<li>Der Modus kann über die CLI ausgewählt werden (Einzelmessung, Kalibrierung)</li>
-</ul>
-<p>Anforderungen an den Datenaufnahme zur Kalibrierung des Sensors:</p>
-<ul>
-<li>In diesem Modus soll der reale Abstandswert auf der Kommandozeile eingegeben werden und mit “Enter” bestätigt werden.</li>
-<li>Gemessene und reale Abstandswerte sollen in einer csv-Datei gespeichert werden. Diese Messwert-csv soll auch wieder eingelesen werden können.</li>
-<li>Der reale Abstandswert aus der Kommandozeile und der vom Sensor gemessene Abstandswert soll gespeichert werden.</li>
-<li>Die Differenz zwischen gemessenem und realem Abstand soll auf der Kommandozeile ausgegeben werden und zusammen mit den Werten in der csv-Datei gespeichert werden.</li>
-<li>Der gemessene Abstand und der reale Abstand soll auf der Kommandozeile ausgegeben werden.</li>
-<li>Der Modus soll so lange laufen, bis ein spezieller Tastendruck (z.B. “q”) erfolgt.</li>
-<li>Die Visualisierung der Soll-Ist-Abweichung soll in Excel durch den Import der csv-Datei erfolgen.</li>
-</ul>
-<p>Anforderungen an Kalibrierung des Sensors mit einer Look-Up Tabelle:</p>
-<ul>
-<li>Die Kalibrierung soll auf Basis der Messwert-csv erfolgen.</li>
+<li>Die Ermittlung soll auf Basis der <strong>messung_1.csv</strong> erfolgen.</li>
 <li>Der Sensorwert soll in den realen Abstandswert mit einer Look-Up Tabelle umgerechnet werden.</li>
 <li>Durch den Tausch der Messwert-csv-Datei ist es möglich das Programm auf einen anderen Wertebereich festzulegen oder einen andere Blackbox zu verwenden..</li>
 <li>Zwischen den Datenpunkten aus der Look-Up Tabelle soll linear interpoliert werden, um aus dem Sensorwert den korrekten Abstand zu berechnen.</li>
 </ul>
-<p>Funktion der Look-Up Tabelle:</p>
+<p>Siehe folgende Skizze:</p>
+<p><img src="Aufgabenstellung_Bilder/lokk-up-table.ex.excalidraw.png" class="img-fluid quarto-figure quarto-figure-center" style="width:90.0%" alt="Look-Up Tabelle und Interpolation"> Funktion der Look-Up Tabelle:</p>
 <ol type="1">
 <li>Der Sensorwert wird eingelesen.</li>
 <li>Die nächsten zwei Sensorwerte aus der Look-Up Tabelle werden gesucht.</li>
 <li>Zwischen diesen beiden Werten wird linear interpoliert, um den realen Abstand zu berechnen.</li>
 <li>Der berechnete reale Abstand wird ausgegeben.</li>
 </ol>
-<p>Siehe folgende Skizze:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="Aufgabenstellung_Bilder/lokk-up-table.ex.excalidraw.png" class="img-fluid figure-img" style="width:90.0%"></p>
-<figcaption>Look-Up Tabelle und Interpolation</figcaption>
-</figure>
-</div>
-<p>TODO: Prüfen der Look-Up Tabelle mit manuellen Messungen.</p>
-<p>Erstellen der Look-Up Tabelle und Testen der Plausibilität:</p>
-<ul>
-<li>US-Sensor in einer festen Position zu einem Objekt abstellen.</li>
-<li>Mit einem Lineal den Abstand Sensor Objekt messen.</li>
-<li>Auf einem Blatt Papier eine Tabelle für 20 Abstands Messungen erstellen.</li>
-<li>20 Messungen Anfang =0m, Schrittweite = 0,002 m durchführen und Werte in Tabelle eintragen</li>
-<li>Eingelesenen Wert mit Programm verarbeiten und den berechneten Abstand ausgeben.</li>
-<li>Anhand der händisch erstellten Tabelle eine Look-Up Tabelle programmieren.</li>
-<li>Look Up Tabelle interpolieren (lineare Interpolation , 5 Zwischenpunkte)</li>
-<li>Durch Messungen die Plausbilität überprüfen (3-5 Messungen)</li>
-<li>Die Ergebnisse in einer .csv Tabelle <strong>“Messung Nr. 1”</strong> speichern</li>
-</ul>
+<section id="labortask-beschreibung-1" class="level3">
+<h3 class="anchored" data-anchor-id="labortask-beschreibung-1">Labortask Beschreibung</h3>
+<ol type="1">
+<li>US-Sensor in einer festen Position zu einem Objekt abstellen</li>
+<li>Das messen des Abstands vom Sensor zur Fläche wird mit einem Tastendruck auf Enter ausgelöst. Dieser Wert wird als gelesener Abstandswert (in Meter) csv-Datei <strong>messung_2.csv</strong> gespeichert werden. (siehe nachfolgende Tabelle)</li>
+<li>In der nachfolgenden Spalte den interpolierten Wert eintragen (in Meter)</li>
+<li>Mehrere Messungen durchführen ( minimum 20 ) . Abstand ist diesmal wilkürlich ausgewählt</li>
+<li>Der Modus soll so lange laufen, bis ein spezieller Tastendruck (z.B. “q”) erfolgt. das Programm springt automatisch zum Menue über</li>
+<li>Option: Plot mit Soll und Ist Wert in Excel programieren und graphisch ausgeben.</li>
+</ol>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 30%">
+<col style="width: 29%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Messung Nr.</th>
+<th>ABSTAND</th>
+<th></th>
+<th>Abweichung</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td>Vom Sensor Wert</td>
+<td>Interpolierter Wert</td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>über USB eingelesen</td>
+<td>Berechnet</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>…</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>n-1</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>n</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
 </section>
-<section id="automatisch-messen" class="level3">
-<h3 class="anchored" data-anchor-id="automatisch-messen">2. Automatisch messen</h3>
-<ul>
+</section>
+<section id="aufgabe-3" class="level2">
+<h2 class="anchored" data-anchor-id="aufgabe-3">Aufgabe 3</h2>
+<p>Automatisch messen</p>
+<section id="labortask-beschreibung-2" class="level3">
+<h3 class="anchored" data-anchor-id="labortask-beschreibung-2">Labortask Beschreibung</h3>
+<ol type="1">
 <li>für ca. 10 Sekunden eine/n Messung/Bewegungsablauf starten</li>
-<li>Zeitstempel der erfassten Werte und die Werte in einer .csv Tabelle <strong>“Messung Nr. 2”</strong> speichern</li>
-<li>Visualisieren der Höhenkarte anhand der Zeitstempel</li>
+<li>Zeitstempel der erfassten Werte und die Werte in einer .csv Tabelle <strong>messung_3.csv</strong> speichern</li>
+<li>Visualisieren der Höhenkarte anhand der Zeitstempel - in C</li>
 <li>Ist die Zeit zwischen zwei Zeitstempeln immer gleich?</li>
 <li>Wenn nein die max und min sowie auch die durchnits Abtast Zeit berechnen.</li>
 <li>Im Windows mehrere Task’s starten (youtube Video, Maus bewegen usw. ) und gleiche Mesusung noch mal durchführen.</li>
-<li>Wie verändern sich jetzt die Werte der Zeitstempel? Speichern Sie die Daten in einer neiuen in einer .csv Tabelle “Messung Nr. 3”</li>
-</ul>
+<li>Wie verändern sich jetzt die Werte der Zeitstempel? Speichern Sie die Daten in einer neuen .csv <strong>messung_4.csv</strong> Tabelle “Messung Nr. 3”</li>
+</ol>
 </section>
-<section id="daten-filtern" class="level3">
-<h3 class="anchored" data-anchor-id="daten-filtern">3. Daten Filtern</h3>
+</section>
+<section id="aufgabe-4" class="level2">
+<h2 class="anchored" data-anchor-id="aufgabe-4">Aufgabe 4</h2>
+<p>Daten Filtern</p>
 <ul>
-<li>Filter Sie die eingelesenen Werte.</li>
+<li>Filter Sie die in <strong>messwert3.csv</strong> gespeicherten Abstands Werte.</li>
 <li>Programieren Sie ein Mittelwert Filter über 3 Werte z.B. u(m)=(SUMME( y(m-1):y(m+1))/3)</li>
 <li>Ploten Sie beide Werte Reihen in einem Diagramm und die dazugehörige Differenz zwichen den beiden Wertereihen in einem neuem Diagramm</li>
 </ul>
 </section>
-<section id="fun-make-it-a-game" class="level3">
-<h3 class="anchored" data-anchor-id="fun-make-it-a-game">4. Fun: Make it a game</h3>
-<ul>
-<li><p>ASCII Art level durch höhenkarte</p></li>
-<li><p>U-Boot mit W - up, S - down gesteuert</p></li>
-<li><p>von links nach rechts fährt das Uboot automatisch</p></li>
-<li><p>Höhen/Abstands-abhängige Tonausgabe (wie z.B. Parksensor))</p>
-<ul>
-<li>Geben Sie über die Lautsprechen des PC’s ein Sound aus abhängig vom gemessenen Abstand</li>
-<li>20 cm = 1kHz Schrittweite: 1cm = 50Hz</li>
-<li>Das C Programm gibt eine Höhenkarte als Bild aus.</li>
-<li>Das C Programm gibt auf der Kommandozeile interaktive die Höhenkarte aus (ascii-art, ascii-style)</li>
-</ul></li>
-</ul>
+<section id="aufgabe-5" class="level2">
+<h2 class="anchored" data-anchor-id="aufgabe-5">Aufgabe 5</h2>
+<p>Fun: Make it a game</p>
+<section id="labortask-beschreibung-3" class="level3">
+<h3 class="anchored" data-anchor-id="labortask-beschreibung-3">Labortask Beschreibung</h3>
+<ol type="1">
+<li>ASCII Art level durch höhenkarte. Das C Programm gibt eine Höhenkarte als Bild aus</li>
+<li>U-Boot mit W - up, S - down gesteuert</li>
+<li>von links nach rechts fährt das Uboot automatisch</li>
+<li>Höhen/Abstands-abhängige Tonausgabe (wie z.B. Parksensor) Geben Sie diesbezüglich über die Lautsprechen vom PC’s ein Sound aus abhängig vom gemessenen Abstand 20 cm = 1kHz Schrittweite: 1cm = 50Hz</li>
+</ol>
 </section>
-<section id="abgabe-ausarbeitung" class="level3">
-<h3 class="anchored" data-anchor-id="abgabe-ausarbeitung">5. Abgabe Ausarbeitung</h3>
+</section>
+<section id="abgabe-ausarbeitung" class="level2">
+<h2 class="anchored" data-anchor-id="abgabe-ausarbeitung">Abgabe Ausarbeitung</h2>
 <ul>
 <li>Laden Sie auf Moodle folgende Dateien hoch</li>
-<li>3x .csv Dateien</li>
+<li>4x .csv Dateien ( messung_1.csv, messung_2.csv, messung_3.csv, messung_4.csv )</li>
 <li>C Programm</li>
-<li>Screenshot ausgegebene grafik</li>
+<li>Screenshot der ausgegebenen grafik in .png oder .jpeg Format</li>
 </ul>
 <p>Abgabefrist wird im Labor bekannt gegeben</p>
-<p>### 6. Spielregeln</p>
+<p>## Spielregeln</p>
 <ul>
 <li>Labortermine sind Pflichttermine.</li>
 <li>Ausarbeitung daheim ist erlaubt.</li>
 <li>Team Work, max 3 Teildehmer ist erlaubt. Allerdings ist ein<br>
 gesamt Kenntnissstand vom jedem Teilnehmer erfragt.</li>
 </ul>
-</section>
 </section>
 </section>
 
