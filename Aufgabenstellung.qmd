@@ -211,11 +211,12 @@ title: Programm Struktur
 
 flowchart TD
 
-    Menue -->|Manuell| D[Aufgabe 1  messung1.csv]
-    Menue -->|Manuell| E[Aufgabe 2 messung2.csv]
-    Menue -->|Automatik| F[Aufgabe3 messung3.csv] 
+    Menue -->|Manuell| D[Aufgabe 1  - DA ]
+    Menue -->|Manuell| E[Aufgabe 2 - TEST ]
+    Menue -->|Automatik| F[Aufgabe3 - AUTO ] 
     F --> |Grafisch| G[Diagramm]
-    Menue -->|Automatik| H[Aufgabe4 messung4.csv] 
+    Menue -->|Automatik| H[Aufgabe4 - FILTER ] 
+    Menue -->|Automatik| I[Aufgabe5 - FUN ] 
     
 
 ```
@@ -223,7 +224,7 @@ flowchart TD
 
 ## Aufgabe 1
 
-Plausibilität der eingelesen Werte
+Plausibilität der eingelesen Werte. Modus "DA" - DatenAufnahme
 
 Ziel: Es ist ein C Programm zu entwickeln, mit dem der von Hand gemessene Abbstand und  der Blackbox gelieferter Wert auf Tastendruck in einer csv-Datei **messung_x.csv** speichert. 
 
@@ -259,7 +260,7 @@ Ziel: Es ist ein C Programm zu entwickeln, mit dem der von Hand gemessene Abbsta
 
 ## Aufgabe 2
 
-Kalibrierung des Sensors mit einer Look-Up Tabelle:
+Kalibrierung des Sensors mit einer Look-Up Tabelle.  Modus "TEST"
 
 - Die Ermittlung soll auf Basis der **messung_1.csv** erfolgen.
 - Der Sensorwert soll in den realen Abstandswert mit einer Look-Up Tabelle umgerechnet werden.
@@ -309,7 +310,7 @@ Funktion der Look-Up Tabelle:
 
 ## Aufgabe 3 
 
-Automatisch messen
+Automatisch messen. Modus "AUTO"
 
 ### Labortask Beschreibung 
 
@@ -325,7 +326,7 @@ Automatisch messen
 
 ## Aufgabe 4
 
- Daten Filtern
+ Daten Filtern. Modus "FILTER"
 
    - Filter Sie die in **messwert3.csv** gespeicherten Abstands Werte.
    - Programieren Sie ein Mittelwert Filter über 3 Werte  z.B. u(m)=(SUMME( y(m-1):y(m+1))/3)
@@ -334,7 +335,7 @@ Automatisch messen
 
 ## Aufgabe 5 
 
- Fun: Make it a game 
+ Fun: Make it a game.  Modus "FUN"
 
 ### Labortask Beschreibung 
 1.  ASCII Art level durch höhenkarte. Das C Programm gibt eine Höhenkarte als Bild aus
