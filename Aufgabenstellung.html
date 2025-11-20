@@ -89,7 +89,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="Aufgabenstellung_Bilder/b5_Handskitze_klein.jpg" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="Aufgabenstellung_Bilder/b5b_Handskitze_klein.jpg" class="img-fluid figure-img" style="width:80.0%"></p>
 <figcaption>Handskizze</figcaption>
 </figure>
 </div>
@@ -299,11 +299,12 @@ title: Programm Struktur
 
 flowchart TD
 
-    Menue --&gt;|Manuell| D[Aufgabe 1  messung1.csv]
-    Menue --&gt;|Manuell| E[Aufgabe 2 messung2.csv]
-    Menue --&gt;|Automatik| F[Aufgabe3 messung3.csv] 
+    Menue --&gt;|Manuell| D[Aufgabe 1  - DA ]
+    Menue --&gt;|Manuell| E[Aufgabe 2 - TEST ]
+    Menue --&gt;|Automatik| F[Aufgabe3 - AUTO ] 
     F --&gt; |Grafisch| G[Diagramm]
-    Menue --&gt;|Automatik| H[Aufgabe4 messung4.csv] 
+    Menue --&gt;|Automatik| H[Aufgabe4 - FILTER ] 
+    Menue --&gt;|Automatik| I[Aufgabe5 - FUN ] 
     
 
 </pre>
@@ -315,7 +316,7 @@ flowchart TD
 </div></section>
 <section id="aufgabe-1" class="level2">
 <h2 class="anchored" data-anchor-id="aufgabe-1">Aufgabe 1</h2>
-<p>Plausibilität der eingelesen Werte</p>
+<p>Plausibilität der eingelesen Werte. Modus “DA” - DatenAufnahme</p>
 <p>Ziel: Es ist ein C Programm zu entwickeln, mit dem der von Hand gemessene Abbstand und der Blackbox gelieferter Wert auf Tastendruck in einer csv-Datei <strong>messung_x.csv</strong> speichert.</p>
 <section id="labortask-beschreibung" class="level3">
 <h3 class="anchored" data-anchor-id="labortask-beschreibung">Labortask Beschreibung</h3>
@@ -395,7 +396,7 @@ Programm springt automatisch zum Menue über</li>
 </section>
 <section id="aufgabe-2" class="level2">
 <h2 class="anchored" data-anchor-id="aufgabe-2">Aufgabe 2</h2>
-<p>Kalibrierung des Sensors mit einer Look-Up Tabelle:</p>
+<p>Kalibrierung des Sensors mit einer Look-Up Tabelle. Modus “TEST”</p>
 <ul>
 <li>Die Ermittlung soll auf Basis der <strong>messung_1.csv</strong> erfolgen.</li>
 <li>Der Sensorwert soll in den realen Abstandswert mit einer Look-Up Tabelle umgerechnet werden.</li>
@@ -485,7 +486,7 @@ Programm springt automatisch zum Menue über</li>
 </section>
 <section id="aufgabe-3" class="level2">
 <h2 class="anchored" data-anchor-id="aufgabe-3">Aufgabe 3</h2>
-<p>Automatisch messen</p>
+<p>Automatisch messen. Modus “AUTO”</p>
 <section id="labortask-beschreibung-2" class="level3">
 <h3 class="anchored" data-anchor-id="labortask-beschreibung-2">Labortask Beschreibung</h3>
 <ol type="1">
@@ -501,7 +502,7 @@ Programm springt automatisch zum Menue über</li>
 </section>
 <section id="aufgabe-4" class="level2">
 <h2 class="anchored" data-anchor-id="aufgabe-4">Aufgabe 4</h2>
-<p>Daten Filtern</p>
+<p>Daten Filtern. Modus “FILTER”</p>
 <ul>
 <li>Filter Sie die in <strong>messwert3.csv</strong> gespeicherten Abstands Werte.</li>
 <li>Programieren Sie ein Mittelwert Filter über 3 Werte z.B. u(m)=(SUMME( y(m-1):y(m+1))/3)</li>
@@ -510,7 +511,7 @@ Programm springt automatisch zum Menue über</li>
 </section>
 <section id="aufgabe-5" class="level2">
 <h2 class="anchored" data-anchor-id="aufgabe-5">Aufgabe 5</h2>
-<p>Fun: Make it a game</p>
+<p>Fun: Make it a game. Modus “FUN”</p>
 <section id="labortask-beschreibung-3" class="level3">
 <h3 class="anchored" data-anchor-id="labortask-beschreibung-3">Labortask Beschreibung</h3>
 <ol type="1">
