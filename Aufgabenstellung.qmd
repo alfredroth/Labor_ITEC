@@ -5,7 +5,7 @@ Es soll eine Höhenmesser entwicklet werden, der ein Höhenprofil aufnehmen kann
 
 ---
 
-![Handskizze](Aufgabenstellung_Bilder/b5_Handskitze_klein.jpg){width="80%" fig-align="center"}
+![Handskizze](Aufgabenstellung_Bilder/b5b_Handskitze_klein.jpg){width="80%" fig-align="center"}
 
 ---
 
