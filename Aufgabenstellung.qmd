@@ -189,15 +189,36 @@ int main() {
 ```
 
 
-## Rahmenbedinung
+## Rahmenbedienung
 
 - Es muss in C programmiert werden.
+- Verwendung einer sqlite-Datenbank
+- Verwendung von `structs`
+- Aufteilen des Codes in Header (.h) und Source (.c) Dateien
+- Verwendung von CMake als Buildsystem
+- Jede Laboraufgabe wird auf einem eigenen Branch in github oder gitlab entwickelt.
+- Die Implementierung erfolgt in dem während der Vorlesung erstellten C-Projekt-Template.
+
+## Laborsetup
+
+Implementierung erfolgt auf den Jetsons aus dem Digitalisierungslabor. Diese wird durch die Dozenten bereitgestellt und supportet. Ein Austausch des Codes erfolgt über git (github oder gitlab).
+
+> Das C-Project kann auf den Jetsons ohne devcontainer verwendet werden, da es schon ein Linux als host System ist.
+
+Um die Entwicklung auf Windows-PCs zu ermöglichen und in dem bekannten Setup mit Visual Studio Code und cmake zu arbeiten gibt es folgende Möglichkeiten:
+
+1. Mingw Installation auf Windows mit cmake und gcc ()
+2. Windows Subsystem for Linux (WSL) mit Ubuntu installieren und dort cmake und gcc installieren.
+3. Serielle Kommunikation zur Blackbox in devcontainer einrichten. Siehe Anhang
+
+
 
 ## Abnahme
 
 - Die Laboraufgaben werden einzeln abgenommen.
 - Der Code wie auch die erzeugten Visualisierungen müssen erklärt werden.
 - Der Code muss sauber mit Methoden, structs und unterschiedlichen .h und .c Dateien strukturiert sein. (vgl. Vorlesungsprojekt)
+- Die weiteren Rahmenbedinungen müssen eingehalten werden.
 
 ---
 
@@ -241,8 +262,8 @@ Ziel: Es ist ein C Programm zu entwickeln, mit dem der von Hand gemessene Abbsta
 5.   20 Messungen Anfang = 0m, Schrittweite = 0,002 m  durchführen. 
 6.   Nach 20 Punkten soll die Eingabe nicht mehr möglich sein und das  
          Programm springt automatisch zum Menue über 
-7.   Option: Plot mit reeler und den vom Sensor geelieferte Werte  in Excel programieren und graphisch 
-         ausgeben.
+7.  Speichern der Daten in einer Datenbank (sqlite). Das Datenbank Layout ist passend gewählt. Aus der Datenbank kann eine Tabelle als csv exportiert werden.
+8.   Option: Plot mit reeler und den vom Sensor gelieferte Werte  in Excel programmieren und graphisch ausgeben.
   
 
 
@@ -338,12 +359,10 @@ Automatisch messen. Modus "AUTO"
  Fun: Make it a game.  Modus "FUN"
 
 ### Labortask Beschreibung 
-1.  ASCII Art level durch höhenkarte. Das C Programm gibt eine Höhenkarte als Bild aus
-2. U-Boot mit W - up, S - down gesteuert
-3.  von links nach rechts fährt das Uboot automatisch
-4.  Höhen/Abstands-abhängige Tonausgabe (wie z.B. Parksensor)
-     Geben Sie diesbezüglich über die Lautsprechen vom PC's ein Sound aus abhängig vom gemessenen Abstand
-     20 cm = 1kHz  Schrittweite: 1cm = 50Hz
+1.  ASCII Art level durch Höhenkarte. Das C Programm gibt eine Höhenkarte auf der Kommandzeile aus.
+2. U-Boot mit W - up, S - down gesteuert durch die Höhenkarte navigieren.
+3.  von links nach rechts fährt das Uboot automatisch.
+4.  Beenden Sie das Spiel wenn das U-Boot auf Grund läuft (also mit der Höhenkarte kollidiert).
 
   
 
@@ -362,4 +381,121 @@ Automatisch messen. Modus "AUTO"
  - Ausarbeitung daheim ist erlaubt.
  - Team Work, max 3 Teildehmer ist erlaubt. Allerdings ist ein  
    gesamt Kenntnissstand vom jedem Teilnehmer erfragt.
+
+
+# Anhang Installationsvorgehen zur Verwendung von USB serial Kommunikation auf Windows host Systemen mit WSL 2 und devcontainer
+
+Accessing a USB Serial Device in a VS Code Dev Container on WSL 2
+
+This tutorial explains how to use a USB‑connected serial adapter (for example an FTDI or debug probe) from within a Visual Studio Code development container.  The scenario assumes you are running Docker on Windows via WSL 2, have a project that already uses a Dev Container with CMake and GCC, and you want to connect to a device that appears on Windows as COM4.  The solution uses usbipd‑win to share the USB device with WSL 2 and passes it through to the container using Docker’s --device flag.
+
+## Update WSL 2 and install usbipd‑win on Windows
+	
+    Ensure WSL is up‑to‑date. Open a PowerShell terminal and run:
+    ```powershell
+    wsl --update
+    ```
+    The Microsoft command‑line blog notes that WSL needs to be on a 5.10 kernel or newer and suggests updating before using USB/IP.
+
+### Install usbipd‑win. 
+
+Use winget￼ to install the latest release.  In an elevated PowerShell prompt run:
+
+```powershell
+winget install --id=Microsoft.usbipd-win
+```
+
+[Installing usbipd‑win registers a service on Windows that shares local USB devices to WSL.](https://devblogs.microsoft.com/commandline/connecting-usb-devices-to-wsl/#:~:text=To%20get%20started%20with%20this,running%20a%20WSL%202%20distro)
+
+### List available USB devices. 
+
+From an elevated command prompt run:
+
+```powershell
+usbipd wsl list
+```
+
+This command prints each device’s `BUSID`, vendor/product IDs and current state.  Note the `BUSID` corresponding to the serial adapter you want to share.
+
+### Bind and attach the device. 
+
+First, make the device sharable with `usbipd bind --busid=<BUSID>`.  Then attach it to WSL using:
+
+```powershell
+usbipd wsl attach --busid <BUSID>
+```
+The usbipd documentation explains that bind is persistent, whereas attach connects the device to the running WSL VM.
+
+## Install USB/IP client tools inside WSL
+
+In order for WSL to communicate with the usbipd service, install the Linux USB/IP user‑space tools:
+
+```bashsudo apt update
+# Install the appropriate linux‑tools package for your kernel and the hwdata database
+sudo apt install linux-tools-$(uname -r) hwdata usbutils
+# Register the usbip client binary if your distribution does not do so automatically
+sudo update-alternatives --install /usr/local/bin/usbip usbip \
+    /usr/lib/linux-tools-$(uname -r)/usbip 20
+```
+
+Microsoft’s guidance demonstrates installing `linux-tools` and `hwdata`, then registering `usbip` with update-alternatives ￼.  The usbutils package provides the `lsusb` utility used later.
+
+After attaching the device from Windows, verify that WSL can see it:
+
+``bash
+lsusb
+```
+
+You should see an entry corresponding to your serial adapter.  Depending on the driver, it will also create a character device such as `/dev/ttyUSB0` or `/dev/ttyACM0`.  You can find it with:
+
+```bash
+ls -l /dev/ttyUSB* /dev/ttyACM* 2>/dev/null
+```
+## Pass the USB device through to the Dev Container
+
+Docker cannot automatically see devices attached to the WSL VM.  You must tell Docker to map the device into the container.  The following modifications are required.
+
+
+### Dockerfile
+
+A sample Dockerfile is provided in this repository.  It uses the mcr.microsoft.com/devcontainers/base:ubuntu-22.04 base image, installs the compiler toolchain and USB utilities, and adds the unprivileged vscode user to the dialout group so it can open serial ports:
+
+```Dockerfile
+FROM mcr.microsoft.com/devcontainers/cpp:1-debian-12
+
+RUN apt-get update
+RUN apt-get install -y sqlite3 libsqlite3-dev ninja-build
+
+# New entries
+
+USER root
+
+RUN apt-get install -y --no-install-recommends usbutils minicom
+
+RUN usermod -aG dialout vscode
+
+USER vscode
+WORKDIR /workspaces
+
+```
+
+This configuration installs `usbutils` and `minicom` so you can inspect USB buses and open serial ports within the container.  Adding the vscode user to the dialout group avoids running commands as root.
+
+
+### devcontainer.json
+
+Extend the json:
+
+```json
+  "runArgs": [
+    "--privileged",
+    "--device=/dev/bus/usb"
+  ],
+  "remoteUser": "vscode",
+    "postCreateCommand": "sudo usermod -a -G dialout $(whoami) && ls -l /dev/ttyUSB* || true",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}"
+
+```
+
+If you know the exact device file (/dev/ttyUSB0 or similar) you may instead map only that device using "--device=/dev/ttyUSB0" for finer control.  The example above maps all USB devices.
 
