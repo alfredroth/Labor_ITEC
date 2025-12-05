@@ -1,6 +1,43 @@
 # Laboraufgabe.
 
-Es soll eine Höhenmesser entwicklet werden, der ein Höhenprofil aufnehmen kann. Dazu wird in diesem Labor die Informatik - Komponente entwickelt.
+::: {.callout-warning collapse="true"}
+## Vorbereitung jetsons
+
+1. (optional) Update Packages and fix issues
+   ```bash
+   sudo apt-get update -y
+   sudo apt --fix-broken install -y
+   sudo dpkg --configure -a
+   ```
+2. install cmake
+   ```bash
+   sudo apt-get install -y cmake ninja-build
+   ```
+3. install sqlite
+   ``` bash
+   sudo apt-get install -y sqlite3 libsqlite3-dev
+   ```
+4. Install brave browser
+   ```bash
+   curl -fsS https://dl.brave.com/install.sh | sh
+   ```
+   oder:
+   ```bash
+   sudo apt-get install brave-browser
+   ```
+5. Install minicom zur Vergabe von Rechten und Setzen der Bautrate für für USB0 Devices
+   ```bash
+   sudo apt-get install minicom
+   ```
+   Alternative:
+   ```bash
+   sudo usermod -a -G dialout $USER
+   ```
+   Wenn USER nicht gesetzt ist, dann kann `$USER` durch `johbaum8` ersetzt werden.
+
+:::
+
+Es soll eine Höhenmesser entwickelt werden, der ein Höhenprofil aufnehmen kann. Dazu wird in diesem Labor die Informatik - Komponente entwickelt.
 
 
 ---
@@ -40,150 +77,94 @@ Die Spannungsversorgung erfolgt auch über den USB Anschluss (5V/0,500mA).
 Die Daten die von der Black Box über die serielle Schnittstelle (USB) gesendet werden können sowohl unter Windows als auch unter einem Linux System bearbeitet werden. 
 
 
-##  Daten im **Windows** Betriebs-System empfangen und auslesen/speichern
-
-
-### Schritt-für-Schritt-Anleitung
-
-### 1. COM-Port herausfinden
-
-Öffne den Windows Geräte-Manager und suche unter **"Anschlüsse (COM & LPT)"** nach der angeschlossenen Black Box, z. B. *"Silicon Labs CP210x USB to UART Bridge Port (COM5)"*.
-
----
-
-### 2. C-Code zum Auslesen eines COM-Ports
-
-Speichere folgenden C-Code in eine Datei, z. B. `read_com_port.c`:
-
-```c
-
-//Programm zum auslesen eines USB Port's 
-#include <windows.h>
-#include <stdio.h>
-
-int main() {
-    HANDLE hSerial;
-    DCB dcbSerialParams = {0};
-    COMMTIMEOUTS timeouts = {0};
-    char portName[] = "\\\\.\\COMX";  // Ändere X auf die Port Nr.
-    char buffer[1024];
-    DWORD bytesRead;
-
-    // COM-Port öffnen
-    hSerial = CreateFileA(portName, GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL);
-    if (hSerial == INVALID_HANDLE_VALUE) {
-        fprintf(stderr, "Fehler beim Öffnen des Ports %s\n", portName);
-        return 1;
-    }
-
-    // Serielle Einstellungen
-    dcbSerialParams.DCBlength = sizeof(dcbSerialParams);
-    if (!GetCommState(hSerial, &dcbSerialParams)) {
-        fprintf(stderr, "Fehler beim Lesen der Port-Einstellungen\n");
-        CloseHandle(hSerial);
-        return 1;
-    }
-
-    dcbSerialParams.BaudRate = CBR_Y;    // Baudrate ggf. anpassen z.B. Y= 115200
-    dcbSerialParams.ByteSize = 8;
-    dcbSerialParams.StopBits = ONESTOPBIT;
-    dcbSerialParams.Parity   = NOPARITY;
-
-    if (!SetCommState(hSerial, &dcbSerialParams)) {
-        fprintf(stderr, "Fehler beim Setzen der Port-Einstellungen\n");
-        CloseHandle(hSerial);
-        return 1;
-    }
-
-    // Timeout-Einstellungen
-    timeouts.ReadIntervalTimeout = 50;
-    timeouts.ReadTotalTimeoutConstant = 50;
-    timeouts.ReadTotalTimeoutMultiplier = 10;
-
-    if (!SetCommTimeouts(hSerial, &timeouts)) {
-        fprintf(stderr, "Fehler beim Setzen der Timeouts\n");
-        CloseHandle(hSerial);
-        return 1;
-    }
-
-    // Datei zum Speichern öffnen
-    FILE *outFile = fopen("daten.txt", "w");
-    if (!outFile) {
-        fprintf(stderr, "Konnte Ausgabedatei nicht öffnen\n");
-        CloseHandle(hSerial);
-        return 1;
-    }
-
-    printf("Lese vom USB-Gerät...\n");
-
-    while (1) {
-        if (ReadFile(hSerial, buffer, sizeof(buffer) - 1, &bytesRead, NULL)) {
-            if (bytesRead > 0) {
-                buffer[bytesRead] = '\0';  // Null-terminieren
-                printf("%s", buffer);      // Ausgabe auf Konsole
-                fprintf(outFile, "%s", buffer); // Schreiben in Datei
-                fflush(outFile);           // Sicherstellen, dass sofort geschrieben wird
-            }
-        } else {
-            fprintf(stderr, "Fehler beim Lesen vom COM-Port\n");
-            break;
-        }
-    }
-
-    fclose(outFile);
-    CloseHandle(hSerial);
-    return 0;
-}
-```
-
----
-
-###  3. Kompilieren
-
-Öffne die Eingabeaufforderung und kompiliere mit z. B.:
-
-```bash
-gcc read_com_port.c -o read_com_port.exe
-```
-
-(Erfordert, dass `gcc` installiert und in der PATH-Variable ist.)
-
----
-
-### 4. Ausführen
-
-```bash
-read_com_port.exe
-```
-
-Wenn dein USB-Gerät Daten sendet, siehst du sie auf der Konsole und sie werden in `daten.txt` gespeichert.
-
-
-
-
-
-
 ##  Daten im **Linux** Betriebs-System empfangen und auslesen/speichern
+
+### Mit minicom testen
+
+Mit minicom können Sie testen, ob die Blackbox werte liefert:
+
+```bash
+sudo minicom -b 115200 -D /dev/ttyUSB0
+```
 
 ### Schritt-für-Schritt-Anleitung
 
 
 ```C
-// usb: USB0 Baud; Rate  115200
+// 22072025
+// C-Programm zum Lesen eines µControllers über USB (Jetson Nano)
+// Port: /dev/ttyUSB0
+// Baudrate: 115200
+// Endlosschleife zum Dauerlauf
 
-// mit "cat /dev/ttyUSB0" kann der Port Testweise gelesen werden.
-
-#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
 #include <fcntl.h>
 #include <termios.h>
 #include <unistd.h>
-#include <cstring>
+#include <string.h>
+#include <errno.h>
 
 int main() {
-    const char* port = "/dev/ttyUSB0";  // Port Nr.
+    const char* port = "/dev/ttyUSB0";
     int serial_port = open(port, O_RDWR);
 
-   .........
+    if (serial_port < 0) {
+        printf("Fehler beim Öffnen von %s: %s\n", port, strerror(errno));
+        return 1;
+    }
+
+    struct termios tty;
+    if (tcgetattr(serial_port, &tty) != 0) {
+        printf("Fehler beim Abrufen der Einstellungen: %s\n", strerror(errno));
+        close(serial_port);
+        return 1;
+    }
+
+    // Baudrate setzen
+    cfsetispeed(&tty, B115200);
+    cfsetospeed(&tty, B115200);
+
+    // 8N1 Konfiguration
+    tty.c_cflag &= ~PARENB;        // Keine Parität
+    tty.c_cflag &= ~CSTOPB;        // 1 Stopbit
+    tty.c_cflag &= ~CSIZE;
+    tty.c_cflag |= CS8;            // 8 Datenbits
+    tty.c_cflag &= ~CRTSCTS;       // Keine Hardware-Flowcontrol
+    tty.c_cflag |= CREAD | CLOCAL; // Lesen aktivieren & lokaler Modus
+
+    // Raw-Modus
+    tty.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
+    tty.c_iflag &= ~(IXON | IXOFF | IXANY | ICRNL | INLCR);
+    tty.c_oflag &= ~OPOST;
+
+    // Timeout und minimale Anzahl an Bytes
+    tty.c_cc[VTIME] = 10; // 1s Timeout
+    tty.c_cc[VMIN]  = 10; // mindestens 10 Zeichen
+
+    // Einstellungen übernehmen
+    if (tcsetattr(serial_port, TCSANOW, &tty) != 0) {
+        printf("Fehler beim Setzen der Einstellungen: %s\n", strerror(errno));
+        close(serial_port);
+        return 1;
+    }
+
+    // Endlosschleife zum Lesen
+    while (1) {
+        char buffer[256];
+        memset(buffer, 0, sizeof(buffer));
+
+        int num_bytes = read(serial_port, buffer, sizeof(buffer));
+
+        if (num_bytes < 0) {
+            printf("Lesefehler: %s\n", strerror(errno));
+        } else {
+            printf("Gelesen: %s\n", buffer);
+        }
+    }
+
+    close(serial_port);
+    return 0;
 }
 
 ```
@@ -499,3 +480,120 @@ Extend the json:
 
 If you know the exact device file (/dev/ttyUSB0 or similar) you may instead map only that device using "--device=/dev/ttyUSB0" for finer control.  The example above maps all USB devices.
 
+# Anhang: Daten im **Windows** Betriebs-System empfangen und auslesen/speichern
+
+> Ohne devcontainer nur auf Windows.
+
+### Schritt-für-Schritt-Anleitung
+### 1. COM-Port herausfinden
+
+Öffne den Windows Geräte-Manager und suche unter **"Anschlüsse (COM & LPT)"** nach der angeschlossenen Black Box, z. B. *"Silicon Labs CP210x USB to UART Bridge Port (COM5)"*.
+
+---
+
+### 2. C-Code zum Auslesen eines COM-Ports
+
+Speichere folgenden C-Code in eine Datei, z. B. `read_com_port.c`:
+
+```c
+
+//Programm zum auslesen eines USB Port's 
+#include <windows.h>
+#include <stdio.h>
+
+int main() {
+    HANDLE hSerial;
+    DCB dcbSerialParams = {0};
+    COMMTIMEOUTS timeouts = {0};
+    char portName[] = "\\\\.\\COMX";  // Ändere X auf die Port Nr.
+    char buffer[1024];
+    DWORD bytesRead;
+
+    // COM-Port öffnen
+    hSerial = CreateFileA(portName, GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL);
+    if (hSerial == INVALID_HANDLE_VALUE) {
+        fprintf(stderr, "Fehler beim Öffnen des Ports %s\n", portName);
+        return 1;
+    }
+
+    // Serielle Einstellungen
+    dcbSerialParams.DCBlength = sizeof(dcbSerialParams);
+    if (!GetCommState(hSerial, &dcbSerialParams)) {
+        fprintf(stderr, "Fehler beim Lesen der Port-Einstellungen\n");
+        CloseHandle(hSerial);
+        return 1;
+    }
+
+    dcbSerialParams.BaudRate = CBR_Y;    // Baudrate ggf. anpassen z.B. Y= 115200
+    dcbSerialParams.ByteSize = 8;
+    dcbSerialParams.StopBits = ONESTOPBIT;
+    dcbSerialParams.Parity   = NOPARITY;
+
+    if (!SetCommState(hSerial, &dcbSerialParams)) {
+        fprintf(stderr, "Fehler beim Setzen der Port-Einstellungen\n");
+        CloseHandle(hSerial);
+        return 1;
+    }
+
+    // Timeout-Einstellungen
+    timeouts.ReadIntervalTimeout = 50;
+    timeouts.ReadTotalTimeoutConstant = 50;
+    timeouts.ReadTotalTimeoutMultiplier = 10;
+
+    if (!SetCommTimeouts(hSerial, &timeouts)) {
+        fprintf(stderr, "Fehler beim Setzen der Timeouts\n");
+        CloseHandle(hSerial);
+        return 1;
+    }
+
+    // Datei zum Speichern öffnen
+    FILE *outFile = fopen("daten.txt", "w");
+    if (!outFile) {
+        fprintf(stderr, "Konnte Ausgabedatei nicht öffnen\n");
+        CloseHandle(hSerial);
+        return 1;
+    }
+
+    printf("Lese vom USB-Gerät...\n");
+
+    while (1) {
+        if (ReadFile(hSerial, buffer, sizeof(buffer) - 1, &bytesRead, NULL)) {
+            if (bytesRead > 0) {
+                buffer[bytesRead] = '\0';  // Null-terminieren
+                printf("%s", buffer);      // Ausgabe auf Konsole
+                fprintf(outFile, "%s", buffer); // Schreiben in Datei
+                fflush(outFile);           // Sicherstellen, dass sofort geschrieben wird
+            }
+        } else {
+            fprintf(stderr, "Fehler beim Lesen vom COM-Port\n");
+            break;
+        }
+    }
+
+    fclose(outFile);
+    CloseHandle(hSerial);
+    return 0;
+}
+```
+
+---
+
+###  3. Kompilieren
+
+Öffne die Eingabeaufforderung und kompiliere mit z. B.:
+
+```bash
+gcc read_com_port.c -o read_com_port.exe
+```
+
+(Erfordert, dass `gcc` installiert und in der PATH-Variable ist.)
+
+---
+
+### 4. Ausführen
+
+```bash
+read_com_port.exe
+```
+
+Wenn dein USB-Gerät Daten sendet, siehst du sie auf der Konsole und sie werden in `daten.txt` gespeichert.
