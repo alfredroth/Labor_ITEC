@@ -81,7 +81,7 @@ Die Daten die von der Black Box über die serielle Schnittstelle (USB) gesendet 
 
 ### Mit minicom testen
 
-Mit minicom können Sie testen, ob die Blackbox werte liefert:
+Mit minicom können Sie testen, ob die Blackbox Werte liefert:
 
 ```bash
 sudo minicom -b 115200 -D /dev/ttyUSB0
@@ -89,6 +89,7 @@ sudo minicom -b 115200 -D /dev/ttyUSB0
 
 ### Schritt-für-Schritt-Anleitung
 
+C Datei mit einem Minimalbeispiel zum Auslesen der Werte aus der Blackbox:
 
 ```C
 // 22072025
