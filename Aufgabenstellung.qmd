@@ -25,11 +25,11 @@
    ```bash
    sudo apt-get install brave-browser
    ```
-5. Install minicom zur Vergabe von Rechten und Setzen der Bautrate für für USB0 Devices
+5. Install minicom, um die Werte der Blackbox auszulesen
    ```bash
    sudo apt-get install minicom
    ```
-   Alternative:
+6. Setzen der Rechte für ttyUSB0:
    ```bash
    sudo usermod -a -G dialout $USER
    ```
