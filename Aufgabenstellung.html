@@ -477,8 +477,7 @@ csv Name: <strong>messung_1.csv</strong> exportiert werden.</li>
 <li><p>Install minicom, um die Werte der Blackbox auszulesen</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install minicom</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>Setzen der Rechte für ttyUSB0:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> usermod <span class="at">-a</span> <span class="at">-G</span> dialout <span class="va">$USER</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Wenn USER nicht gesetzt ist, dann kann <code>$USER</code> durch <code>johbaum8</code> ersetzt werden.</p></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> usermod <span class="at">-aG</span> dialout <span class="va">$USER</span>  <span class="co">#Wenn $USER nicht vorhanden, dann $johbaum8 eingeben</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 </ol>
 </div>
 </div>
@@ -530,7 +529,7 @@ csv Name: <strong>messung_1.csv</strong> exportiert werden.</li>
 <span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    tty<span class="op">.</span>c_cflag <span class="op">&amp;=</span> <span class="op">~</span>CSTOPB<span class="op">;</span>        <span class="co">// 1 Stopbit</span></span>
 <span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>    tty<span class="op">.</span>c_cflag <span class="op">&amp;=</span> <span class="op">~</span>CSIZE<span class="op">;</span></span>
 <span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>    tty<span class="op">.</span>c_cflag <span class="op">|=</span> CS8<span class="op">;</span>            <span class="co">// 8 Datenbits</span></span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>    tty<span class="op">.</span>c_cflag <span class="op">&amp;=</span> <span class="op">~</span>CRTSCTS<span class="op">;</span>       <span class="co">// Keine Hardware-Flowcontrol</span></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>    <span class="co">//tty.c_cflag &amp;= ~CRTSCTS;       // Keine Hardware-Flowcontrol</span></span>
 <span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>    tty<span class="op">.</span>c_cflag <span class="op">|=</span> CREAD <span class="op">|</span> CLOCAL<span class="op">;</span> <span class="co">// Lesen aktivieren &amp; lokaler Modus</span></span>
 <span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Raw-Modus</span></span>

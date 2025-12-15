@@ -285,9 +285,9 @@ Beschreibung Betriebssystem anpassen:
    ```
 6. Setzen der Rechte für ttyUSB0:
    ```bash
-   sudo usermod -a -G dialout $USER
+   sudo usermod -aG dialout $USER  #Wenn $USER nicht vorhanden, dann $johbaum8 eingeben
    ```
-   Wenn USER nicht gesetzt ist, dann kann `$USER` durch `johbaum8` ersetzt werden.
+   
 
 :::
 
@@ -345,7 +345,7 @@ int main() {
     tty.c_cflag &= ~CSTOPB;        // 1 Stopbit
     tty.c_cflag &= ~CSIZE;
     tty.c_cflag |= CS8;            // 8 Datenbits
-    tty.c_cflag &= ~CRTSCTS;       // Keine Hardware-Flowcontrol
+    //tty.c_cflag &= ~CRTSCTS;       // Keine Hardware-Flowcontrol
     tty.c_cflag |= CREAD | CLOCAL; // Lesen aktivieren & lokaler Modus
 
     // Raw-Modus
