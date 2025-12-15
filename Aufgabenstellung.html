@@ -490,109 +490,105 @@ csv Name: <strong>messung_1.csv</strong> exportiert werden.</li>
 <section id="schritt-für-schritt-anleitung" class="level3">
 <h3 class="anchored" data-anchor-id="schritt-für-schritt-anleitung">Schritt-für-Schritt-Anleitung</h3>
 <p>C Datei mit einem Minimalbeispiel zum Auslesen der Werte aus der Blackbox:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 22072025</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">// C-Programm zum Lesen eines µControllers über USB (Jetson Nano)</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">// Port: /dev/ttyUSB0</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Baudrate: 115200</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">// Endlosschleife zum Dauerlauf</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;fcntl.h&gt;</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;termios.h&gt;</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;unistd.h&gt;</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;string.h&gt;</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;errno.h&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">// C File zum auslesen vom COM Port - Black Box im Linux Betriebssystem</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;fcntl.h&gt;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;termios.h&gt;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;unistd.h&gt;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;string.h&gt;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;errno.h&gt;</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">const</span> <span class="dt">char</span><span class="op">*</span> port <span class="op">=</span> <span class="st">"/dev/ttyUSB0"</span><span class="op">;</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> serial_port <span class="op">=</span> open<span class="op">(</span>port<span class="op">,</span> O_RDWR<span class="op">);</span></span>
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">const</span> <span class="dt">char</span><span class="op">*</span> port <span class="op">=</span> <span class="st">"/dev/ttyUSB0"</span><span class="op">;</span></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> serial_port <span class="op">=</span> open<span class="op">(</span>port<span class="op">,</span> O_RDWR<span class="op">);</span></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>serial_port <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">"Fehler beim Öffnen von </span><span class="sc">%s</span><span class="st">: </span><span class="sc">%s\n</span><span class="st">"</span><span class="op">,</span> port<span class="op">,</span> strerror<span class="op">(</span>errno<span class="op">));</span></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">struct</span> termios tty<span class="op">;</span></span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>tcgetattr<span class="op">(</span>serial_port<span class="op">,</span> <span class="op">&amp;</span>tty<span class="op">)</span> <span class="op">!=</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">"Fehler beim Abrufen der Einstellungen: </span><span class="sc">%s\n</span><span class="st">"</span><span class="op">,</span> strerror<span class="op">(</span>errno<span class="op">));</span></span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>        close<span class="op">(</span>serial_port<span class="op">);</span></span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">struct</span> termios tty<span class="op">;</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    cfsetospeed<span class="op">(&amp;</span>tty<span class="op">,</span> B115200<span class="op">);</span>  <span class="co">// Baudrate setzen</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    tty<span class="op">.</span>c_cc<span class="op">[</span>VTIME<span class="op">]</span> <span class="op">=</span> <span class="dv">10</span><span class="op">;</span>       <span class="co">// 1s Timeout</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    tty<span class="op">.</span>c_cc<span class="op">[</span>VMIN<span class="op">]</span>  <span class="op">=</span> <span class="dv">10</span><span class="op">;</span>      <span class="co">// mindestens 10 Zeichen</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Endlosschleife zum Lesen</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>        <span class="dt">char</span> buffer<span class="op">[</span><span class="dv">256</span><span class="op">];</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>        memset<span class="op">(</span>buffer<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>buffer<span class="op">));</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> num_bytes <span class="op">=</span> read<span class="op">(</span>serial_port<span class="op">,</span> buffer<span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>buffer<span class="op">));</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">"Gelesen: </span><span class="sc">%s\n</span><span class="st">"</span><span class="op">,</span> buffer<span class="op">);</span> </span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Ab hier die Aufgaben lösen...</span></span>
 <span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
 <span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Baudrate setzen</span></span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    cfsetispeed<span class="op">(&amp;</span>tty<span class="op">,</span> B115200<span class="op">);</span></span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>    cfsetospeed<span class="op">(&amp;</span>tty<span class="op">,</span> B115200<span class="op">);</span></span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 8N1 Konfiguration</span></span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>    tty<span class="op">.</span>c_cflag <span class="op">&amp;=</span> <span class="op">~</span>PARENB<span class="op">;</span>        <span class="co">// Keine Parität</span></span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    tty<span class="op">.</span>c_cflag <span class="op">&amp;=</span> <span class="op">~</span>CSTOPB<span class="op">;</span>        <span class="co">// 1 Stopbit</span></span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>    tty<span class="op">.</span>c_cflag <span class="op">&amp;=</span> <span class="op">~</span>CSIZE<span class="op">;</span></span>
-<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>    tty<span class="op">.</span>c_cflag <span class="op">|=</span> CS8<span class="op">;</span>            <span class="co">// 8 Datenbits</span></span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>    <span class="co">//tty.c_cflag &amp;= ~CRTSCTS;       // Keine Hardware-Flowcontrol</span></span>
-<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>    tty<span class="op">.</span>c_cflag <span class="op">|=</span> CREAD <span class="op">|</span> CLOCAL<span class="op">;</span> <span class="co">// Lesen aktivieren &amp; lokaler Modus</span></span>
-<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Raw-Modus</span></span>
-<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>    tty<span class="op">.</span>c_lflag <span class="op">&amp;=</span> <span class="op">~(</span>ICANON <span class="op">|</span> ECHO <span class="op">|</span> ECHOE <span class="op">|</span> ISIG<span class="op">);</span></span>
-<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>    tty<span class="op">.</span>c_iflag <span class="op">&amp;=</span> <span class="op">~(</span>IXON <span class="op">|</span> IXOFF <span class="op">|</span> IXANY <span class="op">|</span> ICRNL <span class="op">|</span> INLCR<span class="op">);</span></span>
-<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>    tty<span class="op">.</span>c_oflag <span class="op">&amp;=</span> <span class="op">~</span>OPOST<span class="op">;</span></span>
-<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Timeout und minimale Anzahl an Bytes</span></span>
-<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>    tty<span class="op">.</span>c_cc<span class="op">[</span>VTIME<span class="op">]</span> <span class="op">=</span> <span class="dv">10</span><span class="op">;</span> <span class="co">// 1s Timeout</span></span>
-<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>    tty<span class="op">.</span>c_cc<span class="op">[</span>VMIN<span class="op">]</span>  <span class="op">=</span> <span class="dv">10</span><span class="op">;</span> <span class="co">// mindestens 10 Zeichen</span></span>
-<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Einstellungen übernehmen</span></span>
-<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>tcsetattr<span class="op">(</span>serial_port<span class="op">,</span> TCSANOW<span class="op">,</span> <span class="op">&amp;</span>tty<span class="op">)</span> <span class="op">!=</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">"Fehler beim Setzen der Einstellungen: </span><span class="sc">%s\n</span><span class="st">"</span><span class="op">,</span> strerror<span class="op">(</span>errno<span class="op">));</span></span>
-<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>        close<span class="op">(</span>serial_port<span class="op">);</span></span>
-<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Endlosschleife zum Lesen</span></span>
-<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>        <span class="dt">char</span> buffer<span class="op">[</span><span class="dv">256</span><span class="op">];</span></span>
-<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a>        memset<span class="op">(</span>buffer<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>buffer<span class="op">));</span></span>
-<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> num_bytes <span class="op">=</span> read<span class="op">(</span>serial_port<span class="op">,</span> buffer<span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>buffer<span class="op">));</span></span>
-<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>num_bytes <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a>            printf<span class="op">(</span><span class="st">"Lesefehler: </span><span class="sc">%s\n</span><span class="st">"</span><span class="op">,</span> strerror<span class="op">(</span>errno<span class="op">));</span></span>
-<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
-<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a>            printf<span class="op">(</span><span class="st">"Gelesen: </span><span class="sc">%s\n</span><span class="st">"</span><span class="op">,</span> buffer<span class="op">);</span></span>
-<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
-<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a>    close<span class="op">(</span>serial_port<span class="op">);</span></span>
-<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-</section>
-<section id="daten-im-w-i-n-d-o-w-s-betriebs-system-empfangen-und-auslesenspeichern" class="level2">
-<h2 class="anchored" data-anchor-id="daten-im-w-i-n-d-o-w-s-betriebs-system-empfangen-und-auslesenspeichern">Daten im <strong>W I N D O W S</strong> Betriebs-System empfangen und auslesen/speichern</h2>
-</section>
-</section>
-<section id="anhang-installationsvorgehen-zur-verwendung-von-usb-serial-kommunikation-auf-windows-host-systemen-mit-wsl-2-und-devcontainer" class="level1">
-<h1>Anhang Installationsvorgehen zur Verwendung von USB serial Kommunikation auf Windows host Systemen mit WSL 2 und devcontainer</h1>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    close<span class="op">(</span>serial_port<span class="op">);</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Important Note
+<span class="screen-reader-only">Note</span>Ablauf im Visual Studio Code
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Open the <strong>PowerShell as Administrator</strong>!</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Aufgabenstellung_Bilder/b10_Datei.png.jpg" class="img-fluid figure-img"></p>
+<figcaption>C Datei</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Aufgabenstellung_Bilder/b11_DateiDebugRun.png" class="img-fluid figure-img"></p>
+<figcaption>Debug &amp; Run</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Aufgabenstellung_Bilder/b12_CompilerWaehlen.png" class="img-fluid figure-img"></p>
+<figcaption>Compiller</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Aufgabenstellung_Bilder/b13_Restart.png" class="img-fluid figure-img"></p>
+<figcaption>Restart</figcaption>
+</figure>
 </div>
 </div>
-<p>Accessing a USB&nbsp;Serial Device in a VS&nbsp;Code Dev Container on WSL&nbsp;2</p>
-<p>This tutorial explains how to use a USB‑connected serial adapter (for example an FTDI or debug probe) from within a Visual&nbsp;Studio&nbsp;Code development container. The scenario assumes you are running Docker on Windows via WSL&nbsp;2, have a project that already uses a Dev&nbsp;Container with CMake and GCC, and you want to connect to a device that appears on Windows as COM4. The solution uses usbipd‑win to share the USB device with WSL&nbsp;2 and passes it through to the container using Docker’s –device flag.</p>
-<section id="update-wsl-2-and-install-usbipdwin-on-windows" class="level2">
-<h2 class="anchored" data-anchor-id="update-wsl-2-and-install-usbipdwin-on-windows">Update WSL&nbsp;2 and install usbipd‑win on Windows</h2>
-<p>Ensure WSL is up‑to‑date.&nbsp;Open a <strong>PowerShell as Administrator</strong> terminal and run:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>wsl <span class="op">--</span>update</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<pre><code>
+
+
+##  Daten im **W I N D O W S** Betriebs-System empfangen und auslesen/speichern
+
+
+
+# Anhang Installationsvorgehen zur Verwendung von USB serial Kommunikation auf Windows host Systemen mit WSL 2 und devcontainer
+
+::: {.callout-important}
+## Important Note
+
+Open the **PowerShell as Administrator**!
+:::
+
+Accessing a USB&nbsp;Serial Device in a VS&nbsp;Code Dev Container on WSL&nbsp;2
+
+This tutorial explains how to use a USB‑connected serial adapter (for example an FTDI or debug probe) from within a Visual&nbsp;Studio&nbsp;Code development container.  The scenario assumes you are running Docker on Windows via WSL&nbsp;2, have a project that already uses a Dev&nbsp;Container with CMake and GCC, and you want to connect to a device that appears on Windows as COM4.  The solution uses usbipd‑win to share the USB device with WSL&nbsp;2 and passes it through to the container using Docker’s --device flag.
+
+## Update WSL&nbsp;2 and install usbipd‑win on Windows
+    
+Ensure WSL is up‑to‑date.&nbsp;Open a **PowerShell as Administrator** terminal and run:
+```powershell
+wsl --update</code></pre>
 <p>The Microsoft command‑line blog notes that WSL needs to be on a 5.10 kernel or newer and suggests updating before using USB/IP.</p>
+</section>
 <section id="install-usbipdwin." class="level3">
 <h3 class="anchored" data-anchor-id="install-usbipdwin.">Install usbipd‑win.&nbsp;</h3>
 <p>Use winget￼ to install the latest release. In an elevated PowerShell prompt run:</p>
