@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -20,41 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -66,10 +31,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="Aufgabenstellung_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="Aufgabenstellung_files/libs/quarto-html/anchor.min.js"></script>
 <link href="Aufgabenstellung_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="Aufgabenstellung_files/libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="Aufgabenstellung_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="Aufgabenstellung_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="Aufgabenstellung_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="Aufgabenstellung_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="Aufgabenstellung_files/libs/bootstrap/bootstrap-d6a003b94517c951b2d65075d42fb01b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="Aufgabenstellung_files/libs/quarto-diagram/mermaid.min.js"></script>
 <script src="Aufgabenstellung_files/libs/quarto-diagram/mermaid-init.js"></script>
 <link href="Aufgabenstellung_files/libs/quarto-diagram/mermaid.css" rel="stylesheet">
@@ -86,8 +51,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="laboraufgabe." class="level1">
-<h1>Laboraufgabe.</h1>
+<section id="laboraufgaben" class="level1">
+<h1>Laboraufgaben</h1>
 <p>Es soll eine Höhenmesser entwickelt werden, der ein Höhenprofil aufnehmen kann. Dazu wird in diesem Labor die Informatik - Komponente entwickelt.</p>
 <hr>
 <div class="quarto-figure quarto-figure-center">
@@ -134,13 +99,7 @@ Figure&nbsp;1: Komponenten der Black-Box.
 </figcaption>
 </figure>
 </div>
-<hr>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="Aufgabenstellung_Bilder/b1_US_Sensor_a.jpg" class="img-fluid figure-img" style="width:50.0%"></p>
-<figcaption>Ultraschal Sensor</figcaption>
-</figure>
-</div>
+<!-- ![Ultraschal Sensor](Aufgabenstellung_Bilder/b1_US_Sensor_a.jpg){width="50%" fig-align="center"} -->
 <p>Die Blackbox ist ein Gehäuse in dem ein µ Controller Signale von einem Ultraschall Sensor (US-Sensor) erfasst diese verarbeitet und über die USB Schnittstelle ausgibt. Die gesendeten Daten sind im INT (Integer) Format und werden mit einer Frequenz von 1Hz ausgegeben Die Spannungsversorgung erfolgt auch über den USB Anschluss (5V/0,500mA).</p>
 <hr>
 </section>
@@ -158,18 +117,12 @@ Figure&nbsp;1: Komponenten der Black-Box.
 </section>
 <section id="laborsetup" class="level2">
 <h2 class="anchored" data-anchor-id="laborsetup">Laborsetup</h2>
-<p>Die Daten von der Black Box werden über die serielle Schnittstelle (USB) gesendet und können sowohl unter Windows, Linux oder MacOS Betriebsystem bearbeitet werden.</p>
-<p>Zum einrichten des jeweiligen Systems siehe Beschreibungen am Ende der Laboranleitung.</p>
-<p>Implementierung erfolgt auf den Jetsons aus dem Digitalisierungslabor. Diese wird durch die Dozenten bereitgestellt und supportet. Ein Austausch des Codes erfolgt über git (github oder gitlab).</p>
+<p>Die Daten von der Black Box werden über die serielle Schnittstelle (USB) gesendet und können sowohl unter Windows, Linux oder MacOS Betriebssystem bearbeitet werden.</p>
+<p>Zum Einrichten des jeweiligen Systems siehe Beschreibungen im Tutorial.</p>
+<p>Implementierung erfolgt auf den <strong>Jetsons</strong> aus dem Digitalisierungslabor. Diese wird durch die Dozenten bereitgestellt und supportet. Ein Austausch des Codes erfolgt über git (github oder gitlab).</p>
 <blockquote class="blockquote">
-<p>Das C-Project kann auf den Jetsons ohne devcontainer verwendet werden, da es schon ein Linux als host System ist.</p>
+<p>Das C-Project muss in den beschriebenen Setups <strong>ohne devcontainer</strong> verwendet werden, da schon ein Linux als host System vorliegt und die Serielle Schnittstelle nicht an den devcontainer weiter gereicht wird.</p>
 </blockquote>
-<p>Um die Entwicklung auf Windows-PCs zu ermöglichen und in dem bekannten Setup mit Visual Studio Code und cmake zu arbeiten gibt es folgende Möglichkeiten:</p>
-<ol type="1">
-<li>Mingw Installation auf Windows mit cmake und gcc ()</li>
-<li>Windows Subsystem for Linux (WSL) mit Ubuntu installieren und dort cmake und gcc installieren.</li>
-<li>Serielle Kommunikation zur Blackbox in devcontainer einrichten. Siehe Anhang</li>
-</ol>
 </section>
 <section id="abnahme" class="level2">
 <h2 class="anchored" data-anchor-id="abnahme">Abnahme</h2>
@@ -177,9 +130,8 @@ Figure&nbsp;1: Komponenten der Black-Box.
 <li>Die Laboraufgaben werden einzeln abgenommen.</li>
 <li>Der Code wie auch die erzeugten Visualisierungen müssen erklärt werden.</li>
 <li>Der Code muss sauber mit Methoden, structs und unterschiedlichen .h und .c Dateien strukturiert sein. (vgl. Vorlesungsprojekt)</li>
-<li>Die weiteren Rahmenbedinungen müssen eingehalten werden.</li>
+<li>Die weiteren Rahmenbedienungen müssen eingehalten werden.</li>
 </ul>
-<hr>
 </section>
 <section id="abgabe-ausarbeitung" class="level2">
 <h2 class="anchored" data-anchor-id="abgabe-ausarbeitung">Abgabe Ausarbeitung</h2>
@@ -187,22 +139,33 @@ Figure&nbsp;1: Komponenten der Black-Box.
 <li>Laden Sie auf Moodle folgende Dateien hoch</li>
 <li>4x .csv Dateien ( messung_1.csv, messung_2.csv, messung_3.csv, messung_4.csv )</li>
 <li>C Programm</li>
-<li>Screenshot der ausgegebenen grafik in .png oder .jpeg Format</li>
+<li>Screenshot der ausgegebenen Grafik in .png oder .jpeg Format</li>
 </ul>
-<p>Abgabefrist wird im Labor bekannt gegeben</p>
-<p>## Spielregeln</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Abgabefrist
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Abgabefrist wird im Labor bekannt gegeben.</p>
+</div>
+</div>
+</section>
+<section id="spielregeln" class="level2">
+<h2 class="anchored" data-anchor-id="spielregeln">Spielregeln</h2>
 <ul>
 <li>Labortermine sind Pflichttermine.</li>
 <li>Ausarbeitung daheim ist erlaubt.</li>
-<li>Team Work, max 3 Teildehmer ist erlaubt. Allerdings ist ein<br>
-gesamt Kenntnisstand vom jedem Teilnehmer erfragt.</li>
+<li>Team mit maximal 3 Teilnehmern ist erlaubt. Allerdings kann der<br>
+gesamte Kenntnisstand vom jedem Teilnehmer erfragt werden.</li>
 </ul>
-<hr>
 </section>
-</section>
-<section id="aufgaben" class="level1">
-<h1>AUFGABEN:</h1>
-<div style="zoom:0.7;">
+<section id="aufgaben" class="level2">
+<h2 class="anchored" data-anchor-id="aufgaben">Aufgaben</h2>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -229,13 +192,25 @@ flowchart TD
 </div>
 </div>
 </div>
-</div>
-<section id="aufgabe-1" class="level2">
-<h2 class="anchored" data-anchor-id="aufgabe-1">Aufgabe 1</h2>
+<section id="aufgabe-1" class="level3">
+<h3 class="anchored" data-anchor-id="aufgabe-1">Aufgabe 1</h3>
 <p>Plausibilität der eingelesen Werte. Modus “DA” - DatenAufnahme</p>
-<p>Ziel: Es ist ein C Programm zu entwickeln, mit dem der von Hand gemessene Abbstand und der Blackbox gelieferter Wert auf Tastendruck in einer csv-Datei <strong>messung_x.csv</strong> speichert.</p>
-<section id="labortask-beschreibung" class="level3">
-<h3 class="anchored" data-anchor-id="labortask-beschreibung">Labortask Beschreibung</h3>
+<p>Ziel: Es ist ein C Programm zu entwickeln, mit dem der von Hand gemessene Abstand und der Blackbox gelieferter Wert auf Tastendruck in einer sql-Datenbank gespeichert wird und diese Datenbank als csv-Datei <strong>messung_x.csv</strong> exportiert werden kann.</p>
+<section id="labortask-beschreibung" class="level4">
+<h4 class="anchored" data-anchor-id="labortask-beschreibung">Labortask Beschreibung</h4>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Aufbau zur Messung
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Der Aufbau zur Messung der Abstandswerte kann auch im parallel stattfindenden Labor entwickelt werden.</p>
+</div>
+</div>
 <ol type="1">
 <li>US-Sensor in einer festen Position zu einem Objekt abstellen</li>
 <li>Den Abstand vom Sensor zur Fläche mit einem Lineal messen und über die<br>
@@ -247,6 +222,7 @@ Kommandozeile (in Zentimeter) eingeben und mit Enter bestätigen. Dieser Wert so
 <li>Speichern der Daten in einer Datenbank (sqlite). Das Datenbank Layout ist passend gewählt. Aus der Datenbank kann eine Tabelle als<br>
 csv Name: <strong>messung_1.csv</strong> exportiert werden.</li>
 <li>Option: Plot mit reeler und den vom Sensor gelieferte Werte in Excel programmieren und graphisch ausgeben.</li>
+<li>Option: In der Datenbank können auch mehrere Messungen von unterschiedlichen Sensoren / Black-Boxen gespeichert werden.</li>
 </ol>
 <table class="caption-top table">
 <colgroup>
@@ -311,16 +287,17 @@ csv Name: <strong>messung_1.csv</strong> exportiert werden.</li>
 <hr>
 </section>
 </section>
-<section id="aufgabe-2" class="level2">
-<h2 class="anchored" data-anchor-id="aufgabe-2">Aufgabe 2</h2>
+<section id="aufgabe-2" class="level3">
+<h3 class="anchored" data-anchor-id="aufgabe-2">Aufgabe 2</h3>
 <p>Kalibrierung des Sensors mit einer Look-Up Tabelle. Modus “TEST”</p>
 <ul>
 <li>Die Ermittlung soll auf Basis der <strong>messung_1.csv</strong> erfolgen.</li>
+<li>Die CSV soll in die sql-Datenbank importiert werden.</li>
 <li>Der Sensorwert soll in den realen Abstandswert mit einer Look-Up Tabelle umgerechnet werden.</li>
-<li>Durch den Tausch der Messwert-csv-Datei ist es möglich das Programm auf einen anderen Wertebereich festzulegen oder einen andere Blackbox zu verwenden..</li>
-<li>Zwischen den Datenpunkten aus der Look-Up Tabelle soll linear interpoliert werden, um aus dem Sensorwert den korrekten Abstand zu berechnen.</li>
+<li>Durch den Tausch der Messwert-csv-Datei ist es möglich das Programm auf einen anderen Wertebereich festzulegen oder einen andere Blackbox zu verwenden.</li>
+<li>Zwischen den Datenpunkten aus der Look-Up Tabelle soll linear interpoliert werden, um aus dem Sensorwert den korrekten Abstand zu berechnen. <!-- - Option: Statt der Lookup-Tabelle kann auch eine lineare Regression gemäß folgender Formel implementiert werden: [Link](https://studyflix.de/statistik/lineare-regression-2147) --></li>
 </ul>
-<p>Siehe folgende Skizze:</p>
+<p>Siehe folgende Skizze für die Lookup-Tabelle:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="Aufgabenstellung_Bilder/lokk-up-table.ex.excalidraw.png" class="img-fluid figure-img" style="width:90.0%"></p>
@@ -334,14 +311,15 @@ csv Name: <strong>messung_1.csv</strong> exportiert werden.</li>
 <li>Zwischen diesen beiden Werten wird linear interpoliert, um den realen Abstand zu berechnen.</li>
 <li>Der berechnete reale Abstand wird ausgegeben.</li>
 </ol>
-<section id="labortask-beschreibung-1" class="level3">
-<h3 class="anchored" data-anchor-id="labortask-beschreibung-1">Labortask Beschreibung</h3>
+<section id="labortask-beschreibung-1" class="level4">
+<h4 class="anchored" data-anchor-id="labortask-beschreibung-1">Labortask Beschreibung</h4>
 <ol type="1">
 <li>US-Sensor in einer festen Position zu einem Objekt abstellen</li>
-<li>Das messen des Abstands vom Sensor zur Fläche wird mit einem Tastendruck auf Enter ausgelöst. Dieser Wert wird als gelesener Abstandswert (in Zentimeter) in einer Datenbank (sqlite) und dann von dort in einer csv-Datei <strong>messung_2.csv</strong> exportiert. (Muster siehe nachfolgende Tabelle)</li>
-<li>In der nachfolgenden Spalte den interpolierten Wert eintragen (in Zentimeter)</li>
+<li>Das Messen des Abstands vom Sensor zur Fläche wird mit einem Tastendruck auf Enter ausgelöst. Dieser Wert wird als gelesener Abstandswert (in Zentimeter) in einer Datenbank (sqlite) gespeichert und dann von dort in einer csv-Datei <strong>messung_2.csv</strong> exportiert. (Muster siehe nachfolgende Tabelle)</li>
+<li>Zu dem rohen Sensorwert soll der mit der Lookup-Tabelle korrigierte Abstand in der Datenbank abgelegt werden.</li>
 <li>Mehrere Messungen durchführen ( minimum 20 ) . Abstand ist diesmal willkürlich ausgewählt.</li>
-<li>Der Modus soll so lange laufen, bis ein spezieller Tastendruck (z.B. “q”) erfolgt. das Programm springt automatisch zum Menue über</li>
+<li>Der Modus soll so lange laufen, bis ein spezieller Tastendruck (z.B. “q”) erfolgt. das Programm springt automatisch zum Menue zurück.</li>
+<li>Option: Mit dem Beenden des Aufnahmemodus wird die CSV-Datei geschrieben.</li>
 <li>Option: Plot mit Soll und Ist Wert in Excel programmieren und graphisch ausgeben.</li>
 </ol>
 <table class="caption-top table">
@@ -407,419 +385,468 @@ csv Name: <strong>messung_1.csv</strong> exportiert werden.</li>
 <hr>
 </section>
 </section>
-<section id="aufgabe-3" class="level2">
-<h2 class="anchored" data-anchor-id="aufgabe-3">Aufgabe 3</h2>
+<section id="aufgabe-3" class="level3">
+<h3 class="anchored" data-anchor-id="aufgabe-3">Aufgabe 3</h3>
 <p>Automatisch messen. Modus “AUTO”</p>
-<section id="labortask-beschreibung-2" class="level3">
-<h3 class="anchored" data-anchor-id="labortask-beschreibung-2">Labortask Beschreibung</h3>
+<section id="labortask-beschreibung-2" class="level4">
+<h4 class="anchored" data-anchor-id="labortask-beschreibung-2">Labortask Beschreibung</h4>
 <ol type="1">
 <li>für ca. 10 Sekunden eine Messung bzw. ein Bewegungsablauf starten</li>
 <li>Zeitstempel der erfassten Werte und die Werte in einer Datenbank (sqlite) speichern und dann in einer .csv Tabelle <strong>messung_3.csv</strong> exportieren.</li>
-<li>Visualisieren der Höhenkarte anhand der Zeitstempel - in <strong>C</strong> programmiert.</li>
+<li>Visualisieren der Höhenkarte anhand der Zeitstempel mit der ASCII-Histogramm-Visualisierung - in <strong>C</strong> programmiert.
+<ol type="1">
+<li>Immer wenn ein neuer Sensorwert eingelesen wird wird das Histogram in der Kommandozeile aktualisiert.</li>
+</ol></li>
 <li>Ist die Zeit zwischen zwei Zeitstempeln immer gleich?</li>
-<li>Wenn nein die max und min sowie auch die durchnits Abtast Zeit berechnen.</li>
-<li>Im Windows/Linux/MacOs System mehrere Task’s starten (youtube Video, Maus bewegen usw. ) und gleiche Mesusung nochmal durchführen.</li>
+<li>Wenn nein die max und min sowie auch die Durchnittsabtastzeit berechnen.</li>
+<li>Im Windows/Linux/MacOs System mehrere Task’s starten (youtube Video, Maus bewegen usw. ) und gleiche Messung nochmal durchführen.</li>
 <li>Wie verändern sich jetzt die Werte der Zeitstempel? Speichern Sie die Daten in einer in einer Datenbank (sqlite) und exportieren sie diese in einer.csv Tabelle - <strong>messung_4.csv</strong></li>
 </ol>
 </section>
 </section>
-<section id="aufgabe-4" class="level2">
-<h2 class="anchored" data-anchor-id="aufgabe-4">Aufgabe 4</h2>
+<section id="aufgabe-4" class="level3">
+<h3 class="anchored" data-anchor-id="aufgabe-4">Aufgabe 4</h3>
 <p>Daten Filtern. Modus “FILTER”</p>
 <ul>
 <li>Filter Sie die in <strong>messwert3.csv</strong> gespeicherten Abstands Werte.</li>
-<li>Programieren Sie ein Mittelwert Filter über 3 Werte z.B. u(m)=(SUMME( y(m-1):y(m+1))/3)</li>
-<li>Ploten Sie beide Werte Reihen in einem Diagramm und die dazugehörige Differenz zwichen den beiden Wertereihen in einem neuem Diagramm</li>
+<li>Programmieren Sie einen Mittelwert-Filter über 3 Werte (z.B. u(m)=(SUMME( y(m-1):y(m+1))/3) )</li>
+<li>Ploten Sie beide Werte Reihen in einem Diagramm und die dazugehörige Differenz zwischen den beiden Wertereihen in einem neuem Diagramm (in Excel)</li>
 </ul>
 </section>
-<section id="aufgabe-5" class="level2">
-<h2 class="anchored" data-anchor-id="aufgabe-5">Aufgabe 5</h2>
+<section id="aufgabe-5" class="level3">
+<h3 class="anchored" data-anchor-id="aufgabe-5">Aufgabe 5</h3>
 <p>Fun: Make it a game. Modus “FUN”</p>
-<section id="labortask-beschreibung-3" class="level3">
-<h3 class="anchored" data-anchor-id="labortask-beschreibung-3">Labortask Beschreibung</h3>
+<section id="labortask-beschreibung-3" class="level4">
+<h4 class="anchored" data-anchor-id="labortask-beschreibung-3">Labortask Beschreibung</h4>
 <ol type="1">
-<li>ASCII Art level durch Höhenkarte. Das C Programm gibt eine Höhenkarte auf der Kommandzeile aus.</li>
+<li>ASCII Art level durch Höhenkarte. Das C Programm gibt eine Höhenkarte auf der Kommandozeile aus.</li>
 <li>U-Boot mit W - up, S - down gesteuert durch die Höhenkarte navigieren.</li>
-<li>von links nach rechts fährt das Uboot automatisch.</li>
+<li>Von links nach rechts fährt das Uboot automatisch.</li>
 <li>Beenden Sie das Spiel wenn das U-Boot auf Grund läuft (also mit der Höhenkarte kollidiert).</li>
 </ol>
-<hr>
-<p>Beschreibung Betriebssystem anpassen:</p>
+<!-- 
+---
+
+Beschreibung Betriebssystem anpassen:
+
+##  Daten im **L I N U X** Betriebs-System empfangen und auslesen/speichern
+
+::: {.callout-warning collapse="true"}
+## Vorbereitung jetsons - Falls noch nicht durch Laborpersonal vorbereitet
+
+1. (optional) Update Packages and fix issues
+   ```bash
+   sudo apt-get update -y
+   sudo apt --fix-broken install -y
+   sudo dpkg --configure -a
+   ```
+2. install cmake
+   ```bash
+   sudo apt-get install -y cmake ninja-build
+   ```
+3. install sqlite
+   ``` bash
+   sudo apt-get install -y sqlite3 libsqlite3-dev
+   ```
+4. Install brave browser
+   ```bash
+   curl -fsS https://dl.brave.com/install.sh | sh
+   ```
+   oder:
+   ```bash
+   sudo apt-get install brave-browser
+   ```
+5. Install minicom, um die Werte der Blackbox auszulesen
+   ```bash
+   sudo apt-get install minicom
+   ```
+6. Setzen der Rechte für ttyUSB0:
+   ```bash
+   sudo usermod -aG dialout $USER  #Wenn $USER nicht vorhanden, dann $johbaum8 eingeben
+   ```
+   
+
+:::
+
+
+### Mit minicom testen
+
+Mit minicom können Sie testen, ob die Blackbox Werte liefert:
+
+```bash
+sudo minicom -b 115200 -D /dev/ttyUSB0
+#oder 
+minicom -b 115200 -D /dev/ttyUSB0
+
+```
+
+### Schritt-für-Schritt-Anleitung
+
+1. Black Box an die USB Schnittstelle vom Jetson anschliessen
+2. Moodle Beschreibung "ITEC-Lec04.04 Grundlagen C" aus "Einführung in C" ausführen 
+3. Punkt 4 (mkdir .devcontainer) aus 1.1.1 Schritt 1 " Ordnerstruktur erstellen" nicht ausführen. Kein DevContainer!
+4. Kapitel 1.1.2 Schritt 2 "Devcontainer konfigurieren" nicht ausführen
+5. Mit Schritt 3 (1.1.) weitermachen.
+ Hinweis: C Code zum auslesen vom Com Port ist am Ende der Beschreibung zu finden. 
+
+
+
+##  Daten im **W I N D O W S** Betriebs-System empfangen und auslesen/speichern
+
+
+
+# Anhang Installationsvorgehen zur Verwendung von USB serial Kommunikation auf Windows host Systemen mit WSL 2 
+
+::: {.callout-important}
+## Important Note
+
+Open the **PowerShell as Administrator**!
+:::
+
+## Update WSL 2 and install usbipd‑win on Windows
+    
+Ensure WSL is up‑to‑date. Open a **PowerShell as Administrator** terminal and run:
+```powershell
+wsl --update
+```
+The Microsoft command‑line blog notes that WSL needs to be on a 5.10 kernel or newer and suggests updating before using USB/IP.
+
+### Install usbipd‑win. 
+
+Use winget￼ to install the latest release.  In an elevated PowerShell prompt run:
+
+```powershell
+winget install --interactive --exact dorssel.usbipd-win
+```
+
+[Installing usbipd‑win registers a service on Windows that shares local USB devices to WSL.](https://devblogs.microsoft.com/commandline/connecting-usb-devices-to-wsl/#:~:text=To%20get%20started%20with%20this,running%20a%20WSL%202%20distro)
+
+### List available USB devices. 
+
+From an elevated command prompt run:
+
+```powershell
+usbipd list
+```
+
+This command prints each device’s `BUSID`, vendor/product IDs and current state.  Note the `BUSID` corresponding to the serial adapter you want to share.
+
+```powershell
+Connected:
+BUSID  VID:PID    DEVICE                                                        STATE
+1-8    5986:2115  Integrated Camera                                             Not shared
+1-9    06cb:00be  Synaptics UWP WBDI SGX                                        Not shared
+1-14   8087:0026  Intel(R) Wireless Bluetooth(R)                                Not shared
+4-3    046a:0114  USB-Eingabegerät                                              Not shared
+4-4    10c4:ea60  CP2102 USB to UART Bridge Controller                          Not shared
+
+Persisted:
+GUID    
+```
+
+`CP2102 USB to UART Bridge Controller` is the description of the serial adapter we need.  Its `BUSID` is `4-4`.
+
+### Bind and attach the device. 
+
+First, make the device sharable with `usbipd bind --busid=<BUSID>`.  
+
+```powershell
+usbid bind --busid <BUSID>
+```
+Then attach it to WSL using:
+
+::: {.callout-important}
+## Open WSL terminal
+
+To attach the device to WSL, open a WSL terminal such as Ubuntu from:
+
+Startmenue → Ubuntu xx.xx
+
+:::
+
+```powershell
+usbipd attach --busid <BUSID> --wsl
+```
+
+The usbipd documentation explains that bind is persistent, whereas attach connects the device to the running WSL VM.
+
+## Install USB/IP client tools inside WSL
+
+In order for WSL to communicate with the usbipd service, install the Linux USB/IP user‑space tools:
+
+```bash
+sudo apt update
+# Install the appropriate linux‑tools package for your kernel and the hwdata database
+sudo apt install linux-tools-$(uname -r) hwdata usbutils
+# Register the usbip client binary if your distribution does not do so automatically
+sudo update-alternatives --install /usr/local/bin/usbip usbip \
+    /usr/lib/linux-tools-$(uname -r)/usbip 20
+```
+
+Microsoft’s guidance demonstrates installing `linux-tools` and `hwdata`, then registering `usbip` with update-alternatives ￼.  The usbutils package provides the `lsusb` utility used later.
+
+After attaching the device from Windows, verify that WSL can see it:
+
+```bash
+lsusb
+```
+
+You should see an entry corresponding to your serial adapter.  Depending on the driver, it will also create a character device such as `/dev/ttyUSB0` or `/dev/ttyACM0`.  You can find it with:
+
+
+```bash
+ls -l /dev/ttyUSB* /dev/ttyACM* 2>/dev/null
+```
+
+Im VSCode Terminal folgende Befehle ausführen:
+RUN apt-get update
+RUN apt-get install -y sqlite3 libsqlite3-dev ninja-build
+USER root
+RUN apt-get install -y --no-install-recommends usbutils minicom
+RUN usermod -aG dialout vscode
+USER vscode
+WORKDIR /workspaces
+
+
+
+This configuration installs `usbutils` and `minicom` so you can inspect USB buses and open serial.  Adding the vscode user to the dialout group avoids running commands as root.
+
+
+---
+
+If you know the exact device file (/dev/ttyUSB0 or similar) you may instead map only that device using "--device=/dev/ttyUSB0" for finer control.  The example above maps all USB devices.
+
+---
+
+# Anhang: Daten im **Windows** Betriebs-System empfangen und auslesen/speichern
+
+
+##  Daten im **Mac OS** Betriebs-System empfangen und auslesen/speichern
+
+Hier ist der gleiche C Code anwendbar.
+
+
+:::{.callout-note collapse="true"}
+
+## C Code für Linux MacOS und Windows(im WSL2)
+
+```C
+
+C File zum auslesen vom COM Port - Black Box im Linux Betriebssystem
+
+#include <errno.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <termios.h>
+#include <unistd.h>
+
+#define READ_CHUNK 64
+
+//Um die Simulation der Sensorwerte anzuschalten muss "SIM 0"  gesetzt werden.
+#define SIM 1
+
+//Praeprozessor Makro fuer die Oeffnungsflags des seriellen Ports
+#ifdef __APPLE__
+#define OPEN_FLAGS O_NONBLOCK
+#else
+#define OPEN_FLAGS O_RDWR
+#endif
+
+/**
+ * Configures the serial port with the desired settings.
+ * 
+ * Important settings are:
+ * 
+ * - Baudrate: 115200
+ * - Initial read timeout: 0.5s
+ * - no min bytes for read (non-blocking)
+ * 
+ * @param fd The file descriptor of the opened serial port.
+ * @returns 0 on success, -1 on failure.
+ */
+int configure_serial(int fd) {
+    struct termios tty;
+    if (tcgetattr(fd, &tty) != 0) {
+        perror("tcgetattr");
+        return -1;
+    }
+
+    cfsetispeed(&tty, B115200);
+    cfsetospeed(&tty, B115200);
+
+    tty.c_cc[VTIME] = 5; // 0.5s Timeout
+    tty.c_cc[VMIN] = 0; //has to be 0 for non-blocking read for mac os
+
+    tcflush(fd, TCIFLUSH);
+
+    if (tcsetattr(fd, TCSANOW, &tty) != 0) {
+        perror("tcsetattr: Fehler beim Setzen der Einstellungen");
+        return -1;
+    }
+
+    return 0;
+}
+
+/**
+ * Handles a complete line read from the serial port.
+ * @param line The line to handle (null-terminated string).
+ * @returns the distance as float in cm, or -1.0f on error.
+ */
+float convert_to_sensor_val(const char *line) {
+    char *endptr = NULL;
+    errno = 0;
+    float value = strtof(line, &endptr);
+
+    if (!(errno == 0 && endptr != line)) {
+        value = -1.0f;
+        fprintf(stderr, "Warning: could not parse float from '%s' - Errno: %s\n", line, strerror(errno));
+    }
+
+    return value;
+}
+
+
+typedef struct _sim_data {
+    size_t length;
+    size_t index;
+    float data[32];
+} sim_data;
+
+/**
+ * Simulation of the sensor read
+ * @return the number of bytes read
+ */
+ssize_t read_sim(int serial_fd,  char* chunk, size_t chunk_len){
+
+    static sim_data s_data = {32, 0, 
+        {10.25f, 12.80f, 15.60f, 18.45f, 21.10f, 23.95f, 26.70f, 29.55f,
+        32.30f, 35.15f, 37.90f, 40.75f, 43.50f, 46.35f, 49.10f, 51.95f,
+        54.70f, 57.55f, 60.30f, 63.15f, 65.90f, 68.75f, 71.50f, 74.35f,
+        77.10f, 79.95f, 82.70f, 85.55f, 88.30f, 91.15f, 93.90f, 99.60f}};
+
+    //sleep fuer 1 sec
+    sleep(1);
+
+    //neuen Werte aus liste holen
+    float value = s_data.data[s_data.index];
+
+    //update index
+    s_data.index = (++s_data.index)%s_data.length; 
+
+
+    if (chunk_len == 0) {
+        return 0;
+    }
+
+    int written = snprintf(chunk, chunk_len, "%f\n", value);
+    if (written < 0) {
+        return -1;
+    }
+
+    if ((size_t)written >= chunk_len) {
+        written = (int)(chunk_len - 1);
+    }
+
+    return written;
+}
+
+int connect_to_sensor(char * tty_path){
+    //Oeffnen des seriellen Ports
+
+    int serial_fd = open(tty_path, OPEN_FLAGS);
+
+    if (serial_fd < 0) {
+        fprintf(stderr, "Failed to open %s: %s\n", tty_path, strerror(errno));
+        return -1;
+    }
+
+    //Konfiguration des seriellen Ports
+    if (configure_serial(serial_fd) != 0) {
+        fprintf(stderr, "Failed to configure %s: %s\n", tty_path, strerror(errno));
+        close(serial_fd);
+        return -1;
+    }
+    return serial_fd;
+}
+
+int main(void) {
+#if SIM
+    char* tty_path = "/dev/ttyUSB0";
+    int serial_fd = connect_to_sensor(tty_path);
+#else
+    int serial_fd = 0;    //wird in der Simulation nicht benoetigt.
+#endif
+
+    //Normalerweise wird stdout gepuffert, was bei der seriellen Ausgabe
+    //zu Verzögerungen führen kann. Mit diesem Aufruf wird die Pufferung deaktiviert.
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    //Buffer zum Lesen und Verarbeiten von Daten pro Sensor
+    char chunk[READ_CHUNK];
+    char line_buffer[2*READ_CHUNK];
+    size_t line_len = 0;
+
+    while (1) {
+
+        #if SIM
+        ssize_t bytes_read = read(serial_fd, chunk, sizeof(chunk));
+        #else
+        ssize_t bytes_read = read_sim(serial_fd, chunk, sizeof(chunk));
+        #endif
+
+        if (bytes_read < 0) {
+            if (errno == EINTR) {
+                continue;
+            }
+            perror("read");
+            break;
+        }
+        if (bytes_read == 0) {
+            continue;
+        }
+
+        for (size_t i = 0; i < bytes_read; ++i) {
+            char c = chunk[i];
+
+            if (c == '\r') {
+                continue;
+            }
+
+            if (c == '\n') {
+                if (line_len > 0) {
+                    line_buffer[line_len] = '\0';
+                    float value = convert_to_sensor_val(line_buffer);
+                    printf("Sensor Value: %.3f cm\n", value);
+
+                    //TODO: Weiterverarbeiten des Sensorwerts
+                    
+                    line_len = 0;
+                }
+                continue;
+            }
+
+            if (line_len + 1 >= sizeof(line_buffer)) {
+                fprintf(stderr, "Warning: incoming line too long, discarding.\n");
+                line_len = 0;
+                continue;
+            }
+
+            line_buffer[line_len++] = c;
+        }
+    }
+
+    close(serial_fd);
+    return 0;
+}
+
+```
+:::
+
+ -->
 </section>
 </section>
-<section id="daten-im-l-i-n-u-x-betriebs-system-empfangen-und-auslesenspeichern" class="level2">
-<h2 class="anchored" data-anchor-id="daten-im-l-i-n-u-x-betriebs-system-empfangen-und-auslesenspeichern">Daten im <strong>L I N U X</strong> Betriebs-System empfangen und auslesen/speichern</h2>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Vorbereitung jetsons - Falls noch nicht durch Laborpersonal vorbereitet
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li><p>(optional) Update Packages and fix issues</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get update <span class="at">-y</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt <span class="at">--fix-broken</span> install <span class="at">-y</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> dpkg <span class="at">--configure</span> <span class="at">-a</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
-<li><p>install cmake</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install <span class="at">-y</span> cmake ninja-build</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
-<li><p>install sqlite</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install <span class="at">-y</span> sqlite3 libsqlite3-dev</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
-<li><p>Install brave browser</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-fsS</span> https://dl.brave.com/install.sh <span class="kw">|</span> <span class="fu">sh</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>oder:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install brave-browser</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
-<li><p>Install minicom, um die Werte der Blackbox auszulesen</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install minicom</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
-<li><p>Setzen der Rechte für ttyUSB0:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> usermod <span class="at">-aG</span> dialout <span class="va">$USER</span>  <span class="co">#Wenn $USER nicht vorhanden, dann $johbaum8 eingeben</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
-</ol>
-</div>
-</div>
-</div>
-<section id="mit-minicom-testen" class="level3">
-<h3 class="anchored" data-anchor-id="mit-minicom-testen">Mit minicom testen</h3>
-<p>Mit minicom können Sie testen, ob die Blackbox Werte liefert:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> minicom <span class="at">-b</span> 115200 <span class="at">-D</span> /dev/ttyUSB0</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#oder </span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="ex">minicom</span> <span class="at">-b</span> 115200 <span class="at">-D</span> /dev/ttyUSB0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="schritt-für-schritt-anleitung" class="level3">
-<h3 class="anchored" data-anchor-id="schritt-für-schritt-anleitung">Schritt-für-Schritt-Anleitung</h3>
-<ol type="1">
-<li>Black Box an die USB Schnittstelle vom Jetson anschliessen</li>
-<li>Moodle Beschreibung “ITEC-Lec04.04 Grundlagen C” aus “Einführung in C” ausführen</li>
-<li>Punkt 4 (mkdir .devcontainer) aus 1.1.1 Schritt 1 ” Ordnerstruktur erstellen” nicht ausführen. Kein DevContainer!</li>
-<li>Kapitel 1.1.2 Schritt 2 “Devcontainer konfigurieren” nicht ausführen</li>
-<li>Mit Schritt 3 (1.1.) weitermachen. Hinweis: C Code zum auslesen vom Com Port ist am Ende der Beschreibung zu finden.</li>
-</ol>
-</section>
-</section>
-<section id="daten-im-w-i-n-d-o-w-s-betriebs-system-empfangen-und-auslesenspeichern" class="level2">
-<h2 class="anchored" data-anchor-id="daten-im-w-i-n-d-o-w-s-betriebs-system-empfangen-und-auslesenspeichern">Daten im <strong>W I N D O W S</strong> Betriebs-System empfangen und auslesen/speichern</h2>
-</section>
-</section>
-<section id="anhang-installationsvorgehen-zur-verwendung-von-usb-serial-kommunikation-auf-windows-host-systemen-mit-wsl-2" class="level1">
-<h1>Anhang Installationsvorgehen zur Verwendung von USB serial Kommunikation auf Windows host Systemen mit WSL 2</h1>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Important Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Open the <strong>PowerShell as Administrator</strong>!</p>
-</div>
-</div>
-<section id="update-wsl-2-and-install-usbipdwin-on-windows" class="level2">
-<h2 class="anchored" data-anchor-id="update-wsl-2-and-install-usbipdwin-on-windows">Update WSL&nbsp;2 and install usbipd‑win on Windows</h2>
-<p>Ensure WSL is up‑to‑date.&nbsp;Open a <strong>PowerShell as Administrator</strong> terminal and run:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>wsl <span class="op">--</span>update</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The Microsoft command‑line blog notes that WSL needs to be on a 5.10 kernel or newer and suggests updating before using USB/IP.</p>
-<section id="install-usbipdwin." class="level3">
-<h3 class="anchored" data-anchor-id="install-usbipdwin.">Install usbipd‑win.&nbsp;</h3>
-<p>Use winget￼ to install the latest release. In an elevated PowerShell prompt run:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>winget install <span class="op">--</span>interactive <span class="op">--</span>exact dorssel<span class="op">.</span><span class="fu">usbipd</span><span class="op">-</span>win</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><a href="https://devblogs.microsoft.com/commandline/connecting-usb-devices-to-wsl/#:~:text=To%20get%20started%20with%20this,running%20a%20WSL%202%20distro">Installing usbipd‑win registers a service on Windows that shares local USB devices to WSL.</a></p>
-</section>
-<section id="list-available-usb-devices." class="level3">
-<h3 class="anchored" data-anchor-id="list-available-usb-devices.">List available USB devices.&nbsp;</h3>
-<p>From an elevated command prompt run:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>usbipd list</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>This command prints each device’s <code>BUSID</code>, vendor/product IDs and current state. Note the <code>BUSID</code> corresponding to the serial adapter you want to share.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>Connected<span class="op">:</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>BUSID  VID<span class="op">:</span>PID    DEVICE                                                        STATE</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="op">-</span><span class="dv">8</span>    <span class="dv">5986</span><span class="op">:</span><span class="dv">2115</span>  Integrated Camera                                             Not shared</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="op">-</span><span class="dv">9</span>    06cb<span class="op">:</span>00be  Synaptics UWP WBDI SGX                                        Not shared</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="op">-</span><span class="dv">14</span>   <span class="dv">8087</span><span class="op">:</span><span class="dv">0026</span>  Intel<span class="op">(</span><span class="fu">R</span><span class="op">)</span> Wireless Bluetooth<span class="op">(</span><span class="fu">R</span><span class="op">)</span>                                Not shared</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span><span class="op">-</span><span class="dv">3</span>    046a<span class="op">:</span><span class="dv">0114</span>  USB-Eingabegerät                                              Not shared</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span><span class="op">-</span><span class="dv">4</span>    10c4<span class="op">:</span>ea60  CP2102 USB to UART Bridge Controller                          Not shared</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>Persisted<span class="op">:</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>GUID    </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>CP2102 USB to UART Bridge Controller</code> is the description of the serial adapter we need. Its <code>BUSID</code> is <code>4-4</code>.</p>
-</section>
-<section id="bind-and-attach-the-device." class="level3">
-<h3 class="anchored" data-anchor-id="bind-and-attach-the-device.">Bind and attach the device.&nbsp;</h3>
-<p>First, make the device sharable with <code>usbipd bind --busid=&lt;BUSID&gt;</code>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>usbid bind <span class="op">--</span>busid <span class="op">&lt;</span>BUSID<span class="op">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Then attach it to WSL using:</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Open WSL terminal
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>To attach the device to WSL, open a WSL terminal such as Ubuntu from:</p>
-<p>Startmenue → Ubuntu xx.xx</p>
-</div>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>usbipd attach <span class="op">--</span>busid <span class="op">&lt;</span>BUSID<span class="op">&gt;</span> <span class="op">--</span>wsl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The usbipd documentation explains that bind is persistent, whereas attach connects the device to the running WSL VM.</p>
-</section>
-</section>
-<section id="install-usbip-client-tools-inside-wsl" class="level2">
-<h2 class="anchored" data-anchor-id="install-usbip-client-tools-inside-wsl">Install USB/IP client tools inside WSL</h2>
-<p>In order for WSL to communicate with the usbipd service, install the Linux USB/IP user‑space tools:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt update</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Install the appropriate linux‑tools package for your kernel and the hwdata database</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install linux-tools-<span class="va">$(</span><span class="fu">uname</span> <span class="at">-r</span><span class="va">)</span> hwdata usbutils</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Register the usbip client binary if your distribution does not do so automatically</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> update-alternatives <span class="at">--install</span> /usr/local/bin/usbip usbip <span class="dt">\</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    /usr/lib/linux-tools-<span class="va">$(</span><span class="fu">uname</span> <span class="at">-r</span><span class="va">)</span>/usbip 20</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Microsoft’s guidance demonstrates installing <code>linux-tools</code> and <code>hwdata</code>, then registering <code>usbip</code> with update-alternatives ￼. The usbutils package provides the <code>lsusb</code> utility used later.</p>
-<p>After attaching the device from Windows, verify that WSL can see it:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lsusb</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>You should see an entry corresponding to your serial adapter. Depending on the driver, it will also create a character device such as <code>/dev/ttyUSB0</code> or <code>/dev/ttyACM0</code>. You can find it with:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> /dev/ttyUSB<span class="pp">*</span> /dev/ttyACM<span class="pp">*</span> <span class="dv">2</span><span class="op">&gt;</span>/dev/null</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Im VSCode Terminal folgende Befehle ausführen: RUN apt-get update RUN apt-get install -y sqlite3 libsqlite3-dev ninja-build USER root RUN apt-get install -y –no-install-recommends usbutils minicom RUN usermod -aG dialout vscode USER vscode WORKDIR /workspaces</p>
-<p>This configuration installs <code>usbutils</code> and <code>minicom</code> so you can inspect USB buses and open serial. Adding the vscode user to the dialout group avoids running commands as root.</p>
-<hr>
-<p>If you know the exact device file (/dev/ttyUSB0 or similar) you may instead map only that device using “–device=/dev/ttyUSB0” for finer control. The example above maps all USB devices.</p>
-<hr>
-</section>
-</section>
-<section id="anhang-daten-im-windows-betriebs-system-empfangen-und-auslesenspeichern" class="level1">
-<h1>Anhang: Daten im <strong>Windows</strong> Betriebs-System empfangen und auslesen/speichern</h1>
-<section id="daten-im-mac-os-betriebs-system-empfangen-und-auslesenspeichern" class="level2">
-<h2 class="anchored" data-anchor-id="daten-im-mac-os-betriebs-system-empfangen-und-auslesenspeichern">Daten im <strong>Mac OS</strong> Betriebs-System empfangen und auslesen/speichern</h2>
-<p>Hier ist der gleiche C Code anwendbar.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>C Code für Linux MacOS und Windows(im WSL2)
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>C File zum auslesen vom COM Port <span class="op">-</span> Black Box im Linux Betriebssystem</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;errno.h&gt;</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;fcntl.h&gt;</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;string.h&gt;</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;termios.h&gt;</span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;unistd.h&gt;</span></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="pp">#define READ_CHUNK </span><span class="dv">64</span></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co">//Um die Simulation der Sensorwerte anzuschalten muss "SIM 0"  gesetzt werden.</span></span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="pp">#define SIM </span><span class="dv">1</span></span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co">//Praeprozessor Makro fuer die Oeffnungsflags des seriellen Ports</span></span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="pp">#ifdef __APPLE__</span></span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="pp">#define OPEN_FLAGS O_NONBLOCK</span></span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="pp">#else</span></span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="pp">#define OPEN_FLAGS O_RDWR</span></span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="pp">#endif</span></span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
-<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="co"> * Configures the serial port with the desired settings.</span></span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="co"> * </span></span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a><span class="co"> * Important settings are:</span></span>
-<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="co"> * </span></span>
-<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="co"> * - Baudrate: 115200</span></span>
-<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="co"> * - Initial read timeout: 0.5s</span></span>
-<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="co"> * - no min bytes for read (non-blocking)</span></span>
-<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="co"> * </span></span>
-<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a><span class="co"> * </span><span class="an">@param</span><span class="co"> </span><span class="cv">fd</span><span class="co"> The file descriptor of the opened serial port.</span></span>
-<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="co"> * </span><span class="an">@returns</span><span class="co"> 0 on success, -1 on failure.</span></span>
-<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
-<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> configure_serial<span class="op">(</span><span class="dt">int</span> fd<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>    <span class="kw">struct</span> termios tty<span class="op">;</span></span>
-<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>tcgetattr<span class="op">(</span>fd<span class="op">,</span> <span class="op">&amp;</span>tty<span class="op">)</span> <span class="op">!=</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>        perror<span class="op">(</span><span class="st">"tcgetattr"</span><span class="op">);</span></span>
-<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
-<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>    cfsetispeed<span class="op">(&amp;</span>tty<span class="op">,</span> B115200<span class="op">);</span></span>
-<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>    cfsetospeed<span class="op">(&amp;</span>tty<span class="op">,</span> B115200<span class="op">);</span></span>
-<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>    tty<span class="op">.</span>c_cc<span class="op">[</span>VTIME<span class="op">]</span> <span class="op">=</span> <span class="dv">5</span><span class="op">;</span> <span class="co">// 0.5s Timeout</span></span>
-<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>    tty<span class="op">.</span>c_cc<span class="op">[</span>VMIN<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> <span class="co">//has to be 0 for non-blocking read for mac os</span></span>
-<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>    tcflush<span class="op">(</span>fd<span class="op">,</span> TCIFLUSH<span class="op">);</span></span>
-<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>tcsetattr<span class="op">(</span>fd<span class="op">,</span> TCSANOW<span class="op">,</span> <span class="op">&amp;</span>tty<span class="op">)</span> <span class="op">!=</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>        perror<span class="op">(</span><span class="st">"tcsetattr: Fehler beim Setzen der Einstellungen"</span><span class="op">);</span></span>
-<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
-<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
-<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a><span class="co"> * Handles a complete line read from the serial port.</span></span>
-<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a><span class="co"> * </span><span class="an">@param</span><span class="co"> </span><span class="cv">line</span><span class="co"> The line to handle (null-terminated string).</span></span>
-<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a><span class="co"> * </span><span class="an">@returns</span><span class="co"> the distance as float in cm, or -1.0f on error.</span></span>
-<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
-<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a><span class="dt">float</span> convert_to_sensor_val<span class="op">(</span><span class="dt">const</span> <span class="dt">char</span> <span class="op">*</span>line<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-65"><a href="#cb18-65" aria-hidden="true" tabindex="-1"></a>    <span class="dt">char</span> <span class="op">*</span>endptr <span class="op">=</span> NULL<span class="op">;</span></span>
-<span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a>    errno <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> value <span class="op">=</span> strtof<span class="op">(</span>line<span class="op">,</span> <span class="op">&amp;</span>endptr<span class="op">);</span></span>
-<span id="cb18-68"><a href="#cb18-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-69"><a href="#cb18-69" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(!(</span>errno <span class="op">==</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> endptr <span class="op">!=</span> line<span class="op">))</span> <span class="op">{</span></span>
-<span id="cb18-70"><a href="#cb18-70" aria-hidden="true" tabindex="-1"></a>        value <span class="op">=</span> <span class="op">-</span><span class="fl">1.0</span><span class="bu">f</span><span class="op">;</span></span>
-<span id="cb18-71"><a href="#cb18-71" aria-hidden="true" tabindex="-1"></a>        fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">"Warning: could not parse float from '</span><span class="sc">%s</span><span class="st">' - Errno: </span><span class="sc">%s\n</span><span class="st">"</span><span class="op">,</span> line<span class="op">,</span> strerror<span class="op">(</span>errno<span class="op">));</span></span>
-<span id="cb18-72"><a href="#cb18-72" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb18-73"><a href="#cb18-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-74"><a href="#cb18-74" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> value<span class="op">;</span></span>
-<span id="cb18-75"><a href="#cb18-75" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb18-76"><a href="#cb18-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-77"><a href="#cb18-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-78"><a href="#cb18-78" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">struct</span> _sim_data <span class="op">{</span></span>
-<span id="cb18-79"><a href="#cb18-79" aria-hidden="true" tabindex="-1"></a>    <span class="dt">size_t</span> length<span class="op">;</span></span>
-<span id="cb18-80"><a href="#cb18-80" aria-hidden="true" tabindex="-1"></a>    <span class="dt">size_t</span> index<span class="op">;</span></span>
-<span id="cb18-81"><a href="#cb18-81" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> data<span class="op">[</span><span class="dv">32</span><span class="op">];</span></span>
-<span id="cb18-82"><a href="#cb18-82" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> sim_data<span class="op">;</span></span>
-<span id="cb18-83"><a href="#cb18-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-84"><a href="#cb18-84" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
-<span id="cb18-85"><a href="#cb18-85" aria-hidden="true" tabindex="-1"></a><span class="co"> * Simulation of the sensor read</span></span>
-<span id="cb18-86"><a href="#cb18-86" aria-hidden="true" tabindex="-1"></a><span class="co"> * </span><span class="an">@return</span><span class="co"> the number of bytes read</span></span>
-<span id="cb18-87"><a href="#cb18-87" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
-<span id="cb18-88"><a href="#cb18-88" aria-hidden="true" tabindex="-1"></a><span class="dt">ssize_t</span> read_sim<span class="op">(</span><span class="dt">int</span> serial_fd<span class="op">,</span>  <span class="dt">char</span><span class="op">*</span> chunk<span class="op">,</span> <span class="dt">size_t</span> chunk_len<span class="op">){</span></span>
-<span id="cb18-89"><a href="#cb18-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-90"><a href="#cb18-90" aria-hidden="true" tabindex="-1"></a>    <span class="dt">static</span> sim_data s_data <span class="op">=</span> <span class="op">{</span><span class="dv">32</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> </span>
-<span id="cb18-91"><a href="#cb18-91" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span><span class="fl">10.25</span><span class="bu">f</span><span class="op">,</span> <span class="fl">12.80</span><span class="bu">f</span><span class="op">,</span> <span class="fl">15.60</span><span class="bu">f</span><span class="op">,</span> <span class="fl">18.45</span><span class="bu">f</span><span class="op">,</span> <span class="fl">21.10</span><span class="bu">f</span><span class="op">,</span> <span class="fl">23.95</span><span class="bu">f</span><span class="op">,</span> <span class="fl">26.70</span><span class="bu">f</span><span class="op">,</span> <span class="fl">29.55</span><span class="bu">f</span><span class="op">,</span></span>
-<span id="cb18-92"><a href="#cb18-92" aria-hidden="true" tabindex="-1"></a>        <span class="fl">32.30</span><span class="bu">f</span><span class="op">,</span> <span class="fl">35.15</span><span class="bu">f</span><span class="op">,</span> <span class="fl">37.90</span><span class="bu">f</span><span class="op">,</span> <span class="fl">40.75</span><span class="bu">f</span><span class="op">,</span> <span class="fl">43.50</span><span class="bu">f</span><span class="op">,</span> <span class="fl">46.35</span><span class="bu">f</span><span class="op">,</span> <span class="fl">49.10</span><span class="bu">f</span><span class="op">,</span> <span class="fl">51.95</span><span class="bu">f</span><span class="op">,</span></span>
-<span id="cb18-93"><a href="#cb18-93" aria-hidden="true" tabindex="-1"></a>        <span class="fl">54.70</span><span class="bu">f</span><span class="op">,</span> <span class="fl">57.55</span><span class="bu">f</span><span class="op">,</span> <span class="fl">60.30</span><span class="bu">f</span><span class="op">,</span> <span class="fl">63.15</span><span class="bu">f</span><span class="op">,</span> <span class="fl">65.90</span><span class="bu">f</span><span class="op">,</span> <span class="fl">68.75</span><span class="bu">f</span><span class="op">,</span> <span class="fl">71.50</span><span class="bu">f</span><span class="op">,</span> <span class="fl">74.35</span><span class="bu">f</span><span class="op">,</span></span>
-<span id="cb18-94"><a href="#cb18-94" aria-hidden="true" tabindex="-1"></a>        <span class="fl">77.10</span><span class="bu">f</span><span class="op">,</span> <span class="fl">79.95</span><span class="bu">f</span><span class="op">,</span> <span class="fl">82.70</span><span class="bu">f</span><span class="op">,</span> <span class="fl">85.55</span><span class="bu">f</span><span class="op">,</span> <span class="fl">88.30</span><span class="bu">f</span><span class="op">,</span> <span class="fl">91.15</span><span class="bu">f</span><span class="op">,</span> <span class="fl">93.90</span><span class="bu">f</span><span class="op">,</span> <span class="fl">99.60</span><span class="bu">f</span><span class="op">}};</span></span>
-<span id="cb18-95"><a href="#cb18-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-96"><a href="#cb18-96" aria-hidden="true" tabindex="-1"></a>    <span class="co">//sleep fuer 1 sec</span></span>
-<span id="cb18-97"><a href="#cb18-97" aria-hidden="true" tabindex="-1"></a>    sleep<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
-<span id="cb18-98"><a href="#cb18-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-99"><a href="#cb18-99" aria-hidden="true" tabindex="-1"></a>    <span class="co">//neuen Werte aus liste holen</span></span>
-<span id="cb18-100"><a href="#cb18-100" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> value <span class="op">=</span> s_data<span class="op">.</span>data<span class="op">[</span>s_data<span class="op">.</span>index<span class="op">];</span></span>
-<span id="cb18-101"><a href="#cb18-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-102"><a href="#cb18-102" aria-hidden="true" tabindex="-1"></a>    <span class="co">//update index</span></span>
-<span id="cb18-103"><a href="#cb18-103" aria-hidden="true" tabindex="-1"></a>    s_data<span class="op">.</span>index <span class="op">=</span> <span class="op">(++</span>s_data<span class="op">.</span>index<span class="op">)%</span>s_data<span class="op">.</span>length<span class="op">;</span> </span>
-<span id="cb18-104"><a href="#cb18-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-105"><a href="#cb18-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-106"><a href="#cb18-106" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>chunk_len <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-107"><a href="#cb18-107" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb18-108"><a href="#cb18-108" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb18-109"><a href="#cb18-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-110"><a href="#cb18-110" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> written <span class="op">=</span> snprintf<span class="op">(</span>chunk<span class="op">,</span> chunk_len<span class="op">,</span> <span class="st">"</span><span class="sc">%f\n</span><span class="st">"</span><span class="op">,</span> value<span class="op">);</span></span>
-<span id="cb18-111"><a href="#cb18-111" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>written <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-112"><a href="#cb18-112" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
-<span id="cb18-113"><a href="#cb18-113" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb18-114"><a href="#cb18-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-115"><a href="#cb18-115" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">((</span><span class="dt">size_t</span><span class="op">)</span>written <span class="op">&gt;=</span> chunk_len<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-116"><a href="#cb18-116" aria-hidden="true" tabindex="-1"></a>        written <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)(</span>chunk_len <span class="op">-</span> <span class="dv">1</span><span class="op">);</span></span>
-<span id="cb18-117"><a href="#cb18-117" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb18-118"><a href="#cb18-118" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-119"><a href="#cb18-119" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> written<span class="op">;</span></span>
-<span id="cb18-120"><a href="#cb18-120" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb18-121"><a href="#cb18-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-122"><a href="#cb18-122" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> connect_to_sensor<span class="op">(</span><span class="dt">char</span> <span class="op">*</span> tty_path<span class="op">){</span></span>
-<span id="cb18-123"><a href="#cb18-123" aria-hidden="true" tabindex="-1"></a>    <span class="co">//Oeffnen des seriellen Ports</span></span>
-<span id="cb18-124"><a href="#cb18-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-125"><a href="#cb18-125" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> serial_fd <span class="op">=</span> open<span class="op">(</span>tty_path<span class="op">,</span> OPEN_FLAGS<span class="op">);</span></span>
-<span id="cb18-126"><a href="#cb18-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-127"><a href="#cb18-127" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>serial_fd <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-128"><a href="#cb18-128" aria-hidden="true" tabindex="-1"></a>        fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">"Failed to open </span><span class="sc">%s</span><span class="st">: </span><span class="sc">%s\n</span><span class="st">"</span><span class="op">,</span> tty_path<span class="op">,</span> strerror<span class="op">(</span>errno<span class="op">));</span></span>
-<span id="cb18-129"><a href="#cb18-129" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
-<span id="cb18-130"><a href="#cb18-130" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb18-131"><a href="#cb18-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-132"><a href="#cb18-132" aria-hidden="true" tabindex="-1"></a>    <span class="co">//Konfiguration des seriellen Ports</span></span>
-<span id="cb18-133"><a href="#cb18-133" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>configure_serial<span class="op">(</span>serial_fd<span class="op">)</span> <span class="op">!=</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-134"><a href="#cb18-134" aria-hidden="true" tabindex="-1"></a>        fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">"Failed to configure </span><span class="sc">%s</span><span class="st">: </span><span class="sc">%s\n</span><span class="st">"</span><span class="op">,</span> tty_path<span class="op">,</span> strerror<span class="op">(</span>errno<span class="op">));</span></span>
-<span id="cb18-135"><a href="#cb18-135" aria-hidden="true" tabindex="-1"></a>        close<span class="op">(</span>serial_fd<span class="op">);</span></span>
-<span id="cb18-136"><a href="#cb18-136" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
-<span id="cb18-137"><a href="#cb18-137" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb18-138"><a href="#cb18-138" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> serial_fd<span class="op">;</span></span>
-<span id="cb18-139"><a href="#cb18-139" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb18-140"><a href="#cb18-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-141"><a href="#cb18-141" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-142"><a href="#cb18-142" aria-hidden="true" tabindex="-1"></a><span class="pp">#if SIM</span></span>
-<span id="cb18-143"><a href="#cb18-143" aria-hidden="true" tabindex="-1"></a>    <span class="dt">char</span><span class="op">*</span> tty_path <span class="op">=</span> <span class="st">"/dev/ttyUSB0"</span><span class="op">;</span></span>
-<span id="cb18-144"><a href="#cb18-144" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> serial_fd <span class="op">=</span> connect_to_sensor<span class="op">(</span>tty_path<span class="op">);</span></span>
-<span id="cb18-145"><a href="#cb18-145" aria-hidden="true" tabindex="-1"></a><span class="pp">#else</span></span>
-<span id="cb18-146"><a href="#cb18-146" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> serial_fd <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>    <span class="co">//wird in der Simulation nicht benoetigt.</span></span>
-<span id="cb18-147"><a href="#cb18-147" aria-hidden="true" tabindex="-1"></a><span class="pp">#endif</span></span>
-<span id="cb18-148"><a href="#cb18-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-149"><a href="#cb18-149" aria-hidden="true" tabindex="-1"></a>    <span class="co">//Normalerweise wird stdout gepuffert, was bei der seriellen Ausgabe</span></span>
-<span id="cb18-150"><a href="#cb18-150" aria-hidden="true" tabindex="-1"></a>    <span class="co">//zu Verzögerungen führen kann. Mit diesem Aufruf wird die Pufferung deaktiviert.</span></span>
-<span id="cb18-151"><a href="#cb18-151" aria-hidden="true" tabindex="-1"></a>    setvbuf<span class="op">(</span>stdout<span class="op">,</span> NULL<span class="op">,</span> _IONBF<span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
-<span id="cb18-152"><a href="#cb18-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-153"><a href="#cb18-153" aria-hidden="true" tabindex="-1"></a>    <span class="co">//Buffer zum Lesen und Verarbeiten von Daten pro Sensor</span></span>
-<span id="cb18-154"><a href="#cb18-154" aria-hidden="true" tabindex="-1"></a>    <span class="dt">char</span> chunk<span class="op">[</span>READ_CHUNK<span class="op">];</span></span>
-<span id="cb18-155"><a href="#cb18-155" aria-hidden="true" tabindex="-1"></a>    <span class="dt">char</span> line_buffer<span class="op">[</span><span class="dv">2</span><span class="op">*</span>READ_CHUNK<span class="op">];</span></span>
-<span id="cb18-156"><a href="#cb18-156" aria-hidden="true" tabindex="-1"></a>    <span class="dt">size_t</span> line_len <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb18-157"><a href="#cb18-157" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-158"><a href="#cb18-158" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-159"><a href="#cb18-159" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-160"><a href="#cb18-160" aria-hidden="true" tabindex="-1"></a>        <span class="pp">#if SIM</span></span>
-<span id="cb18-161"><a href="#cb18-161" aria-hidden="true" tabindex="-1"></a>        <span class="dt">ssize_t</span> bytes_read <span class="op">=</span> read<span class="op">(</span>serial_fd<span class="op">,</span> chunk<span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>chunk<span class="op">));</span></span>
-<span id="cb18-162"><a href="#cb18-162" aria-hidden="true" tabindex="-1"></a>        <span class="pp">#else</span></span>
-<span id="cb18-163"><a href="#cb18-163" aria-hidden="true" tabindex="-1"></a>        <span class="dt">ssize_t</span> bytes_read <span class="op">=</span> read_sim<span class="op">(</span>serial_fd<span class="op">,</span> chunk<span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>chunk<span class="op">));</span></span>
-<span id="cb18-164"><a href="#cb18-164" aria-hidden="true" tabindex="-1"></a>        <span class="pp">#endif</span></span>
-<span id="cb18-165"><a href="#cb18-165" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-166"><a href="#cb18-166" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>bytes_read <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-167"><a href="#cb18-167" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>errno <span class="op">==</span> EINTR<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-168"><a href="#cb18-168" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span><span class="op">;</span></span>
-<span id="cb18-169"><a href="#cb18-169" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
-<span id="cb18-170"><a href="#cb18-170" aria-hidden="true" tabindex="-1"></a>            perror<span class="op">(</span><span class="st">"read"</span><span class="op">);</span></span>
-<span id="cb18-171"><a href="#cb18-171" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
-<span id="cb18-172"><a href="#cb18-172" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
-<span id="cb18-173"><a href="#cb18-173" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>bytes_read <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-174"><a href="#cb18-174" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span><span class="op">;</span></span>
-<span id="cb18-175"><a href="#cb18-175" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
-<span id="cb18-176"><a href="#cb18-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-177"><a href="#cb18-177" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">size_t</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> bytes_read<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-178"><a href="#cb18-178" aria-hidden="true" tabindex="-1"></a>            <span class="dt">char</span> c <span class="op">=</span> chunk<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb18-179"><a href="#cb18-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-180"><a href="#cb18-180" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>c <span class="op">==</span> <span class="ch">'</span><span class="sc">\r</span><span class="ch">'</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-181"><a href="#cb18-181" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span><span class="op">;</span></span>
-<span id="cb18-182"><a href="#cb18-182" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
-<span id="cb18-183"><a href="#cb18-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-184"><a href="#cb18-184" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>c <span class="op">==</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-185"><a href="#cb18-185" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="op">(</span>line_len <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-186"><a href="#cb18-186" aria-hidden="true" tabindex="-1"></a>                    line_buffer<span class="op">[</span>line_len<span class="op">]</span> <span class="op">=</span> <span class="ch">'</span><span class="sc">\0</span><span class="ch">'</span><span class="op">;</span></span>
-<span id="cb18-187"><a href="#cb18-187" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">float</span> value <span class="op">=</span> convert_to_sensor_val<span class="op">(</span>line_buffer<span class="op">);</span></span>
-<span id="cb18-188"><a href="#cb18-188" aria-hidden="true" tabindex="-1"></a>                    printf<span class="op">(</span><span class="st">"Sensor Value: </span><span class="sc">%.3f</span><span class="st"> cm</span><span class="sc">\n</span><span class="st">"</span><span class="op">,</span> value<span class="op">);</span></span>
-<span id="cb18-189"><a href="#cb18-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-190"><a href="#cb18-190" aria-hidden="true" tabindex="-1"></a>                    <span class="co">//</span><span class="al">TODO</span><span class="co">: Weiterverarbeiten des Sensorwerts</span></span>
-<span id="cb18-191"><a href="#cb18-191" aria-hidden="true" tabindex="-1"></a>                    </span>
-<span id="cb18-192"><a href="#cb18-192" aria-hidden="true" tabindex="-1"></a>                    line_len <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb18-193"><a href="#cb18-193" aria-hidden="true" tabindex="-1"></a>                <span class="op">}</span></span>
-<span id="cb18-194"><a href="#cb18-194" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span><span class="op">;</span></span>
-<span id="cb18-195"><a href="#cb18-195" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
-<span id="cb18-196"><a href="#cb18-196" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-197"><a href="#cb18-197" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>line_len <span class="op">+</span> <span class="dv">1</span> <span class="op">&gt;=</span> <span class="kw">sizeof</span><span class="op">(</span>line_buffer<span class="op">))</span> <span class="op">{</span></span>
-<span id="cb18-198"><a href="#cb18-198" aria-hidden="true" tabindex="-1"></a>                fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">"Warning: incoming line too long, discarding.</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
-<span id="cb18-199"><a href="#cb18-199" aria-hidden="true" tabindex="-1"></a>                line_len <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb18-200"><a href="#cb18-200" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span><span class="op">;</span></span>
-<span id="cb18-201"><a href="#cb18-201" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
-<span id="cb18-202"><a href="#cb18-202" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-203"><a href="#cb18-203" aria-hidden="true" tabindex="-1"></a>            line_buffer<span class="op">[</span>line_len<span class="op">++]</span> <span class="op">=</span> c<span class="op">;</span></span>
-<span id="cb18-204"><a href="#cb18-204" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
-<span id="cb18-205"><a href="#cb18-205" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb18-206"><a href="#cb18-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-207"><a href="#cb18-207" aria-hidden="true" tabindex="-1"></a>    close<span class="op">(</span>serial_fd<span class="op">);</span></span>
-<span id="cb18-208"><a href="#cb18-208" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb18-209"><a href="#cb18-209" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</div>
-</div>
 </section>
 </section>
 

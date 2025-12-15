@@ -1,4 +1,4 @@
-# Laboraufgabe.
+# Laboraufgaben
 
 
 Es soll eine Höhenmesser entwickelt werden, der ein Höhenprofil aufnehmen kann. Dazu wird in diesem Labor die Informatik - Komponente entwickelt.
@@ -14,8 +14,6 @@ Für die Entwicklung ist schon ein Hardware-Aufbau (Black-Box) vorhanden. Diese 
 
 ## Beschreibung Hardware-Blackbox:
 
-
-
 ::: {#fig-zwei-bilder layout-ncol="3"}
 ![Ultraschal Sensor](Aufgabenstellung_Bilder/b1_US_Sensor_a.jpg)
 
@@ -27,19 +25,14 @@ Für die Entwicklung ist schon ein Hardware-Aufbau (Black-Box) vorhanden. Diese 
 Komponenten der Black-Box.
 :::
 
----
 
-![Ultraschal Sensor](Aufgabenstellung_Bilder/b1_US_Sensor_a.jpg){width="50%" fig-align="center"}
-
+<!-- ![Ultraschal Sensor](Aufgabenstellung_Bilder/b1_US_Sensor_a.jpg){width="50%" fig-align="center"} -->
 
 Die Blackbox ist ein Gehäuse in dem ein µ Controller Signale von einem Ultraschall Sensor (US-Sensor) erfasst diese verarbeitet und über die USB Schnittstelle ausgibt.
 Die gesendeten Daten sind im INT (Integer) Format und werden mit einer Frequenz von 1Hz ausgegeben
 Die Spannungsversorgung erfolgt auch über den USB Anschluss (5V/0,500mA).
 
 ---
-
-
-
 
 ## Rahmenbedienung
 
@@ -53,55 +46,49 @@ Die Spannungsversorgung erfolgt auch über den USB Anschluss (5V/0,500mA).
 
 ## Laborsetup
 
+Die Daten von der Black Box werden über die serielle Schnittstelle (USB) gesendet und können sowohl unter Windows, Linux oder MacOS Betriebssystem bearbeitet werden. 
 
-Die Daten von der Black Box werden über die serielle Schnittstelle (USB) gesendet und können sowohl unter Windows, Linux oder MacOS Betriebsystem bearbeitet werden. 
+Zum Einrichten des jeweiligen Systems siehe Beschreibungen im Tutorial.
 
-Zum einrichten des jeweiligen Systems siehe Beschreibungen am Ende der Laboranleitung.
+Implementierung erfolgt auf den **Jetsons** aus dem Digitalisierungslabor. Diese wird durch die Dozenten bereitgestellt und supportet. Ein Austausch des Codes erfolgt über git (github oder gitlab).
 
-Implementierung erfolgt auf den Jetsons aus dem Digitalisierungslabor. Diese wird durch die Dozenten bereitgestellt und supportet. Ein Austausch des Codes erfolgt über git (github oder gitlab).
-
-> Das C-Project kann auf den Jetsons ohne devcontainer verwendet werden, da es schon ein Linux als host System ist.
-
-Um die Entwicklung auf Windows-PCs zu ermöglichen und in dem bekannten Setup mit Visual Studio Code und cmake zu arbeiten gibt es folgende Möglichkeiten:
-
-1. Mingw Installation auf Windows mit cmake und gcc ()
-2. Windows Subsystem for Linux (WSL) mit Ubuntu installieren und dort cmake und gcc installieren.
-3. Serielle Kommunikation zur Blackbox in devcontainer einrichten. Siehe Anhang
-
-
+> Das C-Project muss in den beschriebenen Setups **ohne devcontainer** verwendet werden, da schon ein Linux als host System vorliegt und die Serielle Schnittstelle nicht an den devcontainer weiter gereicht wird.
 
 ## Abnahme
 
 - Die Laboraufgaben werden einzeln abgenommen.
 - Der Code wie auch die erzeugten Visualisierungen müssen erklärt werden.
 - Der Code muss sauber mit Methoden, structs und unterschiedlichen .h und .c Dateien strukturiert sein. (vgl. Vorlesungsprojekt)
-- Die weiteren Rahmenbedinungen müssen eingehalten werden.
+- Die weiteren Rahmenbedienungen müssen eingehalten werden.
 
----
+
 
 ## Abgabe Ausarbeitung
 
  - Laden Sie auf Moodle folgende Dateien hoch
  - 4x .csv Dateien ( messung_1.csv, messung_2.csv, messung_3.csv, messung_4.csv )
  - C Programm
- - Screenshot der ausgegebenen grafik in .png oder .jpeg Format
+ - Screenshot der ausgegebenen Grafik in .png oder .jpeg Format
 
- Abgabefrist wird im Labor bekannt gegeben
+::: {.callout-note}
+## Abgabefrist 
 
- ## Spielregeln
+Abgabefrist wird im Labor bekannt gegeben.
+:::
+
+
+## Spielregeln
 
  - Labortermine sind Pflichttermine.
  - Ausarbeitung daheim ist erlaubt.
- - Team Work, max 3 Teildehmer ist erlaubt. Allerdings ist ein  
-   gesamt Kenntnisstand vom jedem Teilnehmer erfragt.
+ - Team mit maximal 3 Teilnehmern ist erlaubt. Allerdings kann der  
+   gesamte Kenntnisstand vom jedem Teilnehmer erfragt werden.
 
 
 
----
+## Aufgaben
 
-# AUFGABEN:
 
-<div style="zoom:0.7;">
 ```{mermaid}
 
 
@@ -120,20 +107,26 @@ flowchart TD
     
 
 ```
-</div>
 
-## Aufgabe 1
+
+### Aufgabe 1
 
 Plausibilität der eingelesen Werte. Modus "DA" - DatenAufnahme
 
-Ziel: Es ist ein C Programm zu entwickeln, mit dem der von Hand gemessene Abbstand und  der Blackbox gelieferter Wert auf Tastendruck in einer csv-Datei **messung_x.csv** speichert. 
+Ziel: Es ist ein C Programm zu entwickeln, mit dem der von Hand gemessene Abstand und der Blackbox gelieferter Wert auf Tastendruck in einer sql-Datenbank gespeichert wird und diese Datenbank als csv-Datei **messung_x.csv** exportiert werden kann. 
 
 
-### Labortask Beschreibung
+#### Labortask Beschreibung
+
+::: {.callout-note}
+## Aufbau zur Messung
+
+Der Aufbau zur Messung der Abstandswerte kann auch im parallel stattfindenden Labor entwickelt werden.
+:::
      
 1.   US-Sensor in einer festen Position zu einem Objekt abstellen
 2.   Den Abstand vom Sensor zur Fläche mit einem Lineal messen und über die  
-         Kommandozeile (in Zentimeter) eingeben  und mit Enter bestätigen. Dieser Wert soll als  realer Abstandswert  in der csv-Datei gespeichert werden. (siehe nachfolgende Tabelle)
+         Kommandozeile (in Zentimeter) eingeben und mit Enter bestätigen. Dieser Wert soll als realer Abstandswert in der csv-Datei gespeichert werden. (siehe nachfolgende Tabelle)
 3.   In der nachfolgenden Spalte den vom Sensor gelieferte Wert 
          speichern (auch Wert in Zentimeter)
 4.   In der nachfolgenden Spalte die berechnete Differenz der beiden Werte eintragen
@@ -142,8 +135,7 @@ Ziel: Es ist ein C Programm zu entwickeln, mit dem der von Hand gemessene Abbsta
 7.  Speichern der Daten in einer Datenbank (sqlite). Das Datenbank Layout ist passend gewählt. Aus der Datenbank kann eine Tabelle als  
      csv Name: **messung_1.csv** exportiert werden.
 8.   Option: Plot mit reeler und den vom Sensor gelieferte Werte in Excel programmieren und graphisch ausgeben.
-  
-
+9.   Option: In der Datenbank können auch mehrere Messungen von unterschiedlichen Sensoren / Black-Boxen gespeichert werden.
 
 | Messung Nr.  | ABSTAND              |                      |    Abweichung | 
 |--------------|----------------------|---------------------|---------------| 
@@ -157,17 +149,18 @@ Ziel: Es ist ein C Programm zu entwickeln, mit dem der von Hand gemessene Abbsta
 
 ---
 
-## Aufgabe 2
+### Aufgabe 2
 
 Kalibrierung des Sensors mit einer Look-Up Tabelle.  Modus "TEST"
 
 - Die Ermittlung soll auf Basis der **messung_1.csv** erfolgen.
+- Die CSV soll in die sql-Datenbank importiert werden.
 - Der Sensorwert soll in den realen Abstandswert mit einer Look-Up Tabelle umgerechnet werden.
-- Durch den Tausch der Messwert-csv-Datei ist es möglich das Programm auf einen anderen Wertebereich festzulegen oder einen andere Blackbox zu verwenden..
+- Durch den Tausch der Messwert-csv-Datei ist es möglich das Programm auf einen anderen Wertebereich festzulegen oder einen andere Blackbox zu verwenden.
 - Zwischen den Datenpunkten aus der Look-Up Tabelle soll linear interpoliert werden, um aus dem Sensorwert den korrekten Abstand zu berechnen.
+<!-- - Option: Statt der Lookup-Tabelle kann auch eine lineare Regression gemäß folgender Formel implementiert werden: [Link](https://studyflix.de/statistik/lineare-regression-2147) -->
 
-
-Siehe folgende Skizze:
+Siehe folgende Skizze für die Lookup-Tabelle:
 
 ![Look-Up Tabelle und Interpolation](Aufgabenstellung_Bilder/lokk-up-table.ex.excalidraw.png){width="90%" fig-align="center"}
 
@@ -179,20 +172,20 @@ Funktion der Look-Up Tabelle:
 4. Der berechnete reale Abstand wird ausgegeben.
 
 
-### Labortask Beschreibung
+
+#### Labortask Beschreibung
      
 1.   US-Sensor in einer festen Position zu einem Objekt abstellen
-2.   Das messen des Abstands vom Sensor zur Fläche wird mit einem Tastendruck auf Enter ausgelöst. Dieser Wert wird als gelesener 
-     Abstandswert (in Zentimeter) in einer Datenbank (sqlite) und dann von dort in einer 
+2.   Das Messen des Abstands vom Sensor zur Fläche wird mit einem Tastendruck auf Enter ausgelöst. Dieser Wert wird als gelesener 
+     Abstandswert (in Zentimeter) in einer Datenbank (sqlite) gespeichert und dann von dort in einer 
      csv-Datei **messung_2.csv**  exportiert. (Muster siehe nachfolgende Tabelle)
-3.   In der nachfolgenden Spalte den interpolierten Wert eintragen (in Zentimeter)
+3.   Zu dem rohen Sensorwert soll der mit der Lookup-Tabelle korrigierte Abstand in der Datenbank abgelegt werden. 
 4.   Mehrere Messungen durchführen ( minimum 20 ) . Abstand ist diesmal willkürlich ausgewählt.
 5.   Der Modus soll so lange laufen, bis ein spezieller Tastendruck (z.B. "q") erfolgt.
-     das Programm springt automatisch zum Menue über 
-6.   Option: Plot mit Soll und Ist Wert  in Excel programmieren und graphisch ausgeben.
-  
-
-
+     das Programm springt automatisch zum Menue zurück.
+6. Option: Mit dem Beenden des Aufnahmemodus wird die CSV-Datei geschrieben.
+7. Option: Plot mit Soll und Ist Wert in Excel programmieren und graphisch ausgeben.
+ 
 
 | Messung Nr.  | ABSTAND              |                     |    Abweichung | 
 |--------------|----------------------|---------------------|---------------| 
@@ -208,46 +201,45 @@ Funktion der Look-Up Tabelle:
 
 
 
-## Aufgabe 3 
+### Aufgabe 3 
 
 Automatisch messen. Modus "AUTO"
 
-### Labortask Beschreibung 
+#### Labortask Beschreibung 
 
 1.  für ca. 10 Sekunden eine Messung bzw. ein Bewegungsablauf starten
 2.  Zeitstempel der erfassten Werte und die Werte in einer Datenbank (sqlite) speichern und dann in einer .csv Tabelle **messung_3.csv** 
     exportieren.
-3.  Visualisieren der Höhenkarte anhand der Zeitstempel - in **C** programmiert.
+3.  Visualisieren der Höhenkarte anhand der Zeitstempel mit der ASCII-Histogramm-Visualisierung - in **C** programmiert.
+    1.  Immer wenn ein neuer Sensorwert eingelesen wird wird das Histogram in der Kommandozeile aktualisiert.
 4.  Ist die Zeit zwischen zwei Zeitstempeln immer gleich?
-5.  Wenn nein die max und min sowie auch die durchnits Abtast Zeit berechnen.
-6.  Im Windows/Linux/MacOs System mehrere Task's starten (youtube Video, Maus bewegen usw. ) und gleiche Mesusung nochmal durchführen.
+5.  Wenn nein die max und min sowie auch die Durchnittsabtastzeit berechnen.
+6.  Im Windows/Linux/MacOs System mehrere Task's starten (youtube Video, Maus bewegen usw. ) und gleiche Messung nochmal durchführen.
 7.  Wie verändern sich jetzt die Werte der Zeitstempel? Speichern Sie die Daten in einer in einer Datenbank (sqlite) und exportieren sie 
     diese  in einer.csv Tabelle - **messung_4.csv** 
     
-
-
-## Aufgabe 4
+### Aufgabe 4
 
  Daten Filtern. Modus "FILTER"
 
    - Filter Sie die in **messwert3.csv** gespeicherten Abstands Werte.
-   - Programieren Sie ein Mittelwert Filter über 3 Werte  z.B. u(m)=(SUMME( y(m-1):y(m+1))/3)
-   - Ploten Sie beide Werte Reihen in einem Diagramm und die dazugehörige Differenz zwichen den beiden Wertereihen
-     in einem neuem Diagramm
+   - Programmieren Sie einen Mittelwert-Filter über 3 Werte (z.B. u(m)=(SUMME( y(m-1):y(m+1))/3) ) 
+   - Ploten Sie beide Werte Reihen in einem Diagramm und die dazugehörige Differenz zwischen den beiden Wertereihen in einem neuem Diagramm (in Excel)
 
-## Aufgabe 5 
+### Aufgabe 5 
 
- Fun: Make it a game.  Modus "FUN"
+ Fun: Make it a game. Modus "FUN"
 
-### Labortask Beschreibung 
-1.  ASCII Art level durch Höhenkarte. Das C Programm gibt eine Höhenkarte auf der Kommandzeile aus.
+#### Labortask Beschreibung 
+
+1.  ASCII Art level durch Höhenkarte. Das C Programm gibt eine Höhenkarte auf der Kommandozeile aus.
 2.  U-Boot mit W - up, S - down gesteuert durch die Höhenkarte navigieren.
-3.  von links nach rechts fährt das Uboot automatisch.
+3.  Von links nach rechts fährt das Uboot automatisch.
 4.  Beenden Sie das Spiel wenn das U-Boot auf Grund läuft (also mit der Höhenkarte kollidiert).
 
   
 
-
+<!-- 
 ---
 
 Beschreibung Betriebssystem anpassen:
@@ -667,4 +659,4 @@ int main(void) {
 ```
 :::
 
-
+ -->
