@@ -137,7 +137,7 @@ Ziel: Es ist ein C Programm zu entwickeln, mit dem der von Hand gemessene Abbsta
 3.   In der nachfolgenden Spalte den vom Sensor gelieferte Wert 
          speichern (auch Wert in Zentimeter)
 4.   In der nachfolgenden Spalte die berechnete Differenz der beiden Werte eintragen
-5.   20 Messungen Anfang = 10c m, Schrittweite = 2 cm  durchführen. 
+5.   20 Messungen Anfang = 10 cm, Schrittweite = 2 cm  durchführen. 
 6.   Nach 20 Punkten soll die Eingabe nicht mehr möglich sein und das Programm springt automatisch zum Menue Auswahl über.
 7.  Speichern der Daten in einer Datenbank (sqlite). Das Datenbank Layout ist passend gewählt. Aus der Datenbank kann eine Tabelle als  
      csv Name: **messung_1.csv** exportiert werden.
@@ -255,7 +255,7 @@ Beschreibung Betriebssystem anpassen:
 ##  Daten im **L I N U X** Betriebs-System empfangen und auslesen/speichern
 
 ::: {.callout-warning collapse="true"}
-## Vorbereitung jetsons
+## Vorbereitung jetsons - Falls noch nicht durch Laborpersonal vorbereitet
 
 1. (optional) Update Packages and fix issues
    ```bash
@@ -292,18 +292,20 @@ Beschreibung Betriebssystem anpassen:
 :::
 
 
-
 ### Mit minicom testen
 
 Mit minicom können Sie testen, ob die Blackbox Werte liefert:
 
 ```bash
 sudo minicom -b 115200 -D /dev/ttyUSB0
+#oder 
+minicom -b 115200 -D /dev/ttyUSB0
+
 ```
 
 ### Schritt-für-Schritt-Anleitung
 
-C Datei mit einem Minimalbeispiel zum Auslesen der Werte aus der Blackbox:
+1. C Datei mit einem Minimalbeispiel zum Auslesen der Werte aus der Blackbox:
 
 ```C
 // C File zum auslesen vom COM Port - Black Box im Linux Betriebssystem
@@ -354,14 +356,10 @@ int main() {
 
 ![Restart](Aufgabenstellung_Bilder/b13_Restart.png)
 
-
-   
-
 :::
 
-```
-
-
+2. Debug&Run durchführen
+3. 
 
 ##  Daten im **W I N D O W S** Betriebs-System empfangen und auslesen/speichern
 

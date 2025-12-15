@@ -455,7 +455,7 @@ csv Name: <strong>messung_1.csv</strong> exportiert werden.</li>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Vorbereitung jetsons
+<span class="screen-reader-only">Warning</span>Vorbereitung jetsons - Falls noch nicht durch Laborpersonal vorbereitet
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -485,11 +485,15 @@ csv Name: <strong>messung_1.csv</strong> exportiert werden.</li>
 <section id="mit-minicom-testen" class="level3">
 <h3 class="anchored" data-anchor-id="mit-minicom-testen">Mit minicom testen</h3>
 <p>Mit minicom können Sie testen, ob die Blackbox Werte liefert:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> minicom <span class="at">-b</span> 115200 <span class="at">-D</span> /dev/ttyUSB0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> minicom <span class="at">-b</span> 115200 <span class="at">-D</span> /dev/ttyUSB0</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#oder </span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="ex">minicom</span> <span class="at">-b</span> 115200 <span class="at">-D</span> /dev/ttyUSB0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="schritt-für-schritt-anleitung" class="level3">
 <h3 class="anchored" data-anchor-id="schritt-für-schritt-anleitung">Schritt-für-Schritt-Anleitung</h3>
-<p>C Datei mit einem Minimalbeispiel zum Auslesen der Werte aus der Blackbox:</p>
+<ol type="1">
+<li>C Datei mit einem Minimalbeispiel zum Auslesen der Werte aus der Blackbox:</li>
+</ol>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">// C File zum auslesen vom COM Port - Black Box im Linux Betriebssystem</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
@@ -563,32 +567,38 @@ csv Name: <strong>messung_1.csv</strong> exportiert werden.</li>
 </div>
 </div>
 </div>
-<pre><code>
-
-
-##  Daten im **W I N D O W S** Betriebs-System empfangen und auslesen/speichern
-
-
-
-# Anhang Installationsvorgehen zur Verwendung von USB serial Kommunikation auf Windows host Systemen mit WSL 2 und devcontainer
-
-::: {.callout-important}
-## Important Note
-
-Open the **PowerShell as Administrator**!
-:::
-
-Accessing a USB&nbsp;Serial Device in a VS&nbsp;Code Dev Container on WSL&nbsp;2
-
-This tutorial explains how to use a USB‑connected serial adapter (for example an FTDI or debug probe) from within a Visual&nbsp;Studio&nbsp;Code development container.  The scenario assumes you are running Docker on Windows via WSL&nbsp;2, have a project that already uses a Dev&nbsp;Container with CMake and GCC, and you want to connect to a device that appears on Windows as COM4.  The solution uses usbipd‑win to share the USB device with WSL&nbsp;2 and passes it through to the container using Docker’s --device flag.
-
-## Update WSL&nbsp;2 and install usbipd‑win on Windows
-    
-Ensure WSL is up‑to‑date.&nbsp;Open a **PowerShell as Administrator** terminal and run:
-```powershell
-wsl --update</code></pre>
-<p>The Microsoft command‑line blog notes that WSL needs to be on a 5.10 kernel or newer and suggests updating before using USB/IP.</p>
+<ol start="2" type="1">
+<li>Debug&amp;Run durchführen</li>
+<li></li>
+</ol>
 </section>
+</section>
+<section id="daten-im-w-i-n-d-o-w-s-betriebs-system-empfangen-und-auslesenspeichern" class="level2">
+<h2 class="anchored" data-anchor-id="daten-im-w-i-n-d-o-w-s-betriebs-system-empfangen-und-auslesenspeichern">Daten im <strong>W I N D O W S</strong> Betriebs-System empfangen und auslesen/speichern</h2>
+</section>
+</section>
+<section id="anhang-installationsvorgehen-zur-verwendung-von-usb-serial-kommunikation-auf-windows-host-systemen-mit-wsl-2-und-devcontainer" class="level1">
+<h1>Anhang Installationsvorgehen zur Verwendung von USB serial Kommunikation auf Windows host Systemen mit WSL 2 und devcontainer</h1>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Important Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Open the <strong>PowerShell as Administrator</strong>!</p>
+</div>
+</div>
+<p>Accessing a USB&nbsp;Serial Device in a VS&nbsp;Code Dev Container on WSL&nbsp;2</p>
+<p>This tutorial explains how to use a USB‑connected serial adapter (for example an FTDI or debug probe) from within a Visual&nbsp;Studio&nbsp;Code development container. The scenario assumes you are running Docker on Windows via WSL&nbsp;2, have a project that already uses a Dev&nbsp;Container with CMake and GCC, and you want to connect to a device that appears on Windows as COM4. The solution uses usbipd‑win to share the USB device with WSL&nbsp;2 and passes it through to the container using Docker’s –device flag.</p>
+<section id="update-wsl-2-and-install-usbipdwin-on-windows" class="level2">
+<h2 class="anchored" data-anchor-id="update-wsl-2-and-install-usbipdwin-on-windows">Update WSL&nbsp;2 and install usbipd‑win on Windows</h2>
+<p>Ensure WSL is up‑to‑date.&nbsp;Open a <strong>PowerShell as Administrator</strong> terminal and run:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>wsl <span class="op">--</span>update</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The Microsoft command‑line blog notes that WSL needs to be on a 5.10 kernel or newer and suggests updating before using USB/IP.</p>
 <section id="install-usbipdwin." class="level3">
 <h3 class="anchored" data-anchor-id="install-usbipdwin.">Install usbipd‑win.&nbsp;</h3>
 <p>Use winget￼ to install the latest release. In an elevated PowerShell prompt run:</p>
