@@ -214,7 +214,7 @@ Automatisch messen. Modus "AUTO"
 
 ### Labortask Beschreibung 
 
-1.  für ca. 10 Sekunden eine/n Messung/Bewegungsablauf starten
+1.  für ca. 10 Sekunden eine Messung bzw. ein Bewegungsablauf starten
 2.  Zeitstempel der erfassten Werte und die Werte in einer Datenbank (sqlite) speichern und dann in einer .csv Tabelle **messung_3.csv** 
     exportieren.
 3.  Visualisieren der Höhenkarte anhand der Zeitstempel - in **C** programmiert.
@@ -305,77 +305,26 @@ minicom -b 115200 -D /dev/ttyUSB0
 
 ### Schritt-für-Schritt-Anleitung
 
-1. C Datei mit einem Minimalbeispiel zum Auslesen der Werte aus der Blackbox:
-
-```C
-// C File zum auslesen vom COM Port - Black Box im Linux Betriebssystem
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <termios.h>
-#include <unistd.h>
-#include <string.h>
-#include <errno.h>
-
-int main() {
-    const char* port = "/dev/ttyUSB0";
-    int serial_port = open(port, O_RDWR);
+1. Black Box an die USB Schnittstelle vom Jetson anschliessen
+2. Moodle Beschreibung "ITEC-Lec04.04 Grundlagen C" aus "Einführung in C" ausführen 
+3. Punkt 4 (mkdir .devcontainer) aus 1.1.1 Schritt 1 " Ordnerstruktur erstellen" nicht ausführen. Kein DevContainer!
+4. Kapitel 1.1.2 Schritt 2 "Devcontainer konfigurieren" nicht ausführen
+5. Mit Schritt 3 (1.1.) weitermachen.
+ Hinweis: C Code zum auslesen vom Com Port ist am Ende der Beschreibung zu finden. 
 
 
-    struct termios tty;
-    cfsetospeed(&tty, B115200);  // Baudrate setzen
-    tty.c_cc[VTIME] = 10;       // 1s Timeout
-    tty.c_cc[VMIN]  = 10;      // mindestens 10 Zeichen
-
-
-    // Endlosschleife zum Lesen
-    while (1) {
-        char buffer[256];
-        memset(buffer, 0, sizeof(buffer));
-        int num_bytes = read(serial_port, buffer, sizeof(buffer));
-        printf("Gelesen: %s\n", buffer); 
-        // Ab hier die Aufgaben lösen...
-    }
-
-    close(serial_port);
-    return 0;
-}
-
-
-```
-
-::: {.callout-note collapse="true"}
-## Ablauf im Visual Studio Code
-
-![C Datei](Aufgabenstellung_Bilder/b10_Datei.png.jpg)
-
-![Debug & Run](Aufgabenstellung_Bilder/b11_DateiDebugRun.png)
-
-![Compiller](Aufgabenstellung_Bilder/b12_CompilerWaehlen.png)
-
-![Restart](Aufgabenstellung_Bilder/b13_Restart.png)
-
-:::
-
-2. Debug&Run durchführen
-3. 
 
 ##  Daten im **W I N D O W S** Betriebs-System empfangen und auslesen/speichern
 
 
 
-# Anhang Installationsvorgehen zur Verwendung von USB serial Kommunikation auf Windows host Systemen mit WSL 2 und devcontainer
+# Anhang Installationsvorgehen zur Verwendung von USB serial Kommunikation auf Windows host Systemen mit WSL 2 
 
 ::: {.callout-important}
 ## Important Note
 
 Open the **PowerShell as Administrator**!
 :::
-
-Accessing a USB Serial Device in a VS Code Dev Container on WSL 2
-
-This tutorial explains how to use a USB‑connected serial adapter (for example an FTDI or debug probe) from within a Visual Studio Code development container.  The scenario assumes you are running Docker on Windows via WSL 2, have a project that already uses a Dev Container with CMake and GCC, and you want to connect to a device that appears on Windows as COM4.  The solution uses usbipd‑win to share the USB device with WSL 2 and passes it through to the container using Docker’s --device flag.
 
 ## Update WSL 2 and install usbipd‑win on Windows
 	
@@ -435,6 +384,7 @@ Then attach it to WSL using:
 To attach the device to WSL, open a WSL terminal such as Ubuntu from:
 
 Startmenue → Ubuntu xx.xx
+
 :::
 
 ```powershell
@@ -460,182 +410,261 @@ Microsoft’s guidance demonstrates installing `linux-tools` and `hwdata`, then 
 
 After attaching the device from Windows, verify that WSL can see it:
 
-``bash
+```bash
 lsusb
 ```
 
 You should see an entry corresponding to your serial adapter.  Depending on the driver, it will also create a character device such as `/dev/ttyUSB0` or `/dev/ttyACM0`.  You can find it with:
 
+
 ```bash
 ls -l /dev/ttyUSB* /dev/ttyACM* 2>/dev/null
 ```
-## Pass the USB device through to the Dev Container
 
-Docker cannot automatically see devices attached to the WSL VM.  You must tell Docker to map the device into the container.  The following modifications are required.
-
-
-### Dockerfile
-
-A sample Dockerfile is provided in this repository.  It uses the mcr.microsoft.com/devcontainers/base:ubuntu-22.04 base image, installs the compiler toolchain and USB utilities, and adds the unprivileged vscode user to the dialout group so it can open serial ports:
-
-```Dockerfile
-FROM mcr.microsoft.com/devcontainers/cpp:1-debian-12
-
+Im VSCode Terminal folgende Befehle ausführen:
 RUN apt-get update
 RUN apt-get install -y sqlite3 libsqlite3-dev ninja-build
-
-# New entries
-
 USER root
-
 RUN apt-get install -y --no-install-recommends usbutils minicom
-
 RUN usermod -aG dialout vscode
-
 USER vscode
 WORKDIR /workspaces
 
-```
-
-This configuration installs `usbutils` and `minicom` so you can inspect USB buses and open serial ports within the container.  Adding the vscode user to the dialout group avoids running commands as root.
 
 
-### devcontainer.json
+This configuration installs `usbutils` and `minicom` so you can inspect USB buses and open serial.  Adding the vscode user to the dialout group avoids running commands as root.
 
-Extend the json:
 
-```json
-  "runArgs": [
-    "--privileged",
-    "--device=/dev/bus/usb"
-  ],
-  "remoteUser": "vscode",
-    "postCreateCommand": "sudo usermod -a -G dialout $(whoami) && ls -l /dev/ttyUSB* || true",
-  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}"
-
-```
+---
 
 If you know the exact device file (/dev/ttyUSB0 or similar) you may instead map only that device using "--device=/dev/ttyUSB0" for finer control.  The example above maps all USB devices.
 
+---
+
 # Anhang: Daten im **Windows** Betriebs-System empfangen und auslesen/speichern
-
-> Ohne devcontainer nur auf Windows.
-
-### Schritt-für-Schritt-Anleitung
-### 1. COM-Port herausfinden
-
-Öffne den Windows Geräte-Manager und suche unter **"Anschlüsse (COM & LPT)"** nach der angeschlossenen Black Box, z. B. *"Silicon Labs CP210x USB to UART Bridge Port (COM5)"*.
-
----
-
-### 2. C-Code zum Auslesen eines COM-Ports
-
-Speichere folgenden C-Code in eine Datei, z. B. `read_com_port.c`:
-
-```c
-
-//Programm zum auslesen eines USB Port's 
-#include <windows.h>
-#include <stdio.h>
-
-int main() {
-    HANDLE hSerial;
-    DCB dcbSerialParams = {0};
-    COMMTIMEOUTS timeouts = {0};
-    char portName[] = "\\\\.\\COMX";  // Ändere X auf die Port Nr.
-    char buffer[1024];
-    DWORD bytesRead;
-
-    // COM-Port öffnen
-    hSerial = CreateFileA(portName, GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL);
-    if (hSerial == INVALID_HANDLE_VALUE) {
-        fprintf(stderr, "Fehler beim Öffnen des Ports %s\n", portName);
-        return 1;
-    }
-
-    // Serielle Einstellungen
-    dcbSerialParams.DCBlength = sizeof(dcbSerialParams);
-    if (!GetCommState(hSerial, &dcbSerialParams)) {
-        fprintf(stderr, "Fehler beim Lesen der Port-Einstellungen\n");
-        CloseHandle(hSerial);
-        return 1;
-    }
-
-    dcbSerialParams.BaudRate = CBR_Y;    // Baudrate ggf. anpassen z.B. Y= 115200
-    dcbSerialParams.ByteSize = 8;
-    dcbSerialParams.StopBits = ONESTOPBIT;
-    dcbSerialParams.Parity   = NOPARITY;
-
-    if (!SetCommState(hSerial, &dcbSerialParams)) {
-        fprintf(stderr, "Fehler beim Setzen der Port-Einstellungen\n");
-        CloseHandle(hSerial);
-        return 1;
-    }
-
-    // Timeout-Einstellungen
-    timeouts.ReadIntervalTimeout = 50;
-    timeouts.ReadTotalTimeoutConstant = 50;
-    timeouts.ReadTotalTimeoutMultiplier = 10;
-
-    if (!SetCommTimeouts(hSerial, &timeouts)) {
-        fprintf(stderr, "Fehler beim Setzen der Timeouts\n");
-        CloseHandle(hSerial);
-        return 1;
-    }
-
-    // Datei zum Speichern öffnen
-    FILE *outFile = fopen("daten.txt", "w");
-    if (!outFile) {
-        fprintf(stderr, "Konnte Ausgabedatei nicht öffnen\n");
-        CloseHandle(hSerial);
-        return 1;
-    }
-
-    printf("Lese vom USB-Gerät...\n");
-
-    while (1) {
-        if (ReadFile(hSerial, buffer, sizeof(buffer) - 1, &bytesRead, NULL)) {
-            if (bytesRead > 0) {
-                buffer[bytesRead] = '\0';  // Null-terminieren
-                printf("%s", buffer);      // Ausgabe auf Konsole
-                fprintf(outFile, "%s", buffer); // Schreiben in Datei
-                fflush(outFile);           // Sicherstellen, dass sofort geschrieben wird
-            }
-        } else {
-            fprintf(stderr, "Fehler beim Lesen vom COM-Port\n");
-            break;
-        }
-    }
-
-    fclose(outFile);
-    CloseHandle(hSerial);
-    return 0;
-}
-```
-
----
-
-###  3. Kompilieren
-
-Öffne die Eingabeaufforderung und kompiliere mit z. B.:
-
-```bash
-gcc read_com_port.c -o read_com_port.exe
-```
-
-(Erfordert, dass `gcc` installiert und in der PATH-Variable ist.)
-
----
-
-### 4. Ausführen
-
-```bash
-read_com_port.exe
-```
-
-Wenn dein USB-Gerät Daten sendet, siehst du sie auf der Konsole und sie werden in `daten.txt` gespeichert.
 
 
 ##  Daten im **Mac OS** Betriebs-System empfangen und auslesen/speichern
 
-(Muss noch ergänzt werden)
+Hier ist der gleiche C Code anwendbar.
+
+
+:::{.callout-note collapse="true"}
+
+## C Code für Linux MacOS und Windows(im WSL2)
+
+```C
+
+C File zum auslesen vom COM Port - Black Box im Linux Betriebssystem
+
+#include <errno.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <termios.h>
+#include <unistd.h>
+
+#define READ_CHUNK 64
+
+//Um die Simulation der Sensorwerte anzuschalten muss "SIM 0"  gesetzt werden.
+#define SIM 1
+
+//Praeprozessor Makro fuer die Oeffnungsflags des seriellen Ports
+#ifdef __APPLE__
+#define OPEN_FLAGS O_NONBLOCK
+#else
+#define OPEN_FLAGS O_RDWR
+#endif
+
+/**
+ * Configures the serial port with the desired settings.
+ * 
+ * Important settings are:
+ * 
+ * - Baudrate: 115200
+ * - Initial read timeout: 0.5s
+ * - no min bytes for read (non-blocking)
+ * 
+ * @param fd The file descriptor of the opened serial port.
+ * @returns 0 on success, -1 on failure.
+ */
+int configure_serial(int fd) {
+    struct termios tty;
+    if (tcgetattr(fd, &tty) != 0) {
+        perror("tcgetattr");
+        return -1;
+    }
+
+    cfsetispeed(&tty, B115200);
+    cfsetospeed(&tty, B115200);
+
+    tty.c_cc[VTIME] = 5; // 0.5s Timeout
+    tty.c_cc[VMIN] = 0; //has to be 0 for non-blocking read for mac os
+
+    tcflush(fd, TCIFLUSH);
+
+    if (tcsetattr(fd, TCSANOW, &tty) != 0) {
+        perror("tcsetattr: Fehler beim Setzen der Einstellungen");
+        return -1;
+    }
+
+    return 0;
+}
+
+/**
+ * Handles a complete line read from the serial port.
+ * @param line The line to handle (null-terminated string).
+ * @returns the distance as float in cm, or -1.0f on error.
+ */
+float convert_to_sensor_val(const char *line) {
+    char *endptr = NULL;
+    errno = 0;
+    float value = strtof(line, &endptr);
+
+    if (!(errno == 0 && endptr != line)) {
+        value = -1.0f;
+        fprintf(stderr, "Warning: could not parse float from '%s' - Errno: %s\n", line, strerror(errno));
+    }
+
+    return value;
+}
+
+
+typedef struct _sim_data {
+    size_t length;
+    size_t index;
+    float data[32];
+} sim_data;
+
+/**
+ * Simulation of the sensor read
+ * @return the number of bytes read
+ */
+ssize_t read_sim(int serial_fd,  char* chunk, size_t chunk_len){
+
+    static sim_data s_data = {32, 0, 
+        {10.25f, 12.80f, 15.60f, 18.45f, 21.10f, 23.95f, 26.70f, 29.55f,
+        32.30f, 35.15f, 37.90f, 40.75f, 43.50f, 46.35f, 49.10f, 51.95f,
+        54.70f, 57.55f, 60.30f, 63.15f, 65.90f, 68.75f, 71.50f, 74.35f,
+        77.10f, 79.95f, 82.70f, 85.55f, 88.30f, 91.15f, 93.90f, 99.60f}};
+
+    //sleep fuer 1 sec
+    sleep(1);
+
+    //neuen Werte aus liste holen
+    float value = s_data.data[s_data.index];
+
+    //update index
+    s_data.index = (++s_data.index)%s_data.length; 
+
+
+    if (chunk_len == 0) {
+        return 0;
+    }
+
+    int written = snprintf(chunk, chunk_len, "%f\n", value);
+    if (written < 0) {
+        return -1;
+    }
+
+    if ((size_t)written >= chunk_len) {
+        written = (int)(chunk_len - 1);
+    }
+
+    return written;
+}
+
+int connect_to_sensor(char * tty_path){
+    //Oeffnen des seriellen Ports
+
+    int serial_fd = open(tty_path, OPEN_FLAGS);
+
+    if (serial_fd < 0) {
+        fprintf(stderr, "Failed to open %s: %s\n", tty_path, strerror(errno));
+        return -1;
+    }
+
+    //Konfiguration des seriellen Ports
+    if (configure_serial(serial_fd) != 0) {
+        fprintf(stderr, "Failed to configure %s: %s\n", tty_path, strerror(errno));
+        close(serial_fd);
+        return -1;
+    }
+    return serial_fd;
+}
+
+int main(void) {
+#if SIM
+    char* tty_path = "/dev/ttyUSB0";
+    int serial_fd = connect_to_sensor(tty_path);
+#else
+    int serial_fd = 0;    //wird in der Simulation nicht benoetigt.
+#endif
+
+    //Normalerweise wird stdout gepuffert, was bei der seriellen Ausgabe
+    //zu Verzögerungen führen kann. Mit diesem Aufruf wird die Pufferung deaktiviert.
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    //Buffer zum Lesen und Verarbeiten von Daten pro Sensor
+    char chunk[READ_CHUNK];
+    char line_buffer[2*READ_CHUNK];
+    size_t line_len = 0;
+
+    while (1) {
+
+        #if SIM
+        ssize_t bytes_read = read(serial_fd, chunk, sizeof(chunk));
+        #else
+        ssize_t bytes_read = read_sim(serial_fd, chunk, sizeof(chunk));
+        #endif
+
+        if (bytes_read < 0) {
+            if (errno == EINTR) {
+                continue;
+            }
+            perror("read");
+            break;
+        }
+        if (bytes_read == 0) {
+            continue;
+        }
+
+        for (size_t i = 0; i < bytes_read; ++i) {
+            char c = chunk[i];
+
+            if (c == '\r') {
+                continue;
+            }
+
+            if (c == '\n') {
+                if (line_len > 0) {
+                    line_buffer[line_len] = '\0';
+                    float value = convert_to_sensor_val(line_buffer);
+                    printf("Sensor Value: %.3f cm\n", value);
+
+                    //TODO: Weiterverarbeiten des Sensorwerts
+                    
+                    line_len = 0;
+                }
+                continue;
+            }
+
+            if (line_len + 1 >= sizeof(line_buffer)) {
+                fprintf(stderr, "Warning: incoming line too long, discarding.\n");
+                line_len = 0;
+                continue;
+            }
+
+            line_buffer[line_len++] = c;
+        }
+    }
+
+    close(serial_fd);
+    return 0;
+}
+
+```
+:::
+
+
