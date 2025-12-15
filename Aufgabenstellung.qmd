@@ -223,7 +223,7 @@ flowchart TD
     
 
 ```
-
+</div>
 
 ## Aufgabe 1
 
@@ -274,6 +274,7 @@ Kalibrierung des Sensors mit einer Look-Up Tabelle.  Modus "TEST"
 Siehe folgende Skizze:
 
 ![Look-Up Tabelle und Interpolation](Aufgabenstellung_Bilder/lokk-up-table.ex.excalidraw.png){width="90%" fig-align="center"}
+
 Funktion der Look-Up Tabelle:
 
 1. Der Sensorwert wird eingelesen.
@@ -288,10 +289,10 @@ Funktion der Look-Up Tabelle:
 2.   Das messen des Abstands vom Sensor zur Fläche wird mit einem Tastendruck auf Enter ausgelöst. Dieser Wert wird als gelesener Abstandswert (in Meter) 
          csv-Datei **messung_2.csv**  gespeichert werden. (siehe nachfolgende Tabelle)
 3.   In der nachfolgenden Spalte den interpolierten Wert eintragen (in Meter)
-4.   Mehrere Messungen durchführen ( minimum 20 ) . Abstand ist diesmal wilkürlich ausgewählt
+4.   Mehrere Messungen durchführen ( minimum 20 ) . Abstand ist diesmal willkürlich ausgewählt
 5.   Der Modus soll so lange laufen, bis ein spezieller Tastendruck (z.B. "q") erfolgt.
          das Programm springt automatisch zum Menue über 
-6.   Option: Plot mit Soll und Ist Wert  in Excel programieren und graphisch 
+6.   Option: Plot mit Soll und Ist Wert  in Excel programmieren und graphisch 
          ausgeben.
   
 
@@ -362,10 +363,16 @@ Automatisch messen. Modus "AUTO"
  - Labortermine sind Pflichttermine.
  - Ausarbeitung daheim ist erlaubt.
  - Team Work, max 3 Teildehmer ist erlaubt. Allerdings ist ein  
-   gesamt Kenntnissstand vom jedem Teilnehmer erfragt.
+   gesamt Kenntnisstand vom jedem Teilnehmer erfragt.
 
 
 # Anhang Installationsvorgehen zur Verwendung von USB serial Kommunikation auf Windows host Systemen mit WSL 2 und devcontainer
+
+::: {.callout-important}
+## Important Note
+
+Open the **PowerShell as Administrator**!
+:::
 
 Accessing a USB Serial Device in a VS Code Dev Container on WSL 2
 
@@ -373,18 +380,18 @@ This tutorial explains how to use a USB‑connected serial adapter (for example 
 
 ## Update WSL 2 and install usbipd‑win on Windows
 	
-    Ensure WSL is up‑to‑date. Open a PowerShell terminal and run:
-    ```powershell
-    wsl --update
-    ```
-    The Microsoft command‑line blog notes that WSL needs to be on a 5.10 kernel or newer and suggests updating before using USB/IP.
+Ensure WSL is up‑to‑date. Open a **PowerShell as Administrator** terminal and run:
+```powershell
+wsl --update
+```
+The Microsoft command‑line blog notes that WSL needs to be on a 5.10 kernel or newer and suggests updating before using USB/IP.
 
 ### Install usbipd‑win. 
 
 Use winget￼ to install the latest release.  In an elevated PowerShell prompt run:
 
 ```powershell
-winget install --id=Microsoft.usbipd-win
+winget install --interactive --exact dorssel.usbipd-win
 ```
 
 [Installing usbipd‑win registers a service on Windows that shares local USB devices to WSL.](https://devblogs.microsoft.com/commandline/connecting-usb-devices-to-wsl/#:~:text=To%20get%20started%20with%20this,running%20a%20WSL%202%20distro)
@@ -394,25 +401,55 @@ winget install --id=Microsoft.usbipd-win
 From an elevated command prompt run:
 
 ```powershell
-usbipd wsl list
+usbipd list
 ```
 
 This command prints each device’s `BUSID`, vendor/product IDs and current state.  Note the `BUSID` corresponding to the serial adapter you want to share.
 
+```powershell
+Connected:
+BUSID  VID:PID    DEVICE                                                        STATE
+1-8    5986:2115  Integrated Camera                                             Not shared
+1-9    06cb:00be  Synaptics UWP WBDI SGX                                        Not shared
+1-14   8087:0026  Intel(R) Wireless Bluetooth(R)                                Not shared
+4-3    046a:0114  USB-Eingabegerät                                              Not shared
+4-4    10c4:ea60  CP2102 USB to UART Bridge Controller                          Not shared
+
+Persisted:
+GUID    
+```
+
+`CP2102 USB to UART Bridge Controller` is the description of the serial adapter we need.  Its `BUSID` is `4-4`.
+
 ### Bind and attach the device. 
 
-First, make the device sharable with `usbipd bind --busid=<BUSID>`.  Then attach it to WSL using:
+First, make the device sharable with `usbipd bind --busid=<BUSID>`.  
 
 ```powershell
-usbipd wsl attach --busid <BUSID>
+usbid bind --busid <BUSID>
 ```
+Then attach it to WSL using:
+
+::: {.callout-important}
+## Open WSL terminal
+
+To attach the device to WSL, open a WSL terminal such as Ubuntu from:
+
+Startmenue → Ubuntu xx.xx
+:::
+
+```powershell
+usbipd attach --busid <BUSID> --wsl
+```
+
 The usbipd documentation explains that bind is persistent, whereas attach connects the device to the running WSL VM.
 
 ## Install USB/IP client tools inside WSL
 
 In order for WSL to communicate with the usbipd service, install the Linux USB/IP user‑space tools:
 
-```bashsudo apt update
+```bash
+sudo apt update
 # Install the appropriate linux‑tools package for your kernel and the hwdata database
 sudo apt install linux-tools-$(uname -r) hwdata usbutils
 # Register the usbip client binary if your distribution does not do so automatically
