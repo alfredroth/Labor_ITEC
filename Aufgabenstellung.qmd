@@ -208,7 +208,7 @@ Automatisch messen. Modus "AUTO"
 #### Labortask Beschreibung 
 
 1.  für ca. 10 Sekunden eine Messung bzw. ein Bewegungsablauf starten
-2.  Zeitstempel der erfassten Werte und die Werte in einer Datenbank (sqlite) speichern und dann in einer .csv Tabelle **messung_3.csv** 
+2.  Zeitstempel (im Format "YYYY-MM-DD HH:MM:SS.SSS" - sqllite - DATETIME) der erfassten Werte und die Werte in einer Datenbank (sqlite) speichern und dann in einer .csv Tabelle **messung_3.csv** 
     exportieren.
 3.  Visualisieren der Höhenkarte anhand der Zeitstempel mit der ASCII-Histogramm-Visualisierung - in **C** programmiert.
     1.  Immer wenn ein neuer Sensorwert eingelesen wird wird das Histogram in der Kommandozeile aktualisiert.
